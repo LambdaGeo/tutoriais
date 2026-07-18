@@ -1,0 +1,945 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Tutorial guiado de Docker e Docker Compose — da CLI pura ao ambiente Polyglot Full-Stack">
+      
+      
+        <meta name="author" content="Sergio Costa">
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../ciclo-de-vida-efemeridade-volumes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>1. Docker CLI Puro: Exploração Guiada - Introdução ao Docker</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#docker-cli-puro-exploracao-guiada" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="Introdução ao Docker" class="md-header__button md-logo" aria-label="Introdução ao Docker" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introdução ao Docker
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Docker CLI Puro: Exploração Guiada
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Mudar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Mudar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Introdução ao Docker" class="md-nav__button md-logo" aria-label="Introdução ao Docker" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Introdução ao Docker
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Docker CLI Puro: Exploração Guiada
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Docker CLI Puro: Exploração Guiada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-portas-p-mapeamento-host-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 1. Portas (p): Mapeamento Host ↔ Container
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-variaveis-de-ambiente-e-injecao-configuracao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 2. Variáveis de Ambiente (e): Injeção ≠ Configuração
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemplo-1-postgresql-funciona-de-fabrica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Exemplo 1: PostgreSQL (funciona "de fábrica")
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemplo-2-redis-a-armadilha-comum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Exemplo 2: Redis (a armadilha comum)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#como-resolver-corretamente" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 Como resolver corretamente?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-redes-dns-interno-network-service-discovery-manual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 3. Redes &amp; DNS Interno (-network): Service Discovery Manual
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemplo-1-rede-padrao-bridge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ Exemplo 1: Rede padrão (bridge)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemplo-2-rede-customizada-com-dns-automatico" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ Exemplo 2: Rede customizada (com DNS automático)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-debug-inspecao-o-kit-de-sobrevivencia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 4. Debug &amp; Inspeção: O Kit de Sobrevivência
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transicao-natural-para-o-proximo-bloco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Transição Natural para o Próximo Bloco
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limpeza-antes-de-continuar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧹 Limpeza Antes de Continuar
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ciclo-de-vida-efemeridade-volumes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Ciclo de Vida, Efemeridade & Volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../traducao-cli-docker-compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Tradução CLI → Docker Compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../otimizacao-imagens-dev-vs-prod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Otimização de Imagens + Dev vs Prod
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tarefa-polyglot-full-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Tarefa: Polyglot Full-Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cheat-sheet-docker-compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="docker-cli-puro-exploracao-guiada">Docker CLI Puro: Exploração Guiada<a class="headerlink" href="#docker-cli-puro-exploracao-guiada" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Metodologia:</strong> Comando → Executa → Pergunta → Resposta. Pause a cada bloco.</p>
+<p><strong>Objetivo:</strong> Internalizar o modelo mental de rede, isolamento e ciclo de vida antes de abstrair com YAML.
+</p>
+</blockquote>
+<p>💡 <strong>Nota para Windows:</strong></p>
+<p>O <code>curl</code> nativo do CMD/PowerShell pode ter comportamento inconsistente com flags como <code>-sI</code>.</p>
+<p>✅ <strong>Recomendação:</strong> Use <strong>WSL2</strong> ou <strong>Git Bash</strong> para os comandos de terminal deste bloco.</p>
+<p>Se precisar usar PowerShell, substitua <code>curl -sI</code> por <code>Invoke-WebRequest -Uri http://localhost:8080 -Method Head</code>.</p>
+<p><img alt="image.png" src="../img/docker-cli-image1.png" /></p>
+<hr />
+<h3 id="1-portas-p-mapeamento-host-container">🔍 1. Portas (<code>p</code>): Mapeamento Host ↔ Container<a class="headerlink" href="#1-portas-p-mapeamento-host-container" title="Permanent link">&para;</a></h3>
+<p><strong>O que o <code>-p</code> realmente faz?</strong></p>
+<p>A flag <code>-p HOST:CONTAINER</code> cria uma regra no <strong>iptables/NAT do Docker Engine</strong> que redireciona tráfego da interface de rede do host para a interface interna do container. O container continua ouvindo na porta original; o Docker faz o "tradutor" de portas.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 1. Sobe um Nginx mapeando porta 8080 (host) → 80 (container)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>web<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:80<span class="w"> </span>nginx:alpine
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># 2. Testa a conexão</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>curl<span class="w"> </span>-sI<span class="w"> </span>http://localhost:8080<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1"># → HTTP/1.1 200 OK</span>
+</code></pre></div>
+<p>🔍 <strong>O que está acontecendo:</strong></p>
+<ul>
+<li>O Nginx dentro do container está ouvindo em <code>0.0.0.0:80</code> (padrão da imagem).</li>
+<li>O Docker Engine intercepta conexões em <code>localhost:8080</code> no host e as encaminha para <code>172.17.0.2:80</code> (IP interno do container).</li>
+<li>O container <strong>não sabe</strong> que está sendo acessado via porta 8080. Para ele, é uma requisição normal na porta 80.</li>
+</ul>
+<p>🧪 <strong>Experimentos Guiados:</strong></p>
+<ol>
+<li>
+<p><strong>Inspecione o mapeamento ativo:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>port<span class="w"> </span>web
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># → 80/tcp -&gt; 0.0.0.0:8080</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># → 80/tcp -&gt; [::]:8080  (IPv6, se habilitado)</span>
+</code></pre></div>
+<p>Isso mostra a regra de NAT criada pelo Docker. Útil para debugar "por que não consigo acessar?".</p>
+</li>
+<li>
+<p><strong>Reproduza o erro de porta ocupada (de forma controlada):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Tente subir outro container mapeando a MESMA porta do host</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>web2<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:80<span class="w"> </span>nginx:alpine
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># → docker: Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:8080 -&gt; 0.0.0.0:0: listen tcp 0.0.0.0:8080: bind: address already in use.</span>
+</code></pre></div>
+<p>🔍 <strong>Por que acontece:</strong> O Docker tenta fazer <code>bind()</code> na porta 8080 do host, mas o processo do primeiro container (<code>web</code>) já está ocupando esse socket. O kernel do host rejeita.</p>
+</li>
+<li>
+<p><strong>Libere a porta e valide:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker<span class="w"> </span>stop<span class="w"> </span>web
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>docker<span class="w"> </span>port<span class="w"> </span>web<span class="w">  </span><span class="c1"># → (sem output, container parado)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>web2<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span>:80<span class="w"> </span>nginx:alpine<span class="w">  </span><span class="c1"># ✅ Agora funciona</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Mapeamento seletivo (localhost apenas):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>internal<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:9090:80<span class="w"> </span>nginx:alpine
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>curl<span class="w"> </span>-sI<span class="w"> </span>http://localhost:9090<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w">  </span><span class="c1"># ✅ Funciona</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Tente acessar de outra máquina na rede: http://SEU_IP:9090 → ❌ Timeout</span>
+</code></pre></div>
+<p>🔍 <strong>Use case:</strong> Serviços que você quer acessar apenas localmente (ex: admin panels, debug endpoints).</p>
+</li>
+</ol>
+<hr />
+<h3 id="2-variaveis-de-ambiente-e-injecao-configuracao">🔍 2. Variáveis de Ambiente (<code>e</code>): Injeção ≠ Configuração<a class="headerlink" href="#2-variaveis-de-ambiente-e-injecao-configuracao" title="Permanent link">&para;</a></h3>
+<p><strong>O que o <code>-e</code> realmente faz?</strong></p>
+<p>Ele injeta pares <code>CHAVE=VALOR</code> no ambiente do processo principal (<code>PID 1</code>) do container. <strong>Atenção crucial:</strong> o Docker <em>não configura seu aplicativo automaticamente</em>. Quem decide ler e usar essas variáveis é o código, o framework ou o script de entrada (<code>entrypoint.sh</code>) da imagem.</p>
+<h3 id="exemplo-1-postgresql-funciona-de-fabrica">✅ Exemplo 1: PostgreSQL (funciona "de fábrica")<a class="headerlink" href="#exemplo-1-postgresql-funciona-de-fabrica" title="Permanent link">&para;</a></h3>
+<p>A imagem oficial do Postgres possui um entrypoint (<code>docker-entrypoint.sh</code>) que lê variáveis como <code>POSTGRES_PASSWORD</code>, <code>POSTGRES_DB</code> e <code>POSTGRES_USER</code>, e executa scripts de inicialização para criar banco, usuário e configurar autenticação.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>db<span class="w"> </span>-e<span class="w"> </span><span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>secret<span class="w"> </span>-e<span class="w"> </span><span class="nv">POSTGRES_DB</span><span class="o">=</span>workshop<span class="w"> </span>postgres:16-alpine
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Verifique se o banco inicializou</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>docker<span class="w"> </span>logs<span class="w"> </span>db<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;database system is ready&quot;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># → ... database system is ready to accept connections</span>
+</code></pre></div>
+<p><img alt="image.png" src="../img/docker-cli-image2.png" /></p>
+<h3 id="exemplo-2-redis-a-armadilha-comum">❌ Exemplo 2: Redis (a armadilha comum)<a class="headerlink" href="#exemplo-2-redis-a-armadilha-comum" title="Permanent link">&para;</a></h3>
+<p>Muitos materiais ensinam <code>-e REDIS_PASSWORD=123</code>. <strong>Isso não funciona.</strong> O processo <code>redis-server</code> ignora essa variável. Ele só aceita autenticação via argumento de linha de comando (<code>--requirepass</code>) ou via arquivo <code>redis.conf</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 1. Injeta a variável (o Redis ignora)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>cache<span class="w"> </span>-e<span class="w"> </span><span class="nv">REDIS_PASSWORD</span><span class="o">=</span><span class="m">123</span><span class="w"> </span>redis:alpine
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># 2. Tenta conectar passando a senha</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cache<span class="w"> </span>redis-cli<span class="w"> </span>-a<span class="w"> </span><span class="m">123</span><span class="w"> </span>ping
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># 📝 Output:</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Warning: Using a password with &#39;-a&#39; or &#39;-u&#39; option on the command line interface may not be safe.</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># AUTH failed: ERR AUTH &lt;password&gt; called without any password configured for the default user. Are you sure your configuration is correct?</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1"># PONG</span>
+</code></pre></div>
+<p>🔍 <strong>O que aconteceu?</strong></p>
+<ul>
+<li>O <code>Warning</code> é padrão do <code>redis-cli</code> (senhas na CLI ficam visíveis no histórico e em <code>docker ps</code>).</li>
+<li>O <code>AUTH failed</code> acontece porque o Redis <strong>não estava configurado com senha</strong>. A variável <code>REDIS_PASSWORD</code> foi injetada no ambiente, mas o processo <code>redis-server</code> não foi programado para lê-la.</li>
+<li>O <code>PONG</code> aparece porque o Redis <strong>sempre responde ao <code>PING</code></strong>, independente de autenticação. O comando <code>PING</code> não exige auth; só comandos como <code>GET</code>, <code>SET</code>, <code>CONFIG</code> exigem.</li>
+</ul>
+<p>🧪 <strong>Prove que a variável está lá (mas é ignorada):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>cache<span class="w"> </span>env<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>REDIS
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># → REDIS_PASSWORD=123  (A variável ESTÁ lá! Mas o processo não foi programado para lê-la)</span>
+</code></pre></div>
+<h3 id="como-resolver-corretamente">💡 Como resolver corretamente?<a class="headerlink" href="#como-resolver-corretamente" title="Permanent link">&para;</a></h3>
+<p>Passe a configuração diretamente para o binário do processo, sobrescrevendo o <code>CMD</code> padrão da imagem:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>docker<span class="w"> </span>rm<span class="w"> </span>-f<span class="w"> </span>cache<span class="w">  </span><span class="c1"># limpa o container anterior</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>cache<span class="w"> </span>redis:alpine<span class="w"> </span>redis-server<span class="w"> </span>--requirepass<span class="w"> </span><span class="m">123</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cache<span class="w"> </span>redis-cli<span class="w"> </span>-a<span class="w"> </span><span class="m">123</span><span class="w"> </span>ping
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># → PONG (autenticação funcionando sem erros)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cache<span class="w"> </span>redis-cli<span class="w"> </span>-a<span class="w"> </span><span class="m">145</span><span class="w"> </span>ping
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Warning:<span class="w"> </span>Using<span class="w"> </span>a<span class="w"> </span>password<span class="w"> </span>with<span class="w"> </span><span class="s1">&#39;-a&#39;</span><span class="w"> </span>or<span class="w"> </span><span class="s1">&#39;-u&#39;</span><span class="w"> </span>option<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>line<span class="w"> </span>interface<span class="w"> </span>may<span class="w"> </span>not<span class="w"> </span>be<span class="w"> </span>safe.
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>AUTH<span class="w"> </span>failed:<span class="w"> </span>WRONGPASS<span class="w"> </span>invalid<span class="w"> </span>username-password<span class="w"> </span>pair<span class="w"> </span>or<span class="w"> </span>user<span class="w"> </span>is<span class="w"> </span>disabled.
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="o">(</span>error<span class="o">)</span><span class="w"> </span>NOAUTH<span class="w"> </span>Authentication<span class="w"> </span>required.
+</code></pre></div>
+<p>🧪 <strong>Experimentos Guiados:</strong></p>
+<ol>
+<li>
+<p><strong>Rode sem <code>-e</code> e conecte:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>cache2<span class="w"> </span>redis:alpine
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cache2<span class="w"> </span>redis-cli<span class="w"> </span>ping
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># → PONG (funciona livremente, pois nenhuma senha foi exigida)</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Conceito-chave para levar:</strong> Variáveis de ambiente são <em>dados injetados no SO do container</em>. A imagem precisa ter lógica explícita para interpretá-las. Em produção, nunca hardcode senhas. Use <code>.env</code> (para dev), <code>Docker Secrets</code> ou gerenciadores como HashiCorp Vault/AWS Secrets Manager.</p>
+</li>
+</ol>
+<hr />
+<h3 id="3-redes-dns-interno-network-service-discovery-manual">🔍 3. Redes &amp; DNS Interno (<code>-network</code>): Service Discovery Manual<a class="headerlink" href="#3-redes-dns-interno-network-service-discovery-manual" title="Permanent link">&para;</a></h3>
+<p><strong>Como os containers se comunicam entre si?</strong></p>
+<p>Por padrão, o Docker cria uma rede virtual chamada <code>bridge</code> (subnet <code>172.17.0.0/16</code>). Containers nela conseguem acessar a internet e se comunicar via IP, mas <strong>não resolvem nomes automaticamente</strong> (ex: <code>ping meu-container</code> falha). Para descoberta automática de serviços, você precisa criar uma <strong>rede customizada</strong>.</p>
+<h3 id="exemplo-1-rede-padrao-bridge">❌ Exemplo 1: Rede padrão (<code>bridge</code>)<a class="headerlink" href="#exemplo-1-rede-padrao-bridge" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Sobe dois containers na rede padrão do Docker</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>svc-a<span class="w"> </span>nginx:alpine
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>svc-b<span class="w"> </span>nginx:alpine
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># Tenta pingar pelo nome (vai falhar)</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>svc-a<span class="w"> </span>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">2</span><span class="w"> </span>svc-b
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># → ping: bad address &#39;svc-b&#39;</span>
+</code></pre></div>
+<p>🔍 <strong>Por que?</strong> A rede <code>bridge</code> padrão desabilita o DNS interno do Docker por questões de compatibilidade histórica e isolamento. Containers só se enxergam via IP (<code>172.17.0.x</code>), que é dinâmico e não confiável para configuração.</p>
+<h3 id="exemplo-2-rede-customizada-com-dns-automatico">✅ Exemplo 2: Rede customizada (com DNS automático)<a class="headerlink" href="#exemplo-2-rede-customizada-com-dns-automatico" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># 1. Cria uma rede isolada com driver bridge (padrão)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>app-net
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># 2. Sobe containers anexando à nova rede</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>api<span class="w"> </span>--network<span class="w"> </span>app-net<span class="w"> </span>nginx:alpine
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>worker<span class="w"> </span>--network<span class="w"> </span>app-net<span class="w"> </span>alpine<span class="w"> </span>sleep<span class="w"> </span><span class="m">3600</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="c1"># 3. Testa comunicação por nome</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>worker<span class="w"> </span>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">2</span><span class="w"> </span>api
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1"># → PING api (172.18.0.2): 56 data bytes</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="c1"># → 64 bytes from 172.18.0.2: icmp_seq=0 ttl=64 time=0.087 ms</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="c1"># ✅ Funciona! O Docker resolveu &quot;api&quot; para o IP interno automaticamente.</span>
+</code></pre></div>
+<p>🔍 <strong>O que está acontecendo por baixo dos panos?</strong></p>
+<ul>
+<li>O Docker roda um servidor DNS embutido em <code>127.0.0.11</code> dentro de cada container.</li>
+<li>Quando você cria uma rede customizada, esse DNS registra automaticamente os nomes dos containers conectados a ela.</li>
+<li>Isso é a base do <strong>service discovery</strong> em microsserviços: você configura <code>DB_HOST=db</code> e o DNS interno resolve para o IP atual do container <code>db</code>, mesmo que ele seja recriado com IP diferente.</li>
+</ul>
+<p>🧪 <strong>Experimentos Guiados:</strong></p>
+<ol>
+<li>
+<p><strong>Descubra os IPs internos e a topologia:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>docker<span class="w"> </span>network<span class="w"> </span>inspect<span class="w"> </span>app-net<span class="w"> </span>--format<span class="o">=</span><span class="s1">&#39;{{json .Containers}}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>json.tool
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1"># Veja os IPs 172.18.0.x atribuídos dinamicamente + nomes dos containers</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Verifique o DNS dentro do container:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>worker<span class="w"> </span>cat<span class="w"> </span>/etc/resolv.conf
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="c1"># → nameserver 127.0.0.11</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1"># → options ndots:0</span>
+</code></pre></div>
+<p>O <code>127.0.0.11</code> é o DNS embutido do Docker. <code>ndots:0</code> significa que nomes sem ponto (ex: <code>api</code>) são consultados diretamente, sem sufixos de domínio.</p>
+</li>
+<li>
+<p><strong>Teste o isolamento de rede:</strong></p>
+<p>Suba um terceiro container <strong>sem</strong> <code>--network app-net</code> e tente pingar <code>api</code>. Vai falhar.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>alpine<span class="w"> </span>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">2</span><span class="w"> </span>api
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># → ping: bad address &#39;api&#39;  (container na rede &#39;bridge&#39; padrão não enxerga &#39;app-net&#39;)</span>
+</code></pre></div>
+<p>🔍 <strong>Conceito:</strong> Redes Docker são firewalls lógicos por padrão. Só quem está na mesma rede conversa. Isso é segurança por design.</p>
+</li>
+<li>
+<p><strong>Ponte para o Docker Compose:</strong></p>
+<p>O Compose cria automaticamente uma rede customizada com o nome do seu projeto (<code>projeto_default</code>). É exatamente por isso que <code>DB_HOST=db</code> funciona sem você digitar <code>docker network create</code>. Ele só aproveita o DNS interno que acabamos de testar na prática.</p>
+</li>
+</ol>
+<hr />
+<h3 id="4-debug-inspecao-o-kit-de-sobrevivencia">🔍 4. Debug &amp; Inspeção: O Kit de Sobrevivência<a class="headerlink" href="#4-debug-inspecao-o-kit-de-sobrevivencia" title="Permanent link">&para;</a></h3>
+<p><strong>Regra de Ouro:</strong> <code>logs</code> primeiro → <code>ps</code> depois → <code>exec</code> por último. Nunca tente adivinhar; deixe o container te dizer o que está errado.</p>
+<p>⚠️ <strong>Antes de continuar:</strong> o container <code>web</code> foi parado lá na seção 1 (passo 3) e nunca voltou a rodar. Religue-o para os exemplos abaixo funcionarem como documentado:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>docker<span class="w"> </span>start<span class="w"> </span>web
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>docker<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>web<span class="w">  </span><span class="c1"># → confirme STATUS &quot;Up&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># 1. Logs: primeira linha de defesa</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>web
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="c1"># → Mostra stdout/stderr do processo principal. Use -f para seguir em tempo real.</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="c1"># 2. Estado dos containers</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>docker<span class="w"> </span>ps<span class="w">          </span><span class="c1"># só rodando</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w">       </span><span class="c1"># todos (inclui parados/exited)</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>docker<span class="w"> </span>stats<span class="w">       </span><span class="c1"># CPU/MEM/NET em tempo real (igual ao &#39;top&#39;)</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="c1"># 3. Inspeção profunda (JSON completo)</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>docker<span class="w"> </span>inspect<span class="w"> </span>web<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>IPAddress
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="c1"># → &quot;IPAddress&quot;: &quot;172.17.0.2&quot;</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>docker<span class="w"> </span>inspect<span class="w"> </span>web<span class="w"> </span>--format<span class="o">=</span><span class="s1">&#39;{{.NetworkSettings.Ports}}&#39;</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="c1"># → map[80/tcp:[{0.0.0.0 8080}]]  (mapeamento de portas)</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="c1"># 4. Terminal cirúrgico dentro do container</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>web<span class="w"> </span>sh
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="c1"># → Você está DENTRO do container. Teste manualmente:</span>
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="c1">#    curl localhost, cat /etc/hosts, ping api, etc.</span>
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="c1"># → Digite &#39;exit&#39; para sair.</span>
+<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>
+<a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="c1"># 5. Ciclo de vida limpo</span>
+<a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>docker<span class="w"> </span>stop<span class="w"> </span>web<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>rm<span class="w"> </span>web
+<a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="c1"># → Para graciosamente (SIGTERM) e remove. Use -f para forçar se travar.</span>
+</code></pre></div>
+<p>🧪 <strong>Experimentos Guiados:</strong></p>
+<ol>
+<li>
+<p><strong>Simule um erro e capture o log:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>bad<span class="w"> </span>nginx:alpine<span class="w"> </span>nginx<span class="w"> </span>-g<span class="w"> </span><span class="s2">&quot;daemon off;&quot;</span><span class="w"> </span>-c<span class="w"> </span>/nao/existe.conf
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>bad
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1"># → nginx: [emerg] open() &quot;/nao/existe.conf&quot; failed (2: No such file or directory)</span>
+</code></pre></div>
+<p>🔍 <strong>Lição:</strong> O log mostra o erro exato que o processo principal (<code>PID 1</code>) reportou. Sempre comece aqui.</p>
+</li>
+<li>
+<p><strong>Compare <code>inspect</code> vs <code>docker port</code>:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>docker<span class="w"> </span>port<span class="w"> </span>web
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># → 80/tcp -&gt; 0.0.0.0:8080</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>docker<span class="w"> </span>inspect<span class="w"> </span>web<span class="w"> </span>--format<span class="o">=</span><span class="s1">&#39;{{json .NetworkSettings.Ports}}&#39;</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># → {&quot;80/tcp&quot;:[{&quot;HostIp&quot;:&quot;0.0.0.0&quot;,&quot;HostPort&quot;:&quot;8080&quot;}]}</span>
+</code></pre></div>
+<p>🔍 <strong>Quando usar cada um:</strong> <code>docker port</code> é rápido e legível. <code>inspect</code> é completo e scriptável (útil para automação).</p>
+</li>
+<li>
+<p><strong>Entre no container e teste a rede interna:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>worker<span class="w"> </span>sh
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="c1"># Dentro do container:</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>ping<span class="w"> </span>api<span class="w">          </span><span class="c1"># ✅ Resolve via DNS interno</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>curl<span class="w"> </span>http://api<span class="w">   </span><span class="c1"># ✅ Acessa o Nginx do outro container</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="nb">exit</span>
+</code></pre></div>
+</li>
+<li>
+<p><strong>Limpeza segura:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>docker<span class="w"> </span>system<span class="w"> </span>df<span class="w">            </span><span class="c1"># Espaço usado por Docker</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>docker<span class="w"> </span>system<span class="w"> </span>prune<span class="w"> </span>-f<span class="w">      </span><span class="c1"># Remove containers/imagens/networks órfãos (seguro)</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1"># ⚠️ Nunca use &#39;prune -a&#39; em produção: remove TUDO não usado, incluindo imagens em uso.</span>
+</code></pre></div>
+</li>
+</ol>
+<p>📌 <strong>Fluxo de Debug Recomendado (sempre nesta ordem):</strong></p>
+<ol>
+<li><code>docker compose logs -f &lt;serviço&gt;</code> → O que o processo está reclamando?</li>
+<li><code>docker compose ps</code> → Container está <code>Up</code> ou <code>Exited (1)</code>?</li>
+<li><code>docker compose exec &lt;serviço&gt; sh</code> → Teste manualmente dentro do container.</li>
+<li><code>docker compose config</code> → YAML está sendo interpretado corretamente?</li>
+<li><code>docker system prune -f</code> → Espaço cheio travando o daemon?</li>
+</ol>
+<hr />
+<h3 id="transicao-natural-para-o-proximo-bloco">🎯 Transição Natural para o Próximo Bloco<a class="headerlink" href="#transicao-natural-para-o-proximo-bloco" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><em>"Agora que vimos como é verboso configurar portas (<code>-p</code>), variáveis (<code>-e</code>), redes (<code>--network</code>) e volumes (<code>-v</code>) manualmente... imagine fazer isso para 5 serviços com dependências entre si. É exatamente aqui que o Docker Compose entra: ele transforma essa CLI repetitiva em um YAML declarativo, reproduzível e versionável."</em></p>
+</blockquote>
+<hr />
+<h3 id="limpeza-antes-de-continuar">🧹 Limpeza Antes de Continuar<a class="headerlink" href="#limpeza-antes-de-continuar" title="Permanent link">&para;</a></h3>
+<p>Este bloco criou vários containers e uma rede (<code>web</code>, <code>web2</code>, <code>internal</code>, <code>db</code>, <code>cache</code>, <code>cache2</code>, <code>svc-a</code>, <code>svc-b</code>, <code>api</code>, <code>worker</code>, <code>bad</code>, <code>app-net</code>). Antes de seguir para o próximo capítulo, limpe tudo para começar do zero e evitar conflitos de porta ou nome:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>docker<span class="w"> </span>rm<span class="w"> </span>-f<span class="w"> </span><span class="k">$(</span>docker<span class="w"> </span>ps<span class="w"> </span>-aq<span class="k">)</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>docker<span class="w"> </span>network<span class="w"> </span>rm<span class="w"> </span>app-net
+</code></pre></div>
+<blockquote></blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.top", "navigation.indexes", "navigation.instant", "navigation.sections", "navigation.expand", "content.code.copy", "content.code.annotate", "toc.integrate", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
