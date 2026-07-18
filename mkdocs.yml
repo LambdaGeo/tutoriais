@@ -1,0 +1,58 @@
+site_name: Introdução ao Docker
+site_description: Tutorial guiado de Docker e Docker Compose — da CLI pura ao ambiente Polyglot Full-Stack
+site_author: Sergio Costa
+theme:
+  name: material
+  language: pt-BR
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Mudar para modo escuro
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Mudar para modo claro
+  features:
+    - navigation.top
+    - navigation.indexes
+    - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - content.code.annotate
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Início: index.md
+  - "1. Docker CLI Puro: Exploração Guiada": docker-cli-exploracao-guiada.md
+  - "2. Ciclo de Vida, Efemeridade & Volumes": ciclo-de-vida-efemeridade-volumes.md
+  - "3. Tradução CLI → Docker Compose": traducao-cli-docker-compose.md
+  - "4. Otimização de Imagens + Dev vs Prod": otimizacao-imagens-dev-vs-prod.md
+  - "5. Tarefa: Polyglot Full-Stack": tarefa-polyglot-full-stack.md
+  - "Cheat Sheet": cheat-sheet-docker-compose.md
