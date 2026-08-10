@@ -1,0 +1,44 @@
+name: Publicar Tutoriais (GitHub Pages via gh-pages)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Permissões necessárias para criar e atualizar a branch gh-pages
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Essencial para manter o histórico de revisão se houver plugins de Git
+
+      - name: Configurar o Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Build (Apenas Validação)
+        # Executa mkdocs build --strict em PRs para validar se não há erros na compilação
+        if: github.event_name == 'pull_request'
+        run: mkdocs build --strict
+
+      - name: Build e Deploy para a branch gh-pages
+        # Faz o deploy apenas em pushes diretos ou merges na branch main
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          mkdocs build --strict
+          mkdocs gh-deploy --force
