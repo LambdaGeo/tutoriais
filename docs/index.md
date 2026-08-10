@@ -22,6 +22,12 @@ O mesmo problema (Todo List) resolvido com Elixir e Phoenix LiveView, explorando
 
 [Começar → Todo List em Elixir + Phoenix LiveView](elixir/index.md)
 
+### λ Haskell
+
+Adaptação de dois capítulos de *Real World Haskell*: construção de uma biblioteca de pretty printing para JSON do zero, e depois testada a fundo com QuickCheck e cobertura medida com HPC.
+
+[Começar → Biblioteca Haskell: JSON, Pretty Printing e QuickCheck](haskell/index.md)
+
 <!--
 Próximos tutoriais entram aqui, seguindo o mesmo formato:
 

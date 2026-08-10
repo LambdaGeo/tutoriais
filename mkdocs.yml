@@ -85,3 +85,14 @@ nav:
     - "6. Refinamento — Concluindo Tarefas": elixir/06-concluindo-tarefas.md
     - "7. Personalizando o Design": elixir/07-personalizando-design.md
     - "8. README e Entrega": elixir/08-readme-entrega.md
+  - Haskell:
+    - "Introdução": haskell/index.md
+    - "1. Tour pelo JSON e Preparação do Ambiente": haskell/01-tour-json-ambiente.md
+    - "2. Representando JSON: Módulos e Compilação": haskell/02-representando-json.md
+    - "3. Imprimindo e Renderizando Dados JSON": haskell/03-renderizacao-simples.md
+    - "4. Impressão de Strings, Arrays e Objetos": haskell/04-impressao-strings-arrays.md
+    - "5. Construindo a Biblioteca Prettify": haskell/05-biblioteca-prettify.md
+    - "6. Exercícios, Empacotamento e Leitura": haskell/06-pacote-exercicios.md
+    - "7. Preparando o Projeto e QuickCheck Básico": haskell/07-quickcheck-intro.md
+    - "8. Estudo de Caso: Pretty Printer": haskell/08-estudo-caso-pretty-printer.md
+    - "9. Cobertura de Testes com HPC": haskell/09-cobertura-hpc.md
