@@ -10,6 +10,18 @@ Tutorial guiado de Docker e Docker Compose — da CLI pura ao ambiente Polyglot 
 
 [Começar → Introdução ao Docker](docker/index.md)
 
+### 🟢 Clojure e ClojureScript
+
+Construindo uma aplicação Todo List full-stack do zero, com Ring/Reitit no backend e Reagent + Shadow-CLJS no frontend, persistência em SQLite.
+
+[Começar → Todo List em Clojure/ClojureScript](clojure/index.md)
+
+### 💧 Elixir e Phoenix LiveView
+
+O mesmo problema (Todo List) resolvido com Elixir e Phoenix LiveView, explorando schemas, migrations, changesets e reatividade em tempo real sem escrever JavaScript.
+
+[Começar → Todo List em Elixir + Phoenix LiveView](elixir/index.md)
+
 <!--
 Próximos tutoriais entram aqui, seguindo o mesmo formato:
 

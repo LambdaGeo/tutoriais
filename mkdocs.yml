@@ -64,3 +64,24 @@ nav:
     - "4. Otimização de Imagens + Dev vs Prod": docker/otimizacao-imagens-dev-vs-prod.md
     - "5. Tarefa: Polyglot Full-Stack": docker/tarefa-polyglot-full-stack.md
     - "Cheat Sheet": docker/cheat-sheet-docker-compose.md
+  - Clojure:
+    - "Introdução": clojure/index.md
+    - "0. Fundação (Ambiente, Setup e Git)": clojure/00-fundacao.md
+    - "1. Backend Mínimo (Hello World)": clojure/01-backend-minimo.md
+    - "2. Backend Funcional (API em Memória)": clojure/02-backend-funcional.md
+    - "3. Introdução ao Frontend (Reagent)": clojure/03-frontend-intro.md
+    - "4. Conectando Frontend e Backend": clojure/04-integracao-frontend-backend.md
+    - "5. Persistência Real (Banco de Dados)": clojure/05-persistencia.md
+    - "6. CRUD Completo e Visual Final": clojure/06-crud-completo.md
+    - "7. README e Entrega": clojure/07-readme-entrega.md
+  - Elixir:
+    - "Introdução": elixir/index.md
+    - "0. Setup (Ambiente, Git e Esqueleto)": elixir/00-setup.md
+    - "1. Hello World — Prova de Vida": elixir/01-hello-world.md
+    - "2. Lógica em Memória": elixir/02-logica-memoria.md
+    - "3. Persistência (Ecto, Repo, Migration, Schema)": elixir/03-persistencia.md
+    - "4. O Transplante (LiveView + Banco)": elixir/04-transplante-liveview.md
+    - "5. Refinamento — Excluindo Tarefas": elixir/05-excluindo-tarefas.md
+    - "6. Refinamento — Concluindo Tarefas": elixir/06-concluindo-tarefas.md
+    - "7. Personalizando o Design": elixir/07-personalizando-design.md
+    - "8. README e Entrega": elixir/08-readme-entrega.md
