@@ -1,0 +1,1641 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Coleção de tutoriais práticos e independentes de programação e ferramentas de desenvolvimento.
+">
+      
+      
+        <meta name="author" content="Sergio Souza Costa">
+      
+      
+      
+        <link rel="prev" href="../00-fundacao/">
+      
+      
+        <link rel="next" href="../02-backend-funcional/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>1. Backend Mínimo (Hello World) - Tutoriais</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/lambdageo.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fase-1-o-backend-minimo-servidor-hello-world" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Tutoriais" class="md-header__button md-logo" aria-label="Tutoriais" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tutoriais
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Backend Mínimo (Hello World)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Mudar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Mudar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tutoriais" class="md-nav__button md-logo" aria-label="Tutoriais" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tutoriais
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../docker/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/docker-cli-exploracao-guiada/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Docker CLI Puro: Exploração Guiada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/ciclo-de-vida-efemeridade-volumes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Ciclo de Vida, Efemeridade & Volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/traducao-cli-docker-compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Tradução CLI → Docker Compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/otimizacao-imagens-dev-vs-prod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Otimização de Imagens + Dev vs Prod
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/tarefa-polyglot-full-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Tarefa: Polyglot Full-Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/cheat-sheet-docker-compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clojure
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clojure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-fundacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Fundação (Ambiente, Setup e Git)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Backend Mínimo (Hello World)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Backend Mínimo (Hello World)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#passo-11-o-depsedn-a-lista-de-compras-do-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 1.1: O deps.edn (A "Lista de Compras" do Backend)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-fizemos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que fizemos?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-12-o-handler-minimo-handlerclj" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 1.2: O Handler Mínimo (handler.clj)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-fizemos_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que fizemos?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-13-o-servidor-e-o-roteador-coreclj" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 1.3: O Servidor e o Roteador (core.clj)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-fizemos_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que fizemos?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-14-teste-navegador-e-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 1.4: Teste (Navegador e Terminal)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#se-algo-deu-errado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Se algo deu errado…
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-15-git-checkpoint-hello-world" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 1.5: Git Checkpoint ("Hello World")
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-backend-funcional/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Backend Funcional (API em Memória)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-frontend-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Introdução ao Frontend (Reagent)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-integracao-frontend-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Conectando Frontend e Backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-persistencia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Persistência Real (Banco de Dados)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-crud-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. CRUD Completo e Visual Final
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-readme-entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. README e Entrega
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../elixir/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elixir
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Elixir
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/00-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Setup (Ambiente, Git e Esqueleto)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/01-hello-world/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Hello World — Prova de Vida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/02-logica-memoria/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Lógica em Memória
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/03-persistencia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Persistência (Ecto, Repo, Migration, Schema)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/04-transplante-liveview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. O Transplante (LiveView + Banco)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/05-excluindo-tarefas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Refinamento — Excluindo Tarefas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/06-concluindo-tarefas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Refinamento — Concluindo Tarefas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/07-personalizando-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Personalizando o Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/08-readme-entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. README e Entrega
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="fase-1-o-backend-minimo-servidor-hello-world">Fase 1: O Backend Mínimo (Servidor "Hello World")<a class="headerlink" href="#fase-1-o-backend-minimo-servidor-hello-world" title="Permanent link">&para;</a></h1>
+<p><strong>Objetivo:</strong> Fazer um servidor web subir, rodar na sua máquina e responder "Hello, World!" quando acessado por uma URL. Isso prova que nossa configuração base está correta.</p>
+<h3 id="passo-11-o-depsedn-a-lista-de-compras-do-backend">Passo 1.1: O <code>deps.edn</code> (A "Lista de Compras" do Backend)<a class="headerlink" href="#passo-11-o-depsedn-a-lista-de-compras-do-backend" title="Permanent link">&para;</a></h3>
+<p><strong>O que é o <code>deps.edn</code>?</strong>
+Pense neste arquivo como a "lista de compras" do seu projeto. Ele diz ao Clojure (<code>clj</code>) quais bibliotecas (dependências) ele precisa baixar da internet para o projeto funcionar.</p>
+<p>Ele também define "apelidos" (<em>aliases</em>), que são atalhos para comandos que usamos com frequência, como "rodar o servidor".</p>
+<p><strong>Ação:</strong> Crie o arquivo <code>deps.edn</code> na raiz do projeto (<code>todo-app/</code>) e cole o seguinte conteúdo:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span><span class="ss">:paths</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;src&quot;</span><span class="w"> </span><span class="s">&quot;resources&quot;</span><span class="p">]</span><span class="w"> </span><span class="c1">;; 1. Onde nosso código-fonte vai ficar</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w"> </span><span class="ss">:deps</span><span class="w"> </span><span class="c1">;; 2. Nossa &quot;lista de compras&quot; de bibliotecas</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w"> </span><span class="p">{</span><span class="c1">;; O próprio Clojure</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nv">org.clojure/clojure</span><span class="w"> </span><span class="p">{</span><span class="ss">:mvn/version</span><span class="w"> </span><span class="s">&quot;1.11.1&quot;</span><span class="p">}</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="c1">;; --- Dependências do Backend (API REST) ---</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="c1">;; O &quot;motor&quot; do servidor web (Jetty) e as bibliotecas base do Ring</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="nv">ring/ring-core</span><span class="w">          </span><span class="p">{</span><span class="ss">:mvn/version</span><span class="w"> </span><span class="s">&quot;1.12.2&quot;</span><span class="p">}</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="nv">ring/ring-jetty-adapter</span><span class="w"> </span><span class="p">{</span><span class="ss">:mvn/version</span><span class="w"> </span><span class="s">&quot;1.12.2&quot;</span><span class="p">}</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="c1">;; A biblioteca de roteamento (para definir as URLs)</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="nv">metosin/reitit-ring</span><span class="w">     </span><span class="p">{</span><span class="ss">:mvn/version</span><span class="w"> </span><span class="s">&quot;0.7.0&quot;</span><span class="p">}}</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w"> </span><span class="ss">:aliases</span><span class="w"> </span><span class="c1">;; 3. Nossos &quot;atalhos&quot; de comando</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w"> </span><span class="p">{</span><span class="c1">;; O alias que usaremos para iniciar o servidor</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="ss">:run</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="p">{</span><span class="ss">:main-opts</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;-m&quot;</span><span class="w"> </span><span class="s">&quot;todo.backend.core&quot;</span><span class="p">]}}}</span>
+</code></pre></div>
+<h3 id="o-que-fizemos">O que fizemos?<a class="headerlink" href="#o-que-fizemos" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong><code>:paths</code></strong>: dissemos ao Clojure para procurar nosso código nas pastas <code>src</code> e <code>resources</code> (que ainda vamos criar).</li>
+<li><strong><code>:deps</code></strong>: pedimos <em>apenas</em> as bibliotecas essenciais do backend:</li>
+<li><code>ring/ring-jetty-adapter</code>: o servidor web que vai "ouvir" na <code>localhost:3000</code>.</li>
+<li><code>metosin/reitit-ring</code>: o "roteador" que olha a URL (ex: <code>/api/hello</code>) e decide qual função Clojure deve ser chamada.</li>
+<li><strong>Nota:</strong> ainda <em>não</em> adicionamos <code>shadow-cljs</code> ou <code>reagent</code>. Faremos isso só na Fase 3, para manter o backend limpo.</li>
+<li><strong><code>:aliases</code></strong>: criamos o atalho <code>:run</code>. Quando rodarmos <code>clj -M:run</code>, ele executará a função principal (<code>-main</code>) do namespace <code>todo.backend.core</code> (que vamos criar a seguir).</li>
+</ol>
+<h3 id="passo-12-o-handler-minimo-handlerclj">Passo 1.2: O Handler Mínimo (<code>handler.clj</code>)<a class="headerlink" href="#passo-12-o-handler-minimo-handlerclj" title="Permanent link">&para;</a></h3>
+<p><strong>O que é um "Handler"?</strong>
+No mundo do <strong>Ring</strong> (a biblioteca base da web em Clojure), um <em>handler</em> é simplesmente uma <strong>função</strong> que segue um contrato:</p>
+<ol>
+<li>Ela recebe <strong>um</strong> argumento: um mapa <code>request</code> (com todos os dados da requisição HTTP que chegou).</li>
+<li>Ela retorna <strong>um</strong> valor: um mapa <code>response</code> (que descreve a resposta que queremos enviar de volta).</li>
+</ol>
+<p>Nosso objetivo é criar a <code>hello-handler</code> mais simples possível.</p>
+<p><strong>Ação 1: Criar os diretórios</strong></p>
+<p>O <code>deps.edn</code> diz ao Clojure para procurar código na pasta <code>src/</code>. Em Clojure, os namespaces são mapeados diretamente para a estrutura de pastas: <code>todo.backend.handler</code> deve viver no arquivo <code>src/todo/backend/handler.clj</code>.</p>
+<p>No seu terminal (dentro de <code>todo-app/</code>), execute:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>src/todo/backend
+</code></pre></div>
+<ul>
+<li><code>mkdir</code> cria diretórios; a flag <code>-p</code> cria todos os "diretórios pais" necessários no caminho, sem dar erro.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>O que é um Namespace (<code>ns</code>)?</strong></p>
+<p>Em Clojure, não "importamos arquivos", nós "requeremos namespaces". Um namespace é um nome para um grupo de códigos, diretamente ligado à estrutura de pastas e ao nome do arquivo:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Caminho do Arquivo</strong></th>
+<th><strong>Declaração de Namespace (no topo do arquivo)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/todo/backend/db.clj</code></td>
+<td><code>(ns todo.backend.db ...)</code></td>
+</tr>
+<tr>
+<td><code>src/todo/backend/handler.clj</code></td>
+<td><code>(ns todo.backend.handler ...)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Quando, em outro arquivo, quisermos usar as funções do <code>db.clj</code>, vamos "requerer" o namespace <code>todo.backend.db</code>, geralmente com um apelido (<em>alias</em>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">(</span><span class="kd">ns </span><span class="nv">todo.backend.handler</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="p">(</span><span class="ss">:require</span><span class="w"> </span><span class="p">[</span><span class="nv">todo.backend.db</span><span class="w"> </span><span class="ss">:as</span><span class="w"> </span><span class="nv">db</span><span class="p">]))</span><span class="w"> </span><span class="c1">;; &quot;db&quot; agora é o apelido</span>
+</code></pre></div>
+<p>⚠️ <strong>Atenção a um detalhe que pega muita gente:</strong> se o namespace tem um hífen no nome (ex: <code>db-config</code>), o <strong>arquivo</strong> usa <em>underscore</em> (<code>db_config.clj</code>). Hífen no <code>ns</code>, underscore no nome do arquivo.</p>
+</div>
+<p><strong>Ação 2: Criar o arquivo do handler</strong></p>
+<p>Crie o arquivo <code>src/todo/backend/handler.clj</code> e cole o seguinte código:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">(</span><span class="kd">ns </span><span class="nv">todo.backend.handler</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="s">&quot;Este namespace define nossas &#39;funções de resposta&#39; (Handlers).&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">(</span><span class="kd">defn </span><span class="nv">hello-handler</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="s">&quot;Nosso primeiro handler. Ele apenas diz &#39;Olá, Mundo!&#39;&quot;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="p">[</span><span class="nv">_request</span><span class="p">]</span><span class="w"> </span><span class="c1">;; 1. O handler recebe a &#39;request&#39; como argumento.</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">             </span><span class="c1">;;    Usamos &#39;_&#39; para sinalizar que, nesta função,</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">             </span><span class="c1">;;    vamos ignorar esse argumento.</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="c1">;; 2. O handler retorna um mapa de &#39;response&#39;.</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span><span class="p">{</span><span class="ss">:status</span><span class="w"> </span><span class="mi">200</span><span class="w">            </span><span class="c1">;; :status 200 é o código HTTP para &quot;OK&quot;</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">   </span><span class="ss">:body</span><span class="w"> </span><span class="s">&quot;Hello, World!&quot;</span><span class="p">})</span><span class="w"> </span><span class="c1">;; :body é o conteúdo enviado ao navegador</span>
+</code></pre></div>
+<h3 id="o-que-fizemos_1">O que fizemos?<a class="headerlink" href="#o-que-fizemos_1" title="Permanent link">&para;</a></h3>
+<p>Criamos nossa primeira peça de lógica: uma função pura e simples que atende ao contrato do Ring — ignora a entrada e retorna um mapa de resposta com status <code>200</code> e o texto "Hello, World!".</p>
+<p>No entanto, essa função não faz nada sozinha. Precisamos de duas coisas:</p>
+<ol>
+<li>Um <strong>Servidor</strong> (Jetty) para "ouvir" na <code>localhost:3000</code>.</li>
+<li>Um <strong>Roteador</strong> (Reitit) para dizer: "quando chegar um <code>GET</code> em <code>/api/hello</code>, execute a <code>hello-handler</code>".</li>
+</ol>
+<h3 id="passo-13-o-servidor-e-o-roteador-coreclj">Passo 1.3: O Servidor e o Roteador (<code>core.clj</code>)<a class="headerlink" href="#passo-13-o-servidor-e-o-roteador-coreclj" title="Permanent link">&para;</a></h3>
+<p>O <code>core.clj</code> é o "cérebro" que junta todas as peças:</p>
+<ol>
+<li><strong>Inicia o servidor</strong> (Jetty), que escuta na porta <code>3000</code>.</li>
+<li><strong>Define o roteador</strong> (Reitit), que mapeia URLs para handlers.</li>
+<li>É o <strong>ponto de entrada</strong> que o comando <code>clj -M:run</code> (definido no <code>deps.edn</code>) executa.</li>
+</ol>
+<p><strong>Ação:</strong> Crie o arquivo <code>src/todo/backend/core.clj</code> (na mesma pasta do <code>handler.clj</code>) e cole:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">(</span><span class="kd">ns </span><span class="nv">todo.backend.core</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="p">(</span><span class="ss">:require</span><span class="w"> </span><span class="p">[</span><span class="nv">ring.adapter.jetty</span><span class="w"> </span><span class="ss">:as</span><span class="w"> </span><span class="nv">jetty</span><span class="p">]</span><span class="w">       </span><span class="c1">;; 1. O software do Servidor (Jetty)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">            </span><span class="p">[</span><span class="nv">reitit.ring</span><span class="w"> </span><span class="ss">:as</span><span class="w"> </span><span class="nv">ring</span><span class="p">]</span><span class="w">               </span><span class="c1">;; 2. O Roteador (Reitit)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">            </span><span class="p">[</span><span class="nv">todo.backend.handler</span><span class="w"> </span><span class="ss">:as</span><span class="w"> </span><span class="nv">handler</span><span class="p">])</span><span class="w">  </span><span class="c1">;; 3. Nossas funções (handler.clj)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="p">(</span><span class="ss">:gen-class</span><span class="p">))</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">;; --- 1. Definição das Rotas ---</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1">;; A URL &quot;/api/hello&quot;, quando acessada com o método :get,</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1">;; deve executar nossa função handler/hello-handler.</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">(</span><span class="k">def </span><span class="nv">app-routes</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="p">(</span><span class="nf">ring/router</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">   </span><span class="p">[[</span><span class="s">&quot;/api/hello&quot;</span><span class="w"> </span><span class="p">{</span><span class="ss">:get</span><span class="w"> </span><span class="p">{</span><span class="ss">:handler</span><span class="w"> </span><span class="nv">handler/hello-handler</span><span class="p">}}]]))</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1">;; --- 2. Definição da Aplicação (App) ---</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1">;; O &#39;app&#39; final é a função Ring principal.</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">  </span><span class="p">(</span><span class="nf">ring/ring-handler</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">   </span><span class="nv">app-routes</span><span class="w">                     </span><span class="c1">;; Nossas rotas</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">   </span><span class="p">(</span><span class="nf">ring/create-default-handler</span><span class="p">)))</span><span class="w"> </span><span class="c1">;; Um handler padrão para 404 (Not Found)</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="c1">;; --- 3. Função para Iniciar o Servidor ---</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="p">(</span><span class="kd">defn </span><span class="nv">start-server</span><span class="w"> </span><span class="p">[</span><span class="nv">port</span><span class="p">]</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">  </span><span class="p">(</span><span class="nb">println </span><span class="p">(</span><span class="nb">str </span><span class="s">&quot;Servidor iniciado na porta &quot;</span><span class="w"> </span><span class="nv">port</span><span class="p">))</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">  </span><span class="c1">;; #&#39;app passa a &quot;var&quot; da nossa app para o Jetty (útil no desenvolvimento)</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">  </span><span class="c1">;; :join? false evita que o servidor bloqueie a thread principal.</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">  </span><span class="p">(</span><span class="nf">jetty/run-jetty</span><span class="w"> </span><span class="o">#</span><span class="ss">&#39;app</span><span class="w"> </span><span class="p">{</span><span class="ss">:port</span><span class="w"> </span><span class="nv">port</span><span class="w"> </span><span class="ss">:join?</span><span class="w"> </span><span class="nv">false</span><span class="p">}))</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="c1">;; --- 4. Ponto de Entrada Principal (-main) ---</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="c1">;; Esta é a função que o alias :run (do deps.edn) procura.</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="p">(</span><span class="kd">defn </span><span class="nv">-main</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="w"> </span><span class="nv">args</span><span class="p">]</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">  </span><span class="c1">;; Permite passar a porta como argumento (ex: clj -M:run 8080)</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">  </span><span class="c1">;; ou usa &quot;3000&quot; como padrão.</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="w">  </span><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">port</span><span class="w"> </span><span class="p">(</span><span class="nf">Integer/parseInt</span><span class="w"> </span><span class="p">(</span><span class="nb">or </span><span class="p">(</span><span class="nb">first </span><span class="nv">args</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;3000&quot;</span><span class="p">))]</span>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="w">    </span><span class="p">(</span><span class="nf">start-server</span><span class="w"> </span><span class="nv">port</span><span class="p">)))</span>
+</code></pre></div>
+<h3 id="o-que-fizemos_2">O que fizemos?<a class="headerlink" href="#o-que-fizemos_2" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong><code>(:require ...)</code></strong>: importamos nossas "ferramentas": Jetty, Reitit e nosso próprio <code>handler.clj</code>.</li>
+<li><strong><code>(:gen-class)</code></strong>: prepara este namespace para ser compilado como uma classe Java. Não é estritamente obrigatório para rodar com <code>clj -M:run</code>, mas é a convenção para namespaces com <code>-main</code> e será necessário se um dia você quiser empacotar a aplicação em um <code>.jar</code> executável. Vamos mantê-lo como boa prática.</li>
+<li><strong><code>app-routes</code></strong>: nosso "mapa do site". Por enquanto, com uma única rota.</li>
+<li><strong><code>app</code></strong>: a aplicação Ring principal, que "entrega" nossas rotas ao Jetty.</li>
+<li><strong><code>-main</code></strong>: a função que o <code>deps.edn</code> chama; pega a porta (ou usa <code>3000</code>) e chama <code>start-server</code>.</li>
+</ol>
+<p>Neste ponto, temos as três peças: <code>deps.edn</code> (1.1), <code>handler.clj</code> (1.2) e <code>core.clj</code> (1.3). Vamos ver a mágica acontecer.</p>
+<h3 id="passo-14-teste-navegador-e-terminal">Passo 1.4: Teste (Navegador e Terminal)<a class="headerlink" href="#passo-14-teste-navegador-e-terminal" title="Permanent link">&para;</a></h3>
+<p><strong>Ação 1: Inicie o servidor</strong></p>
+<p>No terminal, na raiz do projeto (onde está o <code>deps.edn</code>), execute:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>clj<span class="w"> </span>-M:run
+</code></pre></div>
+<p><strong>Resultado Esperado:</strong> Na primeira vez, o Clojure vai <strong>baixar todas as dependências</strong> (pode demorar um pouco — várias linhas de download aparecerão). Em seguida:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Servidor iniciado na porta 3000
+</code></pre></div>
+<p><strong>Importante:</strong> este terminal agora está "ocupado" rodando o servidor. Deixe-o rodando.</p>
+<p><strong>Ação 2: Teste no navegador</strong></p>
+<ol>
+<li>Abra o navegador.</li>
+<li>Digite a URL exata da nossa rota: <code>http://localhost:3000/api/hello</code></li>
+<li>Pressione Enter.</li>
+</ol>
+<p><strong>Resultado Esperado:</strong> a página deve mostrar apenas o texto do <code>:body</code> do nosso handler:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Hello, World!
+</code></pre></div>
+<p><strong>Ação 3: Teste no terminal com <code>curl</code></strong></p>
+<p>Para o restante do tutorial, usaremos bastante o <code>curl</code>, pois ele nos permite testar <em>todos</em> os métodos HTTP (<code>GET</code>, <code>POST</code>, <code>DELETE</code>, etc.).</p>
+<ol>
+<li>Abra um <strong>novo</strong> terminal (deixe o servidor rodando no primeiro).</li>
+<li>Execute:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>http://localhost:3000/api/hello
+</code></pre></div>
+<p><strong>Resultado Esperado:</strong> o <code>curl</code> imprime o <code>:body</code> diretamente no terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Hello, World!
+</code></pre></div>
+<h3 id="se-algo-deu-errado">Se algo deu errado…<a class="headerlink" href="#se-algo-deu-errado" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Sintoma</th>
+<th>Causa provável</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Connection refused</code></td>
+<td>O servidor não está rodando no Terminal 1 (ou caiu com erro).</td>
+</tr>
+<tr>
+<td><code>404 Not Found</code></td>
+<td>Erro de digitação na URL ou na rota do <code>core.clj</code> (<code>/api/hello</code>).</td>
+</tr>
+<tr>
+<td><code>Could not locate todo/backend/core...</code></td>
+<td>O caminho do arquivo não bate com o namespace (confira <code>src/todo/backend/core.clj</code>) ou você não está na raiz do projeto.</td>
+</tr>
+<tr>
+<td>Erro de sintaxe ao iniciar</td>
+<td>Algum parêntese a mais/menos ao colar. Compare com o código acima com calma.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="passo-15-git-checkpoint-hello-world">Passo 1.5: Git Checkpoint ("Hello World")<a class="headerlink" href="#passo-15-git-checkpoint-hello-world" title="Permanent link">&para;</a></h3>
+<p><strong>Por que fazemos isso?</strong>
+Se, na próxima fase, ao adicionar a lógica do banco, quebrarmos tudo acidentalmente, teremos um "ponto seguro" para o qual podemos voltar.</p>
+<p><strong>Ação 1:</strong> No terminal do servidor, pare-o (<code>Ctrl+C</code>). Agora, veja o que o Git enxerga:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>git<span class="w"> </span>status
+</code></pre></div>
+<p><strong>Resultado Esperado:</strong> o Git mostrará os arquivos novos ("Untracked files"): <code>deps.edn</code> e <code>src/</code>.</p>
+<p><strong>Ação 2:</strong> Prepare e salve:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: implementa servidor &#39;Hello World&#39; com Jetty e Reitit&quot;</span>
+</code></pre></div>
+<p><strong>Resultado Esperado:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>[main 1a2b3c4] feat: implementa servidor &#39;Hello World&#39; com Jetty e Reitit
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a> 3 files changed, ...
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a> create mode 100644 deps.edn
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a> create mode 100644 src/todo/backend/core.clj
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a> create mode 100644 src/todo/backend/handler.clj
+</code></pre></div>
+<hr />
+<p><strong>Fim da Fase 1!</strong> 🏁</p>
+<p>Temos um projeto Git limpo, com um servidor web "Hello World" totalmente funcional e testado. Agora estamos prontos para construir a lógica de negócios real: a API, começando pelo "banco de dados em memória" (<code>atom</code>).</p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.top", "navigation.indexes", "navigation.instant", "navigation.sections", "navigation.expand", "content.code.copy", "content.code.annotate", "toc.integrate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

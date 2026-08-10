@@ -1,0 +1,1780 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Coleção de tutoriais práticos e independentes de programação e ferramentas de desenvolvimento.
+">
+      
+      
+        <meta name="author" content="Sergio Souza Costa">
+      
+      
+      
+        <link rel="prev" href="../01-backend-minimo/">
+      
+      
+        <link rel="next" href="../03-frontend-intro/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2. Backend Funcional (API em Memória) - Tutoriais</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/lambdageo.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fase-2-o-backend-funcional-api-com-banco-em-memoria" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Tutoriais" class="md-header__button md-logo" aria-label="Tutoriais" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tutoriais
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2. Backend Funcional (API em Memória)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Mudar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Mudar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tutoriais" class="md-nav__button md-logo" aria-label="Tutoriais" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tutoriais
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../docker/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/docker-cli-exploracao-guiada/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Docker CLI Puro: Exploração Guiada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/ciclo-de-vida-efemeridade-volumes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Ciclo de Vida, Efemeridade & Volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/traducao-cli-docker-compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Tradução CLI → Docker Compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/otimizacao-imagens-dev-vs-prod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Otimização de Imagens + Dev vs Prod
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/tarefa-polyglot-full-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Tarefa: Polyglot Full-Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/cheat-sheet-docker-compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clojure
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clojure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-fundacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Fundação (Ambiente, Setup e Git)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-backend-minimo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Backend Mínimo (Hello World)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Backend Funcional (API em Memória)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Backend Funcional (API em Memória)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#passo-21-o-conceito-imutabilidade-e-por-que-precisamos-de-atoms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.1: O Conceito (Imutabilidade e por que precisamos de atoms)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-22-o-banco-dbclj" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.2: O Banco (db.clj)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-fizemos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que fizemos?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-23-teste-no-repl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.3: Teste no REPL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-fizemos_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que fizemos?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-24-atualizacao-incremental-handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.4: Atualização Incremental (Handlers)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-25-atualizar-o-depsedn-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.5: Atualizar o deps.edn (JSON)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-26-atualizar-o-coreclj-rotas-e-middlewares" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.6: Atualizar o core.clj (Rotas e Middlewares)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-27-teste-api-completa-com-curl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.7: Teste (API Completa com curl)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-fizemos_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        O que fizemos?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-28-git-checkpoint-api-funcional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Passo 2.8: Git Checkpoint (API Funcional)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-frontend-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Introdução ao Frontend (Reagent)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-integracao-frontend-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Conectando Frontend e Backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-persistencia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Persistência Real (Banco de Dados)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-crud-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. CRUD Completo e Visual Final
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-readme-entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. README e Entrega
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../elixir/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elixir
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Elixir
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/00-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Setup (Ambiente, Git e Esqueleto)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/01-hello-world/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Hello World — Prova de Vida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/02-logica-memoria/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Lógica em Memória
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/03-persistencia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Persistência (Ecto, Repo, Migration, Schema)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/04-transplante-liveview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. O Transplante (LiveView + Banco)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/05-excluindo-tarefas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Refinamento — Excluindo Tarefas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/06-concluindo-tarefas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Refinamento — Concluindo Tarefas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/07-personalizando-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Personalizando o Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../elixir/08-readme-entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. README e Entrega
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="fase-2-o-backend-funcional-api-com-banco-em-memoria">Fase 2: O Backend Funcional (API com Banco em Memória)<a class="headerlink" href="#fase-2-o-backend-funcional-api-com-banco-em-memoria" title="Permanent link">&para;</a></h1>
+<p><strong>Objetivo:</strong> Construir a lógica de negócios da nossa API. Antes de nos preocuparmos com um banco de dados real, vamos criar um "banco de dados" que vive <em>apenas na memória</em>.</p>
+<h3 id="passo-21-o-conceito-imutabilidade-e-por-que-precisamos-de-atoms">Passo 2.1: O Conceito (Imutabilidade e por que precisamos de <code>atom</code>s)<a class="headerlink" href="#passo-21-o-conceito-imutabilidade-e-por-que-precisamos-de-atoms" title="Permanent link">&para;</a></h3>
+<p>Em muitas linguagens, se você tem uma lista de "todos", você simplesmente "adiciona" (push/append) um novo item, e a lista original é <em>modificada</em>.</p>
+<p>Em Clojure, as estruturas de dados (como mapas <code>{}</code> e vetores <code>[]</code>) são <strong>imutáveis</strong>: uma vez criado, um valor <strong>nunca</strong> pode ser alterado.</p>
+<p>Vamos ver um exemplo rápido. <code>conj</code> é a função para "adicionar" a um vetor:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">;; 1. Criamos um vetor chamado &#39;meu-vetor&#39;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">user=&gt;</span><span class="w"> </span><span class="p">(</span><span class="k">def </span><span class="nv">meu-vetor</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="p">])</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="o">#</span><span class="ss">&#39;user/meu-vetor</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1">;; 2. &quot;Adicionamos&quot; o número 3 a ele</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nv">user=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nb">conj </span><span class="nv">meu-vetor</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">3</span><span class="p">]</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1">;; 3. Agora, vamos checar o &#39;meu-vetor&#39; original</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nv">user=&gt;</span><span class="w"> </span><span class="nv">meu-vetor</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span>
+</code></pre></div>
+<p>Veja! O <code>meu-vetor</code> original <strong>não mudou</strong>. A função <code>(conj meu-vetor 3)</code> não <em>modificou</em> o vetor; ela <em>retornou um novo vetor</em> com o item adicionado.</p>
+<p><strong>Isso cria um problema para nós:</strong> se nosso banco fosse <code>(def todos-db {})</code>, ele seria um mapa vazio <em>para sempre</em>. Como "salvar" um novo todo?</p>
+<p><strong>A Solução: o <code>atom</code> (a "caixa" segura)</strong></p>
+<p>Nós colocamos nosso valor imutável (um mapa <code>{}</code>) dentro de uma "caixa" de referência: um <strong><code>atom</code></strong>.</p>
+<ul>
+<li>O <strong>valor dentro da caixa</strong> (o mapa) é imutável.</li>
+<li>O <strong><code>atom</code> é a caixa</strong> em si.</li>
+<li>Nós não <em>mudamos</em> o valor: nós <strong>trocamos</strong> (<em>swap</em>) o valor antigo por um valor <em>totalmente novo</em> dentro da caixa.</li>
+</ul>
+<p>Para trabalhar com <code>atom</code>s, usamos três coisas:</p>
+<ol>
+<li><strong><code>(atom {...})</code></strong>: o <strong>construtor</strong> — cria a caixa com um valor inicial dentro.</li>
+<li><strong><code>@</code></strong> (lê-se "deref"): o <strong>leitor</strong> — "olha dentro" da caixa e vê o valor atual.</li>
+<li><strong><code>(swap! ...)</code></strong>: o <strong>escritor</strong> — troca o conteúdo da caixa aplicando uma função ao valor antigo. Ele é "atômico" (daí o nome): mesmo que 1000 requisições tentem criar um todo ao mesmo tempo, nenhuma escrita é perdida.</li>
+</ol>
+<h3 id="passo-22-o-banco-dbclj">Passo 2.2: O Banco (<code>db.clj</code>)<a class="headerlink" href="#passo-22-o-banco-dbclj" title="Permanent link">&para;</a></h3>
+<p><strong>Ação:</strong> Crie o arquivo <code>src/todo/backend/db.clj</code> (ao lado de <code>core.clj</code> e <code>handler.clj</code>) e cole:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">(</span><span class="kd">ns </span><span class="nv">todo.backend.db</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="s">&quot;Este namespace gerencia os dados dos &#39;todos&#39; em memória.&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">;; (def) cria uma &#39;var&#39; global.</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1">;; (atom {}) cria nossa &quot;caixa&quot; (atom) e coloca</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">;; um mapa imutável vazio {} dentro dela.</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">(</span><span class="k">def </span><span class="nv">todos-db</span><span class="w"> </span><span class="p">(</span><span class="nf">atom</span><span class="w"> </span><span class="p">{}))</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1">;; Nosso banco terá a forma: {1 {:id 1, :title &quot;...&quot;}, 2 {:id 2, ...}}</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">;; Uma &quot;caixa&quot; separada para o contador de IDs.</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p">(</span><span class="k">def </span><span class="nv">next-id</span><span class="w"> </span><span class="p">(</span><span class="nf">atom</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1">;; --- Nossas Funções de Acesso ao Banco ---</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="p">(</span><span class="kd">defn </span><span class="nv">get-all-todos</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="s">&quot;Retorna uma lista com todos os &#39;todos&#39; no banco.&quot;</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="p">[]</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="c1">;; @todos-db: &quot;olha dentro&quot; da caixa (lê o valor).</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="c1">;; (vals): pega apenas os valores do mapa (ignora as chaves/IDs).</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="p">(</span><span class="nf">vec</span><span class="w"> </span><span class="p">(</span><span class="nb">vals </span><span class="o">@</span><span class="nv">todos-db</span><span class="p">)))</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="p">(</span><span class="kd">defn </span><span class="nv">create-todo</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">  </span><span class="s">&quot;Cria um novo &#39;todo&#39;, salva no banco e o retorna.&quot;</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">  </span><span class="p">[</span><span class="nv">todo-data</span><span class="p">]</span><span class="w"> </span><span class="c1">;; ex: {:title &quot;Minha tarefa&quot;}</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="c1">;; 1. Lê o ID atual (ex: 1) usando &#39;@&#39;</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">        </span><span class="nv">id</span><span class="w"> </span><span class="o">@</span><span class="nv">next-id</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">        </span><span class="c1">;; 2. Cria um NOVO mapa imutável com os dados completos</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">        </span><span class="nv">new-todo</span><span class="w"> </span><span class="p">(</span><span class="nb">assoc </span><span class="nv">todo-data</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">                        </span><span class="ss">:id</span><span class="w"> </span><span class="nv">id</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">                        </span><span class="ss">:completed</span><span class="w"> </span><span class="nv">false</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">                        </span><span class="ss">:created-at</span><span class="w"> </span><span class="p">(</span><span class="nb">str </span><span class="p">(</span><span class="nf">java.time.Instant/now</span><span class="p">)))]</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">    </span><span class="c1">;; 3. (swap!): &quot;troca&quot; o conteúdo da caixa &#39;todos-db&#39;,</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">    </span><span class="c1">;;    aplicando &#39;assoc&#39; ao mapa antigo para criar um novo.</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">    </span><span class="p">(</span><span class="nf">swap!</span><span class="w"> </span><span class="nv">todos-db</span><span class="w"> </span><span class="nb">assoc </span><span class="nv">id</span><span class="w"> </span><span class="nv">new-todo</span><span class="p">)</span>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="w">    </span><span class="c1">;; 4. Incrementa o contador na caixa &#39;next-id&#39;.</span>
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w">    </span><span class="p">(</span><span class="nf">swap!</span><span class="w"> </span><span class="nv">next-id</span><span class="w"> </span><span class="nv">inc</span><span class="p">)</span>
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="w">    </span><span class="c1">;; 5. Retorna o &#39;todo&#39; recém-criado.</span>
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="w">    </span><span class="nv">new-todo</span><span class="p">))</span>
+</code></pre></div>
+<h3 id="o-que-fizemos">O que fizemos?<a class="headerlink" href="#o-que-fizemos" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>todos-db</code> e <code>next-id</code></strong>: dois <code>atom</code>s (caixas) para guardar nosso "banco" e nosso contador de IDs.</li>
+<li><strong><code>get-all-todos</code></strong>: uma função que <em>lê</em> o atom (<code>@</code>).</li>
+<li><strong><code>create-todo</code></strong>: uma função que <em>escreve</em> no atom (<code>swap!</code>), adicionando um todo e incrementando o ID.</li>
+</ul>
+<p>Agora temos a lógica do banco. Mas, como bons engenheiros, não vamos <em>assumir</em> que funciona. Vamos <em>provar</em>.</p>
+<h3 id="passo-23-teste-no-repl">Passo 2.3: Teste no REPL<a class="headerlink" href="#passo-23-teste-no-repl" title="Permanent link">&para;</a></h3>
+<p><strong>O que é o REPL?</strong>
+REPL significa <strong>Read-Eval-Print-Loop</strong> (Ler-Avaliar-Imprimir-Repetir). É um terminal interativo do Clojure: você digita uma expressão, o Clojure a executa e imprime o resultado. É a ferramenta número um do desenvolvimento em Clojure.</p>
+<p><strong>Ação 1: Inicie o REPL</strong></p>
+<p>Na raiz do projeto:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>clj
+</code></pre></div>
+<p>Você verá um prompt <code>user=&gt;</code>. Agora você está "dentro" do Clojure.</p>
+<p><strong>Ação 2: Carregue seu namespace</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">user=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nf">require</span><span class="w"> </span><span class="o">&#39;</span><span class="p">[</span><span class="nv">todo.backend.db</span><span class="w"> </span><span class="ss">:as</span><span class="w"> </span><span class="nv">db</span><span class="p">])</span>
+</code></pre></div>
+<p>O REPL deve responder <code>nil</code>. Isso é <strong>bom</strong>: significa que o Clojure encontrou e leu seu <code>db.clj</code> sem erros. Agora as funções públicas estão disponíveis com o prefixo <code>db/</code>.</p>
+<p><strong>Ação 3: Teste as funções!</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">;; 1. Veja se o banco está vazio</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nv">user=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nf">db/get-all-todos</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">[]</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">;; 2. Crie um &#39;todo&#39;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nv">user=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nf">db/create-todo</span><span class="w"> </span><span class="p">{</span><span class="ss">:title</span><span class="w"> </span><span class="s">&quot;Testar o REPL&quot;</span><span class="p">})</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">{</span><span class="ss">:title</span><span class="w"> </span><span class="s">&quot;Testar o REPL&quot;</span>,<span class="w"> </span><span class="ss">:id</span><span class="w"> </span><span class="mi">1</span>,<span class="w"> </span><span class="ss">:completed</span><span class="w"> </span><span class="nv">false</span>,<span class="w"> </span><span class="ss">:created-at</span><span class="w"> </span><span class="s">&quot;2026-...&quot;</span><span class="p">}</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1">;; 3. Veja se foi salvo!</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nv">user=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nf">db/get-all-todos</span><span class="p">)</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">[{</span><span class="ss">:title</span><span class="w"> </span><span class="s">&quot;Testar o REPL&quot;</span>,<span class="w"> </span><span class="ss">:id</span><span class="w"> </span><span class="mi">1</span>,<span class="w"> </span><span class="ss">:completed</span><span class="w"> </span><span class="nv">false</span>,<span class="w"> </span><span class="ss">:created-at</span><span class="w"> </span><span class="s">&quot;...&quot;</span><span class="p">}]</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1">;; 4. Crie mais um</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="nv">user=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nf">db/create-todo</span><span class="w"> </span><span class="p">{</span><span class="ss">:title</span><span class="w"> </span><span class="s">&quot;Aprender Clojure&quot;</span><span class="w"> </span><span class="ss">:description</span><span class="w"> </span><span class="s">&quot;É divertido&quot;</span><span class="p">})</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p">{</span><span class="ss">:title</span><span class="w"> </span><span class="s">&quot;Aprender Clojure&quot;</span>,<span class="w"> </span><span class="ss">:description</span><span class="w"> </span><span class="s">&quot;É divertido&quot;</span>,<span class="w"> </span><span class="ss">:id</span><span class="w"> </span><span class="mi">2</span>,<span class="w"> </span><span class="nv">...</span><span class="p">}</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="c1">;; 5. Veja a lista completa</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="nv">user=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nf">db/get-all-todos</span><span class="p">)</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="p">[{</span><span class="ss">:title</span><span class="w"> </span><span class="s">&quot;Testar o REPL&quot;</span>,<span class="w"> </span><span class="ss">:id</span><span class="w"> </span><span class="mi">1</span>,<span class="w"> </span><span class="nv">...</span><span class="p">}</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w"> </span><span class="p">{</span><span class="ss">:title</span><span class="w"> </span><span class="s">&quot;Aprender Clojure&quot;</span>,<span class="w"> </span><span class="ss">:description</span><span class="w"> </span><span class="s">&quot;É divertido&quot;</span>,<span class="w"> </span><span class="ss">:id</span><span class="w"> </span><span class="mi">2</span>,<span class="w"> </span><span class="nv">...</span><span class="p">}]</span>
+</code></pre></div>
+<p><strong>Ação 4 (Opcional): olhe "dentro" das caixas</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">;; O mapa completo de &#39;todos&#39;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">user=&gt;</span><span class="w"> </span><span class="o">@</span><span class="nv">db/todos-db</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">{</span><span class="mi">1</span><span class="w"> </span><span class="p">{</span><span class="ss">:title</span><span class="w"> </span><span class="s">&quot;Testar o REPL&quot;</span>,<span class="w"> </span><span class="nv">...</span><span class="p">}</span>,<span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">{</span><span class="ss">:title</span><span class="w"> </span><span class="s">&quot;Aprender Clojure&quot;</span>,<span class="w"> </span><span class="nv">...</span><span class="p">}}</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1">;; O contador de ID (deve ser 3 agora)</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nv">user=&gt;</span><span class="w"> </span><span class="o">@</span><span class="nv">db/next-id</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="mi">3</span>
+</code></pre></div>
+<h3 id="o-que-fizemos_1">O que fizemos?<a class="headerlink" href="#o-que-fizemos_1" title="Permanent link">&para;</a></h3>
+<p>Validamos <strong>100%</strong> da lógica de banco sem tocar em servidor, navegador ou rota. Temos confiança total de que o <code>db.clj</code> funciona.</p>
+<p><strong>Para sair do REPL:</strong> pressione <code>Ctrl+D</code> (ou digite <code>(System/exit 0)</code>).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Não existe um comando <code>(exit)</code> no REPL do <code>clj</code> — se você tentar, verá um erro <code>Unable to resolve symbol: exit</code>. Use <code>Ctrl+D</code>.</p>
+</div>
+<h3 id="passo-24-atualizacao-incremental-handlers">Passo 2.4: Atualização Incremental (Handlers)<a class="headerlink" href="#passo-24-atualizacao-incremental-handlers" title="Permanent link">&para;</a></h3>
+<p>Nosso <code>db.clj</code> está testado. Agora vamos "conectá-lo" ao servidor web em duas etapas: primeiro ensinamos o <code>handler.clj</code> a chamar o <code>db.clj</code>; depois ensinamos o <code>core.clj</code> (o roteador) a chamar os novos handlers.</p>
+<p><strong>Ação 1: Adicionar os <code>require</code>s</strong></p>
+<p>Abra <code>src/todo/backend/handler.clj</code>. <em>Substitua</em> a declaração do namespace:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">(</span><span class="kd">ns </span><span class="nv">todo.backend.handler</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="s">&quot;Este namespace define nossas &#39;funções de resposta&#39; (Handlers).&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>por esta:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">(</span><span class="kd">ns </span><span class="nv">todo.backend.handler</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="s">&quot;Este namespace define nossas &#39;funções de resposta&#39; (Handlers).&quot;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="p">(</span><span class="ss">:require</span><span class="w"> </span><span class="p">[</span><span class="nv">todo.backend.db</span><span class="w"> </span><span class="ss">:as</span><span class="w"> </span><span class="nv">db</span><span class="p">]</span><span class="w">     </span><span class="c1">;; &lt;- ADICIONE ISTO</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">            </span><span class="p">[</span><span class="nv">clojure.string</span><span class="w"> </span><span class="ss">:as</span><span class="w"> </span><span class="nv">str</span><span class="p">]))</span><span class="w">   </span><span class="c1">;; &lt;- E ISTO (para validação)</span>
+</code></pre></div>
+<p><strong>Ação 2: Adicionar os novos handlers</strong></p>
+<p>Agora, <em>abaixo</em> da função <code>hello-handler</code> existente, adicione estas duas funções. Note como elas são a "ponte" entre o HTTP e o nosso <code>db.clj</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">;; --- Handler para Listar Todos ---</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">(</span><span class="kd">defn </span><span class="nv">list-todos-handler</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="s">&quot;Handler para a rota GET /api/todos.&quot;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="p">[</span><span class="nv">_request</span><span class="p">]</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="c1">;; Chama nossa função de banco e a coloca no &#39;body&#39;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="p">{</span><span class="ss">:status</span><span class="w"> </span><span class="mi">200</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">   </span><span class="ss">:body</span><span class="w"> </span><span class="p">{</span><span class="ss">:todos</span><span class="w"> </span><span class="p">(</span><span class="nf">db/get-all-todos</span><span class="p">)}})</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="c1">;; --- Handler para Criar um Todo ---</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="p">(</span><span class="kd">defn </span><span class="nv">create-todo-handler</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="s">&quot;Handler para a rota POST /api/todos.&quot;</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">  </span><span class="p">[</span><span class="nv">request</span><span class="p">]</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">  </span><span class="c1">;; :body é um mapa Clojure que o *middleware*</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">  </span><span class="c1">;; (que adicionaremos no próximo passo) vai criar para nós</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">  </span><span class="c1">;; a partir do JSON que o cliente enviar.</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">  </span><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">todo-data</span><span class="w"> </span><span class="p">(</span><span class="ss">:body</span><span class="w"> </span><span class="nv">request</span><span class="p">)</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">        </span><span class="nv">title</span><span class="w"> </span><span class="p">(</span><span class="ss">:title</span><span class="w"> </span><span class="nv">todo-data</span><span class="p">)]</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">    </span><span class="c1">;; É uma boa prática validar os dados que chegam.</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">    </span><span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">and </span><span class="nv">title</span><span class="w"> </span><span class="p">(</span><span class="nb">not </span><span class="p">(</span><span class="nf">str/blank?</span><span class="w"> </span><span class="nv">title</span><span class="p">)))</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">      </span><span class="c1">;; Sucesso! Os dados são válidos.</span>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">      </span><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">new-todo</span><span class="w"> </span><span class="p">(</span><span class="nf">db/create-todo</span><span class="w"> </span><span class="nv">todo-data</span><span class="p">)]</span>
+<a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="w">        </span><span class="c1">;; :status 201 = &quot;Created&quot;</span>
+<a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="w">        </span><span class="p">{</span><span class="ss">:status</span><span class="w"> </span><span class="mi">201</span>
+<a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a><span class="w">         </span><span class="ss">:body</span><span class="w"> </span><span class="nv">new-todo</span><span class="p">})</span>
+<a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>
+<a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="w">      </span><span class="c1">;; Erro de validação.</span>
+<a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="w">      </span><span class="p">{</span><span class="ss">:status</span><span class="w"> </span><span class="mi">400</span><span class="w"> </span><span class="c1">;; &quot;Bad Request&quot;</span>
+<a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="w">       </span><span class="ss">:body</span><span class="w"> </span><span class="p">{</span><span class="ss">:error</span><span class="w"> </span><span class="s">&quot;O &#39;título&#39; (title) é obrigatório&quot;</span><span class="p">}})))</span>
+</code></pre></div>
+<p><strong>Importante:</strong> o servidor ainda não sabe sobre essas funções. Se você rodar agora, <code>/api/todos</code> ainda dará <code>404</code>.</p>
+<h3 id="passo-25-atualizar-o-depsedn-json">Passo 2.5: Atualizar o <code>deps.edn</code> (JSON)<a class="headerlink" href="#passo-25-atualizar-o-depsedn-json" title="Permanent link">&para;</a></h3>
+<p>Nosso <code>create-todo-handler</code> precisa receber JSON, e o <code>list-todos-handler</code> quer <em>enviar</em> JSON. Quem faz essas conversões são os <strong>middlewares</strong> da biblioteca <code>ring-json</code>, que ainda não está na nossa "lista de compras".</p>
+<p><strong>Ação:</strong> Abra o <code>deps.edn</code> e adicione a linha do <code>ring/ring-json</code> ao bloco <code>:deps</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="w"> </span><span class="ss">:deps</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w"> </span><span class="p">{</span><span class="nv">org.clojure/clojure</span><span class="w"> </span><span class="p">{</span><span class="ss">:mvn/version</span><span class="w"> </span><span class="s">&quot;1.11.1&quot;</span><span class="p">}</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="c1">;; --- Dependências do Backend (API REST) ---</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nv">ring/ring-core</span><span class="w">          </span><span class="p">{</span><span class="ss">:mvn/version</span><span class="w"> </span><span class="s">&quot;1.12.2&quot;</span><span class="p">}</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nv">ring/ring-jetty-adapter</span><span class="w"> </span><span class="p">{</span><span class="ss">:mvn/version</span><span class="w"> </span><span class="s">&quot;1.12.2&quot;</span><span class="p">}</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span><span class="nv">ring/ring-json</span><span class="w">          </span><span class="p">{</span><span class="ss">:mvn/version</span><span class="w"> </span><span class="s">&quot;0.5.1&quot;</span><span class="p">}</span><span class="w"> </span><span class="c1">;; &lt;- ADICIONE ESTA LINHA</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">  </span><span class="nv">metosin/reitit-ring</span><span class="w">     </span><span class="p">{</span><span class="ss">:mvn/version</span><span class="w"> </span><span class="s">&quot;0.7.0&quot;</span><span class="p">}}</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>Regra de ouro:</strong> sempre que o <code>deps.edn</code> mudar, o servidor precisa ser <strong>parado e reiniciado</strong> para baixar/carregar a nova dependência. Mudanças no <code>deps.edn</code> nunca são aplicadas "a quente".</p>
+</div>
+<h3 id="passo-26-atualizar-o-coreclj-rotas-e-middlewares">Passo 2.6: Atualizar o <code>core.clj</code> (Rotas e Middlewares)<a class="headerlink" href="#passo-26-atualizar-o-coreclj-rotas-e-middlewares" title="Permanent link">&para;</a></h3>
+<p><strong>O que é Middleware?</strong>
+Pense em middlewares como "assistentes" que "envelopam" seu handler. Eles rodam <strong>antes</strong> e <strong>depois</strong> dele, para fazer tarefas comuns:</p>
+<ul>
+<li><code>Request (JSON)</code> → <strong>Middleware (converte JSON → mapa)</strong> → <code>Seu Handler</code></li>
+<li><code>Seu Handler</code> → <strong>Middleware (converte mapa → JSON)</strong> → <code>Response (JSON)</code></li>
+</ul>
+<p><strong>Ação 1: Adicionar os <code>require</code>s de middleware</strong></p>
+<p>No topo do <code>src/todo/backend/core.clj</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">(</span><span class="kd">ns </span><span class="nv">todo.backend.core</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="p">(</span><span class="ss">:require</span><span class="w"> </span><span class="p">[</span><span class="nv">ring.adapter.jetty</span><span class="w"> </span><span class="ss">:as</span><span class="w"> </span><span class="nv">jetty</span><span class="p">]</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">            </span><span class="p">[</span><span class="nv">reitit.ring</span><span class="w"> </span><span class="ss">:as</span><span class="w"> </span><span class="nv">ring</span><span class="p">]</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">            </span><span class="c1">;; --- ADICIONE ESTAS 3 LINHAS ---</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">            </span><span class="p">[</span><span class="nv">ring.middleware.json</span><span class="w"> </span><span class="ss">:refer</span><span class="w"> </span><span class="p">[</span><span class="nv">wrap-json-response</span><span class="w"> </span><span class="nv">wrap-json-body</span><span class="p">]]</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">            </span><span class="p">[</span><span class="nv">ring.middleware.params</span><span class="w"> </span><span class="ss">:refer</span><span class="w"> </span><span class="p">[</span><span class="nv">wrap-params</span><span class="p">]]</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">            </span><span class="p">[</span><span class="nv">ring.middleware.keyword-params</span><span class="w"> </span><span class="ss">:refer</span><span class="w"> </span><span class="p">[</span><span class="nv">wrap-keyword-params</span><span class="p">]]</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">            </span><span class="c1">;; --------------------------------</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">            </span><span class="p">[</span><span class="nv">todo.backend.handler</span><span class="w"> </span><span class="ss">:as</span><span class="w"> </span><span class="nv">handler</span><span class="p">])</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">  </span><span class="p">(</span><span class="ss">:gen-class</span><span class="p">))</span>
+</code></pre></div>
+<p><strong>Ação 2: Atualizar as rotas (<code>app-routes</code>)</strong></p>
+<p>Vamos adicionar <code>GET /api/todos</code> e <code>POST /api/todos</code>, aninhando todas as rotas sob o prefixo comum <code>/api</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">(</span><span class="k">def </span><span class="nv">app-routes</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="p">(</span><span class="nf">ring/router</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">   </span><span class="c1">;; Aninhamos tudo sob &quot;/api&quot;</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">   </span><span class="p">[</span><span class="s">&quot;/api&quot;</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="p">[</span><span class="s">&quot;/hello&quot;</span><span class="w"> </span><span class="p">{</span><span class="ss">:get</span><span class="w"> </span><span class="p">{</span><span class="ss">:handler</span><span class="w"> </span><span class="nv">handler/hello-handler</span><span class="p">}}]</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="p">[</span><span class="s">&quot;/todos&quot;</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">     </span><span class="p">{</span><span class="ss">:get</span><span class="w">  </span><span class="p">{</span><span class="ss">:handler</span><span class="w"> </span><span class="nv">handler/list-todos-handler</span><span class="p">}</span><span class="w">      </span><span class="c1">;; GET  chama &#39;list&#39;</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">      </span><span class="ss">:post</span><span class="w"> </span><span class="p">{</span><span class="ss">:handler</span><span class="w"> </span><span class="nv">handler/create-todo-handler</span><span class="p">}}]]))</span><span class="w"> </span><span class="c1">;; POST chama &#39;create&#39;</span>
+</code></pre></div>
+<p><strong>Ação 3: Substituir o <code>def app</code> (adicionar os middlewares)</strong></p>
+<p>Nosso <code>def app</code> atual é muito simples. Substitua-o por esta versão:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="p">(</span><span class="nf">ring/ring-handler</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">   </span><span class="nv">app-routes</span><span class="w">                     </span><span class="c1">;; Nossas rotas</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">   </span><span class="p">(</span><span class="nf">ring/create-default-handler</span><span class="p">)</span><span class="w">  </span><span class="c1">;; Handler padrão para 404 (Not Found)</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">   </span><span class="c1">;; --- A &quot;Linha de Montagem&quot; de Middlewares ---</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">   </span><span class="c1">;; A requisição percorre o vetor DE CIMA PARA BAIXO até chegar</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">   </span><span class="c1">;; ao handler; a resposta volta DE BAIXO PARA CIMA.</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">   </span><span class="p">{</span><span class="ss">:middleware</span><span class="w"> </span><span class="p">[</span><span class="c1">;; 1. Converte a *resposta* (nosso mapa) em JSON</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">                 </span><span class="nv">wrap-json-response</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">                 </span><span class="c1">;; 2. Converte o *corpo* da requisição (JSON)</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">                 </span><span class="c1">;;    em um mapa Clojure e o coloca em :body</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">                 </span><span class="p">[</span><span class="nv">wrap-json-body</span><span class="w"> </span><span class="p">{</span><span class="ss">:keywords?</span><span class="w"> </span><span class="nv">true</span><span class="p">}]</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="w">                 </span><span class="c1">;; 3. Lê parâmetros de URL (ex: /user?id=1)</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="w">                 </span><span class="c1">;;    e os coloca em :query-params (chaves string)</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="w">                 </span><span class="nv">wrap-params</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="w">                 </span><span class="c1">;; 4. Converte as chaves-string dos parâmetros</span>
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="w">                 </span><span class="c1">;;    em keywords (&quot;id&quot; -&gt; :id).</span>
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="w">                 </span><span class="c1">;;    Precisa vir DEPOIS do wrap-params!</span>
+<a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a><span class="w">                 </span><span class="nv">wrap-keyword-params</span><span class="p">]}))</span>
+</code></pre></div>
+<p>As funções <code>start-server</code> e <code>-main</code> no final do arquivo ficam exatamente como estão.</p>
+<ul>
+<li><strong>Vamos entender melhor o novo <code>(def app ...)</code>?</strong></li>
+</ul>
+<p>Pense no <code>:middleware</code> como uma <strong>Linha de Montagem</strong> (um <em>pipeline</em>):
+  - A <strong>Requisição</strong> entra no topo (item 1 do vetor) e desce até o seu handler.
+  - A <strong>Resposta</strong> sai do handler e sobe do fundo (item 4) até o topo.</p>
+<p>Vamos seguir uma requisição <code>POST /api/todos?debug=true</code> com o corpo <code>{"title": "Meu Todo"}</code>:</p>
+<p><strong>O Caminho da Requisição (Descendo ⬇️)</strong>
+  1. <strong>⬇️ <code>wrap-json-response</code></strong> — só se importa com a <em>resposta</em>; na requisição, apenas passa adiante.
+  2. <strong>⬇️ <code>wrap-json-body</code></strong> — vê que o <code>Content-Type</code> é <code>application/json</code>, lê o corpo, converte a string JSON em um mapa Clojure e (graças a <code>{:keywords? true}</code>) converte as chaves em keywords. Adiciona à requisição: <code>{:body {:title "Meu Todo"}}</code>.
+  3. <strong>⬇️ <code>wrap-params</code></strong> — a "estação criadora": olha a URL, vê <code>?debug=true</code> e adiciona <code>{:query-params {"debug" "true"}}</code> (chaves <strong>string</strong>).
+  4. <strong>⬇️ <code>wrap-keyword-params</code></strong> — a "estação conversora": encontra os parâmetros criados no passo anterior e converte as chaves para keywords: <code>{:query-params {:debug "true"}}</code>.
+  5. <strong>⬇️ Handler</strong> — recebe a requisição "enriquecida":</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">{</span><span class="nv">...</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w"> </span><span class="ss">:body</span><span class="w"> </span><span class="p">{</span><span class="ss">:title</span><span class="w"> </span><span class="s">&quot;Meu Todo&quot;</span><span class="p">}</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w"> </span><span class="ss">:query-params</span><span class="w"> </span><span class="p">{</span><span class="ss">:debug</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="p">}}</span>
+</code></pre></div>
+<p><strong>O Caminho da Resposta (Subindo ⬆️)</strong>
+  1. <strong>⬆️ Handler</strong> retorna um mapa Clojure puro: <code>{:status 201 :body {:id 1, ...}}</code>.
+  2. <strong>⬆️ <code>wrap-keyword-params</code></strong> e <strong>⬆️ <code>wrap-params</code></strong> — não se importam com respostas; passam adiante.
+  3. <strong>⬆️ <code>wrap-json-body</code></strong> — só se importa com o <em>corpo da requisição</em>; passa adiante.
+  4. <strong>⬆️ <code>wrap-json-response</code></strong> — vê que o <code>:body</code> é um mapa Clojure, converte-o em uma <em>string JSON</em> e adiciona o header <code>Content-Type: application/json</code>.</p>
+<p>É por isso que a <strong>ordem é crucial</strong>: o <code>wrap-params</code> precisa <strong>criar</strong> os parâmetros <em>antes</em> que o <code>wrap-keyword-params</code> possa convertê-los — por isso, no vetor, <code>wrap-params</code> vem <strong>antes</strong> de <code>wrap-keyword-params</code> (a requisição percorre o vetor de cima para baixo).</p>
+<h3 id="passo-27-teste-api-completa-com-curl">Passo 2.7: Teste (API Completa com <code>curl</code>)<a class="headerlink" href="#passo-27-teste-api-completa-com-curl" title="Permanent link">&para;</a></h3>
+<p><strong>Ação 1: Reinicie o servidor</strong></p>
+<p>Pare o servidor (<code>Ctrl+C</code>, se estiver rodando) e inicie de novo, para carregar a nova dependência e o novo código:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>clj<span class="w"> </span>-M:run
+</code></pre></div>
+<p>O <code>clj</code> vai baixar o <code>ring/ring-json</code> e então: <code>Servidor iniciado na porta 3000</code>. Deixe rodando.</p>
+<p><strong>Ação 2: Teste em um novo terminal</strong></p>
+<p><strong>Teste 1 — Listar todos (deve estar vazio):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>curl<span class="w"> </span>http://localhost:3000/api/todos
+</code></pre></div>
+<p><strong>Resultado Esperado:</strong> uma string JSON com um array vazio. Isso prova que <code>list-todos-handler</code> e <code>wrap-json-response</code> funcionam:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;todos&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><strong>Teste 2 — Criar um todo:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:3000/api/todos<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;title&quot;: &quot;Testar a API&quot;, &quot;description&quot;: &quot;com curl&quot;}&#39;</span>
+</code></pre></div>
+<p><strong>Resultado Esperado</strong> (o ID pode variar):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Testar a API&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;com curl&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;completed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;created-at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><strong>Teste 3 — Listar novamente:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>curl<span class="w"> </span>http://localhost:3000/api/todos
+</code></pre></div>
+<p><strong>Resultado Esperado</strong> (o todo criado agora aparece):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;todos&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Testar a API&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;com curl&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;completed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;created-at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span><span class="p">}]</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><strong>Teste 4 — Validação (título vazio):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://localhost:3000/api/todos<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">     </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">     </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;title&quot;: &quot;&quot;}&#39;</span>
+</code></pre></div>
+<p><strong>Resultado Esperado:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;O &#39;título&#39; (title) é obrigatório&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>Prefere uma interface gráfica?</strong> Ferramentas como <strong>Insomnia</strong> ou <strong>Postman</strong> fazem o mesmo que o <code>curl</code>: crie uma requisição, escolha o método (GET/POST), digite a URL e, no caso do POST, selecione <em>Body → JSON</em> e cole o corpo. O resultado deve ser idêntico.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Erro comum no Windows:</strong> o <code>curl</code> do PowerShell trata aspas de forma diferente. Se o POST falhar com erro de JSON, use o <em>Prompt de Comando</em> (cmd), o Git Bash, ou o Insomnia/Postman.</p>
+</div>
+<h3 id="o-que-fizemos_2">O que fizemos?<a class="headerlink" href="#o-que-fizemos_2" title="Permanent link">&para;</a></h3>
+<p>Se você viu esses resultados, <strong>parabéns!</strong> 🥳 Você construiu uma API REST funcional em Clojure, que:</p>
+<ol>
+<li>Recebe e entende JSON (<code>POST</code>);</li>
+<li>Usa o <code>atom</code> para salvar dados na memória;</li>
+<li>Retorna dados como JSON (<code>GET</code>);</li>
+<li>Valida entradas e responde com códigos HTTP corretos (<code>201</code>, <code>400</code>).</li>
+</ol>
+<h3 id="passo-28-git-checkpoint-api-funcional">Passo 2.8: Git Checkpoint (API Funcional)<a class="headerlink" href="#passo-28-git-checkpoint-api-funcional" title="Permanent link">&para;</a></h3>
+<p><strong>Ação 1:</strong> Pare o servidor (<code>Ctrl+C</code>) e verifique:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>git<span class="w"> </span>status
+</code></pre></div>
+<p>Ele deve listar <code>db.clj</code> (novo), e <code>deps.edn</code>, <code>core.clj</code>, <code>handler.clj</code> (modificados).</p>
+<p><strong>Ação 2:</strong> Prepare e salve:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: implementa API REST de &#39;todos&#39; com banco em memória&quot;</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Se você usa o <strong>VS Code</strong>, essa operação também pode ser feita pela aba <em>Source Control</em> da interface — inclusive a publicação no GitHub ("Publish to GitHub"), que criará o repositório remoto para você. Lembre-se: o repositório da entrega deve ser <strong>público</strong>.</p>
+</div>
+<hr />
+<p><strong>Fim da Fase 2!</strong> 🏁</p>
+<p>Nosso backend tem um histórico limpo: setup → Hello World → API REST funcional. Ele está pronto e esperando por requisições. Agora, vamos construir algo para <em>usá-lo</em>.</p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.top", "navigation.indexes", "navigation.instant", "navigation.sections", "navigation.expand", "content.code.copy", "content.code.annotate", "toc.integrate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

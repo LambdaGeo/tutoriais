@@ -1,0 +1,1624 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Coleção de tutoriais práticos e independentes de programação e ferramentas de desenvolvimento.
+">
+      
+      
+        <meta name="author" content="Sergio Souza Costa">
+      
+      
+      
+        <link rel="prev" href="../02-logica-memoria/">
+      
+      
+        <link rel="next" href="../04-transplante-liveview/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>3. Persistência (Ecto, Repo, Migration, Schema) - Tutoriais</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/lambdageo.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fase-3-persistencia-a-camada-de-dados-ecto-repo-migration-e-schema" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Tutoriais" class="md-header__button md-logo" aria-label="Tutoriais" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tutoriais
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3. Persistência (Ecto, Repo, Migration, Schema)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Mudar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Mudar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tutoriais" class="md-nav__button md-logo" aria-label="Tutoriais" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tutoriais
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../docker/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/docker-cli-exploracao-guiada/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Docker CLI Puro: Exploração Guiada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/ciclo-de-vida-efemeridade-volumes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Ciclo de Vida, Efemeridade & Volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/traducao-cli-docker-compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Tradução CLI → Docker Compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/otimizacao-imagens-dev-vs-prod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Otimização de Imagens + Dev vs Prod
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/tarefa-polyglot-full-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Tarefa: Polyglot Full-Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/cheat-sheet-docker-compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../clojure/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clojure
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clojure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/00-fundacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Fundação (Ambiente, Setup e Git)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/01-backend-minimo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Backend Mínimo (Hello World)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/02-backend-funcional/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Backend Funcional (API em Memória)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/03-frontend-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Introdução ao Frontend (Reagent)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/04-integracao-frontend-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Conectando Frontend e Backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/05-persistencia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Persistência Real (Banco de Dados)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/06-crud-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. CRUD Completo e Visual Final
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/07-readme-entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. README e Entrega
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elixir
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Elixir
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Setup (Ambiente, Git e Esqueleto)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-hello-world/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Hello World — Prova de Vida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-logica-memoria/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Lógica em Memória
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Persistência (Ecto, Repo, Migration, Schema)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Persistência (Ecto, Repo, Migration, Schema)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#passo-31-adicionar-as-dependencias-do-ecto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Passo 3.1: Adicionar as Dependências do Ecto
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-32-configurar-o-repo-o-agente-do-banco-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 Passo 3.2: Configurar o "Repo" — o Agente do Banco de Dados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-33-criar-o-banco-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏗️ Passo 3.3: Criar o Banco de Dados
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-34-migrations-a-planta-baixa-do-banco" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧬 Passo 3.4: Migrations — a "Planta Baixa" do Banco
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-35-conceitos-chave-schema-changeset-e-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📘 Passo 3.5: Conceitos-Chave — Schema, Changeset e Form
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-36-criar-o-schema-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 Passo 3.6: Criar o Schema Task
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-37-testando-a-camada-de-dados-no-iex-sem-o-liveview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 Passo 3.7: Testando a Camada de Dados no IEx (sem o LiveView!)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-38-commit-camada-de-dados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💾 Passo 3.8: Commit (Camada de Dados)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-transplante-liveview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. O Transplante (LiveView + Banco)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-excluindo-tarefas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Refinamento — Excluindo Tarefas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-concluindo-tarefas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Refinamento — Concluindo Tarefas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-personalizando-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Personalizando o Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-readme-entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. README e Entrega
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="fase-3-persistencia-a-camada-de-dados-ecto-repo-migration-e-schema">🧱 Fase 3: Persistência — A Camada de Dados (Ecto, Repo, Migration e Schema)<a class="headerlink" href="#fase-3-persistencia-a-camada-de-dados-ecto-repo-migration-e-schema" title="Permanent link">&para;</a></h1>
+<p>Na fase anterior, nossa aplicação mantinha as tarefas apenas <strong>em memória</strong>. Agora daremos um passo importante: <strong>armazenar os dados de forma permanente</strong> usando o <strong>Ecto</strong>, a biblioteca de persistência do Elixir.</p>
+<p>Optamos por <strong>não incluir o Ecto desde o início</strong> (<code>--no-ecto</code>) para que você entendesse primeiro a lógica interna do LiveView. Agora veremos <strong>como adicionar novas dependências</strong> a um projeto existente e configurar o banco de dados real.</p>
+<p>Nesta fase, montamos <strong>apenas a camada de dados</strong> (dependências, Repo, migration e schema) e a testamos isoladamente. O "transplante" — trocar o coração em memória do <code>TodoLive</code> pelo banco — fica para a <strong>Fase 4</strong>.</p>
+<h3 id="passo-31-adicionar-as-dependencias-do-ecto">⚙️ Passo 3.1: Adicionar as Dependências do Ecto<a class="headerlink" href="#passo-31-adicionar-as-dependencias-do-ecto" title="Permanent link">&para;</a></h3>
+<p>Pare o servidor (<code>Ctrl+C</code> duas vezes) e abra o arquivo <code>mix.exs</code>, o equivalente ao <code>package.json</code> (JavaScript) ou <code>requirements.txt</code> (Python). É nele que declaramos as <strong>dependências do projeto</strong>, dentro da função <code>defp deps do</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>NÃO substitua a lista de dependências!</strong> O <code>phx.new</code> já gerou uma lista grande (phoenix, phoenix_html, live_view, tailwind, esbuild, bandit e mais uma dúzia) — <strong>todas são necessárias</strong>. Nossa tarefa é apenas <strong>acrescentar quatro linhas</strong> a essa lista. Substituir a lista inteira por uma menor quebraria o projeto por completo.</p>
+</div>
+<p><strong>Ação:</strong> localize <code>defp deps do</code> no <code>mix.exs</code> e <strong>adicione</strong> estas quatro linhas em qualquer ponto da lista (por exemplo, logo após a linha do <code>{:phoenix_live_view, ...}</code>), mantendo tudo o que já existe:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">  </span><span class="kd">defp</span><span class="w"> </span><span class="n">deps</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">[</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">      </span><span class="p">{</span><span class="ss">:phoenix</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;~&gt; 1.8.1&quot;</span><span class="p">},</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">      </span><span class="c1"># ... (todas as dependências que o phx.new gerou — NÃO apague nada!) ...</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="c1"># --- ADICIONE ESTAS 4 LINHAS (suporte ao Ecto) ---</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="p">{</span><span class="ss">:ecto</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;~&gt; 3.11&quot;</span><span class="p">},</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="p">{</span><span class="ss">:phoenix_ecto</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;~&gt; 4.4&quot;</span><span class="p">},</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="p">{</span><span class="ss">:ecto_sql</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;~&gt; 3.10&quot;</span><span class="p">},</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="p">{</span><span class="ss">:ecto_sqlite3</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;~&gt; 0.12&quot;</span><span class="p">},</span><span class="w"> </span><span class="c1"># SQLite: banco leve, baseado em arquivo</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">      </span><span class="c1"># --------------------------------------------------</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="c1"># ... (o restante das dependências geradas) ...</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="p">]</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="k">end</span>
+</code></pre></div>
+<p>O que cada uma faz:</p>
+<table>
+<thead>
+<tr>
+<th>Dependência</th>
+<th>Papel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ecto</code></td>
+<td>O núcleo: schemas, changesets e queries.</td>
+</tr>
+<tr>
+<td><code>ecto_sql</code></td>
+<td>A camada SQL do Ecto (migrations, adaptadores).</td>
+</tr>
+<tr>
+<td><code>ecto_sqlite3</code></td>
+<td>O "driver" específico do SQLite.</td>
+</tr>
+<tr>
+<td><code>phoenix_ecto</code></td>
+<td>A cola entre o Phoenix e o Ecto (ex: integração de changesets com formulários).</td>
+</tr>
+</tbody>
+</table>
+<p>Em seguida, baixe as dependências:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mix<span class="w"> </span>deps.get
+</code></pre></div>
+<h3 id="passo-32-configurar-o-repo-o-agente-do-banco-de-dados">🧩 Passo 3.2: Configurar o "Repo" — o Agente do Banco de Dados<a class="headerlink" href="#passo-32-configurar-o-repo-o-agente-do-banco-de-dados" title="Permanent link">&para;</a></h3>
+<p>O <strong>Repo</strong> (de <em>repository</em>) é o módulo que representa a <strong>conexão com o banco</strong>. É como o <code>settings.py</code> do Django ou o <code>database.yml</code> do Rails: ele sabe <strong>onde está o banco e como acessá-lo</strong>.</p>
+<p><strong>Ação 1:</strong> crie o arquivo <code>lib/elixir_todo_list/repo.ex</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">defmodule</span><span class="w"> </span><span class="nc">ElixirTodoList.Repo</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="kn">use</span><span class="w"> </span><span class="nc">Ecto.Repo</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="ss">otp_app</span><span class="p">:</span><span class="w"> </span><span class="ss">:elixir_todo_list</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="ss">adapter</span><span class="p">:</span><span class="w"> </span><span class="nc">Ecto.Adapters.SQLite3</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">end</span>
+</code></pre></div>
+<p><strong>Ação 2:</strong> agora precisamos <strong>supervisionar</strong> o Repo — garantir que ele seja iniciado (e reiniciado, se cair) junto com a aplicação. Abra <code>lib/elixir_todo_list/application.ex</code> e adicione o Repo <strong>no início</strong> da lista de processos supervisionados:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w">    </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">      </span><span class="nc">ElixirTodoList.Repo</span><span class="p">,</span><span class="w"> </span><span class="c1"># 👈 ADICIONE ESTA LINHA (antes dos demais)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">      </span><span class="nc">ElixirTodoListWeb.Telemetry</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">      </span><span class="p">{</span><span class="nc">DNSCluster</span><span class="p">,</span><span class="w"> </span><span class="ss">query</span><span class="p">:</span><span class="w"> </span><span class="nc">Application</span><span class="o">.</span><span class="n">get_env</span><span class="p">(</span><span class="ss">:elixir_todo_list</span><span class="p">,</span><span class="w"> </span><span class="ss">:dns_cluster_query</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="ss">:ignore</span><span class="p">},</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">      </span><span class="p">{</span><span class="nc">Phoenix.PubSub</span><span class="p">,</span><span class="w"> </span><span class="ss">name</span><span class="p">:</span><span class="w"> </span><span class="nc">ElixirTodoList.PubSub</span><span class="p">},</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="c1"># ...</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">      </span><span class="nc">ElixirTodoListWeb.Endpoint</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p">]</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Essa lista <code>children</code> é a <strong>árvore de supervisão</strong> — um dos superpoderes do Elixir. Cada item é um processo que a aplicação inicia e vigia. Se o Repo travar, o supervisor o reinicia automaticamente. É o mesmo mecanismo que "ressuscitou" nosso LiveView na Fase 2!</p>
+</div>
+<p><strong>Ação 3:</strong> por fim, configure o Repo no arquivo <code>config/config.exs</code>. Adicione (por exemplo, logo após a linha <code>import Config</code> no topo):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">config</span><span class="w"> </span><span class="ss">:elixir_todo_list</span><span class="p">,</span><span class="w"> </span><span class="nc">ElixirTodoList.Repo</span><span class="p">,</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="ss">database</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;elixir_todo_list.db&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="ss">priv</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;priv/repo&quot;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">config</span><span class="w"> </span><span class="ss">:elixir_todo_list</span><span class="p">,</span><span class="w"> </span><span class="ss">ecto_repos</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nc">ElixirTodoList.Repo</span><span class="p">]</span>
+</code></pre></div>
+<p>Entendendo as opções:</p>
+<ul>
+<li><code>database:</code> → o <strong>arquivo</strong> onde o SQLite salvará tudo. Com esse valor, ele será criado na <strong>raiz do projeto</strong> (<code>elixir_todo_list.db</code>).</li>
+<li><code>priv:</code> → onde ficam os arquivos de apoio do Repo — em especial, as <strong>migrations</strong> (<code>priv/repo/migrations/</code>). <em>Atenção: isso não muda o local do banco!</em></li>
+<li><code>ecto_repos:</code> → informa às tarefas do Mix (<code>mix ecto.create</code>, <code>mix ecto.migrate</code>) quais Repos existem.</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Lembra do <code>.gitignore</code> da Fase 0? As regras <code>*.db</code>, <code>*.db-shm</code> e <code>*.db-wal</code> foram escritas exatamente para este momento: o banco (e seus arquivos auxiliares de escrita) vão aparecer na raiz do projeto e <strong>não devem</strong> ser versionados.</p>
+</div>
+<h3 id="passo-33-criar-o-banco-de-dados">🏗️ Passo 3.3: Criar o Banco de Dados<a class="headerlink" href="#passo-33-criar-o-banco-de-dados" title="Permanent link">&para;</a></h3>
+<p>O banco ainda não existe. Crie-o com:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>mix<span class="w"> </span>ecto.create
+</code></pre></div>
+<p><strong>Resultado Esperado:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>The database for ElixirTodoList.Repo has been created
+</code></pre></div>
+<p>Olhe a raiz do projeto: o arquivo <code>elixir_todo_list.db</code> apareceu. (E rode <code>git status</code> para confirmar que ele <strong>não</strong> aparece para o Git — obrigado, <code>.gitignore</code>!)</p>
+<h3 id="passo-34-migrations-a-planta-baixa-do-banco">🧬 Passo 3.4: Migrations — a "Planta Baixa" do Banco<a class="headerlink" href="#passo-34-migrations-a-planta-baixa-do-banco" title="Permanent link">&para;</a></h3>
+<p>Em praticamente todos os frameworks modernos (Django, Rails, Laravel), usamos <strong>migrations</strong> para versionar e aplicar mudanças no banco. Cada migration é um pequeno "passo evolutivo": criar uma tabela, adicionar uma coluna, etc.</p>
+<p><strong>Ação 1:</strong> gere a migration da nossa tabela de tarefas:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mix<span class="w"> </span>ecto.gen.migration<span class="w"> </span>create_tasks_table
+</code></pre></div>
+<p>Isso cria um arquivo dentro de <code>priv/repo/migrations/</code> (o nome começa com um <em>timestamp</em> — é assim que o Ecto sabe a ordem de aplicação).</p>
+<p><strong>Ação 2:</strong> abra o arquivo gerado e complete a função <code>change</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">defmodule</span><span class="w"> </span><span class="nc">ElixirTodoList.Repo.Migrations.CreateTasksTable</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="kn">use</span><span class="w"> </span><span class="nc">Ecto.Migration</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="kd">def</span><span class="w"> </span><span class="n">change</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="n">create</span><span class="w"> </span><span class="n">table</span><span class="p">(</span><span class="ss">:tasks</span><span class="p">)</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">      </span><span class="n">add</span><span class="w"> </span><span class="ss">:title</span><span class="p">,</span><span class="w"> </span><span class="ss">:string</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">      </span><span class="n">add</span><span class="w"> </span><span class="ss">:completed</span><span class="p">,</span><span class="w"> </span><span class="ss">:boolean</span><span class="p">,</span><span class="w"> </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="no">false</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">      </span><span class="n">timestamps</span><span class="p">()</span><span class="w"> </span><span class="c1"># Adiciona as colunas inserted_at e updated_at</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="k">end</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="k">end</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="k">end</span>
+</code></pre></div>
+<p><strong>Ação 3:</strong> aplique a migration:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>mix<span class="w"> </span>ecto.migrate
+</code></pre></div>
+<p><strong>Saída esperada:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>[info] == Running ... ElixirTodoList.Repo.Migrations.CreateTasksTable.change/0 forward
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>[info] create table tasks
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>[info] == Migrated ... in 0.0s
+</code></pre></div>
+<h3 id="passo-35-conceitos-chave-schema-changeset-e-form">📘 Passo 3.5: Conceitos-Chave — Schema, Changeset e Form<a class="headerlink" href="#passo-35-conceitos-chave-schema-changeset-e-form" title="Permanent link">&para;</a></h3>
+<p>Para conectar o código à tabela recém-criada, precisamos de três peças:</p>
+<table>
+<thead>
+<tr>
+<th>Conceito</th>
+<th>O que é</th>
+<th>Analogia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Schema</strong></td>
+<td>Define a estrutura da tabela e cria uma struct <code>%Task{}</code> correspondente.</td>
+<td>O "model" do Django ou o ActiveRecord do Rails.</td>
+</tr>
+<tr>
+<td><strong>Changeset</strong></td>
+<td>Um conjunto de regras para validar e transformar dados antes de salvar.</td>
+<td>O <code>ModelForm</code> do Django.</td>
+</tr>
+<tr>
+<td><strong><code>to_form/1</code></strong></td>
+<td>Converte o changeset para o formato que o LiveView usa no <code>&lt;.form&gt;</code>.</td>
+<td>Um <em>form object</em> no MVC.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="passo-36-criar-o-schema-task">🧩 Passo 3.6: Criar o Schema <code>Task</code><a class="headerlink" href="#passo-36-criar-o-schema-task" title="Permanent link">&para;</a></h3>
+<p>Crie o arquivo <code>lib/elixir_todo_list/task.ex</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">defmodule</span><span class="w"> </span><span class="nc">ElixirTodoList.Task</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="kn">use</span><span class="w"> </span><span class="nc">Ecto.Schema</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="kn">import</span><span class="w"> </span><span class="nc">Ecto.Changeset</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="c1"># &quot;schema&quot; espelha a tabela &quot;tasks&quot; no banco</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">  </span><span class="n">schema</span><span class="w"> </span><span class="s2">&quot;tasks&quot;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="n">field</span><span class="w"> </span><span class="ss">:title</span><span class="p">,</span><span class="w"> </span><span class="ss">:string</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="n">field</span><span class="w"> </span><span class="ss">:completed</span><span class="p">,</span><span class="w"> </span><span class="ss">:boolean</span><span class="p">,</span><span class="w"> </span><span class="ss">default</span><span class="p">:</span><span class="w"> </span><span class="no">false</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span><span class="n">timestamps</span><span class="p">(</span><span class="ss">type</span><span class="p">:</span><span class="w"> </span><span class="ss">:utc_datetime</span><span class="p">)</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">  </span><span class="k">end</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">  </span><span class="c1"># Define como validar os dados antes de salvar</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">  </span><span class="kd">def</span><span class="w"> </span><span class="n">changeset</span><span class="p">(</span><span class="n">task_struct</span><span class="p">,</span><span class="w"> </span><span class="n">attrs</span><span class="p">)</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">    </span><span class="n">task_struct</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">cast</span><span class="p">(</span><span class="n">attrs</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="ss">:title</span><span class="p">,</span><span class="w"> </span><span class="ss">:completed</span><span class="p">])</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">    </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">validate_required</span><span class="p">([</span><span class="ss">:title</span><span class="p">])</span>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">  </span><span class="k">end</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="k">end</span>
+</code></pre></div>
+<ul>
+<li><code>cast/3</code> → filtra os dados de entrada, aceitando <strong>apenas</strong> os campos listados (<code>:title</code>, <code>:completed</code>) — proteção contra dados indesejados;</li>
+<li><code>validate_required/2</code> → garante que <code>:title</code> não está vazio. É esta linha que fará o formulário exibir <em>"can't be blank"</em> na Fase 4.</li>
+</ul>
+<h3 id="passo-37-testando-a-camada-de-dados-no-iex-sem-o-liveview">🧪 Passo 3.7: Testando a Camada de Dados no IEx (sem o LiveView!)<a class="headerlink" href="#passo-37-testando-a-camada-de-dados-no-iex-sem-o-liveview" title="Permanent link">&para;</a></h3>
+<p>Assim como fizemos no REPL do Clojure, vamos <strong>provar</strong> que a camada de dados funciona <strong>antes</strong> de conectá-la à interface. A versão Elixir do REPL é o <strong>IEx</strong> (Interactive Elixir), e podemos iniciá-lo <strong>com o projeto carregado</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>iex<span class="w"> </span>-S<span class="w"> </span>mix
+</code></pre></div>
+<p>No prompt <code>iex(1)&gt;</code>, experimente:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Atalhos para digitar menos</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">iex</span><span class="o">&gt;</span><span class="w"> </span><span class="kn">alias</span><span class="w"> </span><span class="nc">ElixirTodoList</span><span class="o">.</span><span class="p">{</span><span class="nc">Repo</span><span class="p">,</span><span class="w"> </span><span class="nc">Task</span><span class="p">}</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># 1. O banco está vazio?</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="n">iex</span><span class="o">&gt;</span><span class="w"> </span><span class="nc">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nc">Task</span><span class="p">)</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="p">[]</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="c1"># 2. Crie uma tarefa (validando com o changeset)</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="n">iex</span><span class="o">&gt;</span><span class="w"> </span><span class="p">%</span><span class="nc">Task</span><span class="p">{}</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Task</span><span class="o">.</span><span class="n">changeset</span><span class="p">(%{</span><span class="ss">title</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Testar o IEx&quot;</span><span class="p">})</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Repo</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="p">{</span><span class="ss">:ok</span><span class="p">,</span><span class="w"> </span><span class="p">%</span><span class="nc">ElixirTodoList.Task</span><span class="p">{</span><span class="ss">id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">title</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Testar o IEx&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">completed</span><span class="p">:</span><span class="w"> </span><span class="no">false</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">}}</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="c1"># 3. E uma inválida? (sem título)</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="n">iex</span><span class="o">&gt;</span><span class="w"> </span><span class="p">%</span><span class="nc">Task</span><span class="p">{}</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Task</span><span class="o">.</span><span class="n">changeset</span><span class="p">(%{})</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nc">Repo</span><span class="o">.</span><span class="n">insert</span><span class="p">()</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="p">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="c1">#Ecto.Changeset&lt;..., errors: [title: {&quot;can&#39;t be blank&quot;, ...}], valid?: false&gt;}</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="c1"># 4. Confira a lista</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="n">iex</span><span class="o">&gt;</span><span class="w"> </span><span class="nc">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nc">Task</span><span class="p">)</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="p">[%</span><span class="nc">ElixirTodoList.Task</span><span class="p">{</span><span class="ss">id</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="ss">title</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Testar o IEx&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">...</span><span class="p">}]</span>
+</code></pre></div>
+<p><strong>Momento "Aha!":</strong> repare nas tuplas <code>{:ok, ...}</code> e <code>{:error, changeset}</code> — são exatamente os dois casos que trataremos com <code>case</code> no LiveView, na próxima fase. E a tarefa inválida <strong>não foi salva</strong>: o changeset barrou antes de chegar ao banco.</p>
+<p>Saia do IEx com <code>Ctrl+C</code> duas vezes.</p>
+<h3 id="passo-38-commit-camada-de-dados">💾 Passo 3.8: Commit (Camada de Dados)<a class="headerlink" href="#passo-38-commit-camada-de-dados" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fase 3: Persistência - Configura Ecto, Repo, Migrations e Task Schema&quot;</span>
+</code></pre></div>
+<hr />
+<p><strong>Fim da Fase 3!</strong> 🏁</p>
+<p>Agora temos a estrutura completa:</p>
+<ul>
+<li><strong>O banco de dados</strong> criado e versionado por migrations;</li>
+<li><strong>O <code>Repo</code></strong> gerenciando conexões e consultas (supervisionado!);</li>
+<li><strong>O schema <code>Task</code></strong> refletindo nossa tabela, com validação via changeset — tudo testado no IEx.</li>
+</ul>
+<p>Falta o passo mais gratificante: trocar o "coração" em memória do <code>TodoLive</code> por esse novo, persistente.</p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.top", "navigation.indexes", "navigation.instant", "navigation.sections", "navigation.expand", "content.code.copy", "content.code.annotate", "toc.integrate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1669 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Coleção de tutoriais práticos e independentes de programação e ferramentas de desenvolvimento.
+">
+      
+      
+        <meta name="author" content="Sergio Souza Costa">
+      
+      
+      
+        <link rel="prev" href="../04-transplante-liveview/">
+      
+      
+        <link rel="next" href="../06-concluindo-tarefas/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>5. Refinamento — Excluindo Tarefas - Tutoriais</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/lambdageo.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fase-5-refinamento-excluindo-tarefas" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="Tutoriais" class="md-header__button md-logo" aria-label="Tutoriais" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Tutoriais
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5. Refinamento — Excluindo Tarefas
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Mudar para modo escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Mudar para modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Mudar para modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Tutoriais" class="md-nav__button md-logo" aria-label="Tutoriais" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Tutoriais
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../docker/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Docker
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/docker-cli-exploracao-guiada/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Docker CLI Puro: Exploração Guiada
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/ciclo-de-vida-efemeridade-volumes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Ciclo de Vida, Efemeridade & Volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/traducao-cli-docker-compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Tradução CLI → Docker Compose
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/otimizacao-imagens-dev-vs-prod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Otimização de Imagens + Dev vs Prod
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/tarefa-polyglot-full-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Tarefa: Polyglot Full-Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docker/cheat-sheet-docker-compose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../clojure/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clojure
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clojure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/00-fundacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Fundação (Ambiente, Setup e Git)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/01-backend-minimo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Backend Mínimo (Hello World)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/02-backend-funcional/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Backend Funcional (API em Memória)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/03-frontend-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Introdução ao Frontend (Reagent)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/04-integracao-frontend-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Conectando Frontend e Backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/05-persistencia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Persistência Real (Banco de Dados)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/06-crud-completo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. CRUD Completo e Visual Final
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clojure/07-readme-entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. README e Entrega
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Elixir
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Elixir
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0. Setup (Ambiente, Git e Esqueleto)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-hello-world/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Hello World — Prova de Vida
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-logica-memoria/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Lógica em Memória
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-persistencia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Persistência (Ecto, Repo, Migration, Schema)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-transplante-liveview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. O Transplante (LiveView + Banco)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Refinamento — Excluindo Tarefas
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Refinamento — Excluindo Tarefas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objetivo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Objetivo
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-voce-aprendera-aqui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 O que você aprenderá aqui
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-51-atualizando-a-interface-o-botao-x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧱 Passo 5.1: Atualizando a Interface (o botão "X")
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧱 Passo 5.1: Atualizando a Interface (o botão &#34;X&#34;)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#entendendo-o-template-heex" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 Entendendo o Template (HEEx)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entendendo-os-atributos-do-botao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚡ Entendendo os Atributos do Botão
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparando-com-outros-frameworks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 Comparando com outros frameworks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-52-hora-do-erro-e-da-descoberta" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💥 Passo 5.2: Hora do Erro (e da Descoberta)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-53-implementando-o-handle_eventdelete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Passo 5.3: Implementando o handle_event("delete", ...)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚙️ Passo 5.3: Implementando o handle_event(&#34;delete&#34;, ...)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#explicando-em-detalhes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 Explicando em detalhes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-ciclo-completo-do-evento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 O ciclo completo do evento
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-54-testando" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 Passo 5.4: Testando
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passo-55-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💾 Passo 5.5: Commit
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-concluindo-tarefas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Refinamento — Concluindo Tarefas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-personalizando-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Personalizando o Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-readme-entrega/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. README e Entrega
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="fase-5-refinamento-excluindo-tarefas">🗑️ Fase 5: Refinamento — Excluindo Tarefas<a class="headerlink" href="#fase-5-refinamento-excluindo-tarefas" title="Permanent link">&para;</a></h1>
+<h3 id="objetivo">🎯 Objetivo<a class="headerlink" href="#objetivo" title="Permanent link">&para;</a></h3>
+<p>Adicionar um <strong>botão "X"</strong> ao lado de cada tarefa para que, ao ser clicado, ela seja <strong>removida permanentemente do banco de dados e da interface</strong>, sem recarregar a página.</p>
+<h3 id="o-que-voce-aprendera-aqui">💡 O que você aprenderá aqui<a class="headerlink" href="#o-que-voce-aprendera-aqui" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Como <strong>disparar eventos de clique</strong> com <code>phx-click</code> (sem formulários);</li>
+<li>Como <strong>enviar dados específicos</strong> para o servidor (o ID da tarefa) com <code>phx-value-*</code>;</li>
+<li>Como <strong>interagir com o banco</strong> via <code>Repo.get</code> e <code>Repo.delete</code>;</li>
+<li>E, de quebra, um pouco mais da linguagem de template do LiveView — o <strong>HEEx</strong>.</li>
+</ul>
+<h2 id="passo-51-atualizando-a-interface-o-botao-x">🧱 Passo 5.1: Atualizando a Interface (o botão "X")<a class="headerlink" href="#passo-51-atualizando-a-interface-o-botao-x" title="Permanent link">&para;</a></h2>
+<p>Abra o arquivo:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>lib/elixir_todo_list_web/live/todo_live.ex
+</code></pre></div>
+<p>Na função <code>render/1</code>, localize o bloco <code>&lt;ul&gt;...&lt;/ul&gt;</code> que exibe as tarefas. Dentro do <code>&lt;li&gt;</code>, adicione um botão ao lado do título.</p>
+<p><em>Antes:</em></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">&lt;</span><span class="n">li</span><span class="w"> </span><span class="ss">:for</span><span class="o">=</span><span class="p">{</span><span class="n">task</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="na">@tasks</span><span class="p">}</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">&quot;flex justify-between items-center p-3 border-b&quot;</span><span class="o">&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="o">&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="p">{</span><span class="k">if</span><span class="w"> </span><span class="n">task</span><span class="o">.</span><span class="n">completed</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;line-through text-gray-500&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">else</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text-gray-900&quot;</span><span class="p">}</span><span class="o">&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">{</span><span class="n">task</span><span class="o">.</span><span class="n">title</span><span class="p">}</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</code></pre></div>
+<p><em>Depois (com o botão de exclusão):</em></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="o">&lt;</span><span class="n">li</span><span class="w"> </span><span class="ss">:for</span><span class="o">=</span><span class="p">{</span><span class="n">task</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="na">@tasks</span><span class="p">}</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">&quot;flex justify-between items-center p-3 border-b&quot;</span><span class="o">&gt;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="o">&lt;</span><span class="n">span</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="p">{</span><span class="k">if</span><span class="w"> </span><span class="n">task</span><span class="o">.</span><span class="n">completed</span><span class="p">,</span><span class="w"> </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;line-through text-gray-500&quot;</span><span class="p">,</span><span class="w"> </span><span class="ss">else</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text-gray-900&quot;</span><span class="p">}</span><span class="o">&gt;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="p">{</span><span class="n">task</span><span class="o">.</span><span class="n">title</span><span class="p">}</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="o">&lt;</span><span class="err">%</span><span class="o">!--</span><span class="w"> </span><span class="nc">NOVO</span><span class="w"> </span><span class="nc">BOTÃO</span><span class="w"> </span><span class="nc">EXCLUIR</span><span class="w"> </span><span class="o">--</span><span class="err">%</span><span class="o">&gt;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="o">&lt;.</span><span class="n">button</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="n">phx</span><span class="o">-</span><span class="n">click</span><span class="o">=</span><span class="s2">&quot;delete&quot;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="n">phx</span><span class="o">-</span><span class="n">value</span><span class="o">-</span><span class="n">id</span><span class="o">=</span><span class="p">{</span><span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="n">class</span><span class="o">=</span><span class="s2">&quot;!p-2 !bg-red-600 hover:!bg-red-700 text-white font-bold rounded-full&quot;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="o">&gt;</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="o">&amp;</span><span class="n">times</span><span class="p">;</span><span class="w"> </span><span class="o">&lt;</span><span class="err">%</span><span class="o">!--</span><span class="w"> </span><span class="nc">Renderiza</span><span class="w"> </span><span class="n">um</span><span class="w"> </span><span class="s2">&quot;X&quot;</span><span class="w"> </span><span class="o">--</span><span class="err">%</span><span class="o">&gt;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="o">&lt;/.</span><span class="n">button</span><span class="o">&gt;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</code></pre></div>
+<h3 id="entendendo-o-template-heex">🧠 Entendendo o Template (HEEx)<a class="headerlink" href="#entendendo-o-template-heex" title="Permanent link">&para;</a></h3>
+<p>O Phoenix usa o <strong>HEEx</strong> (<em>HTML + Embedded Elixir Extended</em>) — parecido com os templates do Django (Jinja), o ERB do Rails —, mas com uma diferença marcante: <strong>tudo é verificado em tempo de compilação</strong>, inclusive atributos e componentes.</p>
+<table>
+<thead>
+<tr>
+<th>Sintaxe</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{task.title}</code></td>
+<td>Interpola um valor Elixir no HTML, com escape seguro.</td>
+</tr>
+<tr>
+<td><code>&lt;%!-- ... --%&gt;</code></td>
+<td>Comentário do HEEx (não vai para o navegador).</td>
+</tr>
+<tr>
+<td><code>&lt;.button&gt;</code></td>
+<td>Um <strong>componente</strong> do Phoenix — uma função Elixir que gera HTML.</td>
+</tr>
+<tr>
+<td><code>:for={task &lt;- @tasks}</code></td>
+<td>Estrutura de repetição do HEEx.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="entendendo-os-atributos-do-botao">⚡ Entendendo os Atributos do Botão<a class="headerlink" href="#entendendo-os-atributos-do-botao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Atributo</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>phx-click="delete"</code></td>
+<td>Ao clicar, envia o evento <strong><code>"delete"</code></strong> para o servidor (via WebSocket).</td>
+</tr>
+<tr>
+<td><code>phx-value-id={task.id}</code></td>
+<td>Envia o <strong>ID da tarefa</strong> junto — o servidor o recebe como <code>%{"id" =&gt; "1"}</code> (repare: <strong>string!</strong>).</td>
+</tr>
+<tr>
+<td><code>class="!p-2 !bg-red-600 ..."</code></td>
+<td>Classes Tailwind; o <code>!</code> força prioridade sobre o estilo padrão do componente.</td>
+</tr>
+<tr>
+<td><code>&amp;times;</code></td>
+<td>Entidade HTML do símbolo "×".</td>
+</tr>
+</tbody>
+</table>
+<h3 id="comparando-com-outros-frameworks">🧩 Comparando com outros frameworks<a class="headerlink" href="#comparando-com-outros-frameworks" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>Como enviaria o ID no evento?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Django</strong></td>
+<td>Formulário <code>&lt;form&gt;</code> ou JavaScript + <code>fetch()</code></td>
+</tr>
+<tr>
+<td><strong>Rails</strong></td>
+<td><code>link_to "X", task_path(task), method: :delete, remote: true</code></td>
+</tr>
+<tr>
+<td><strong>Flask</strong></td>
+<td>Formulário POST + rota <code>/delete/&lt;id&gt;</code></td>
+</tr>
+<tr>
+<td><strong>Phoenix LiveView</strong></td>
+<td>Apenas: <code>phx-click="delete" phx-value-id={task.id}</code> — o resto viaja pelo WebSocket.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="passo-52-hora-do-erro-e-da-descoberta">💥 Passo 5.2: Hora do Erro (e da Descoberta)<a class="headerlink" href="#passo-52-hora-do-erro-e-da-descoberta" title="Permanent link">&para;</a></h2>
+<p>Salve o arquivo. Os botões "X" aparecem. Agora <strong>clique em um deles</strong> e olhe o terminal:</p>
+<blockquote>
+<p>❌ <code>** (UndefinedFunctionError) ... no function clause matching in ElixirTodoListWeb.TodoLive.handle_event/3</code> (ou erro similar)</p>
+</blockquote>
+<p>O Phoenix está certo: enviamos o evento <code>"delete"</code>, mas <strong>nenhuma cláusula de <code>handle_event</code> combina com ele</strong> — o pattern matching não encontrou destino. Igualzinho ao "texto que desaparece" da Fase 2: evento sem tratador derruba (e reinicia) o processo.</p>
+<h2 id="passo-53-implementando-o-handle_eventdelete">⚙️ Passo 5.3: Implementando o <code>handle_event("delete", ...)</code><a class="headerlink" href="#passo-53-implementando-o-handle_eventdelete" title="Permanent link">&para;</a></h2>
+<p>Adicione esta função <strong>logo abaixo</strong> do <code>handle_event("save_task", ...)</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w">  </span><span class="na">@impl</span><span class="w"> </span><span class="no">true</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="kd">def</span><span class="w"> </span><span class="n">handle_event</span><span class="p">(</span><span class="s2">&quot;delete&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">%{</span><span class="s2">&quot;id&quot;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">id</span><span class="p">},</span><span class="w"> </span><span class="n">socket</span><span class="p">)</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="c1"># 1. Busca a tarefa correspondente no banco</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="c1">#    (se o id não existir, Repo.get retorna nil)</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nc">Task</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="c1"># 2. Remove a tarefa (apenas se ela existir)</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">      </span><span class="nc">Repo</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="k">end</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="c1"># 3. Atualiza a lista de tarefas na tela e avisa o usuário</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="n">socket</span><span class="w"> </span><span class="o">=</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">      </span><span class="n">socket</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">      </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">assign</span><span class="p">(</span><span class="ss">:tasks</span><span class="p">,</span><span class="w"> </span><span class="nc">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nc">Task</span><span class="p">))</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">      </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">put_flash</span><span class="p">(</span><span class="ss">:info</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Tarefa removida com sucesso!&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span><span class="c1"># 4. Retorna o novo estado</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="p">{</span><span class="ss">:noreply</span><span class="p">,</span><span class="w"> </span><span class="n">socket</span><span class="p">}</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">  </span><span class="k">end</span>
+</code></pre></div>
+<h3 id="explicando-em-detalhes">🧠 Explicando em detalhes<a class="headerlink" href="#explicando-em-detalhes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Etapa</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>def handle_event("delete", %{"id" =&gt; id}, socket)</code></td>
+<td>O pattern matching "escuta" o evento <code>"delete"</code>; o segundo parâmetro traz o mapa com o <code>phx-value-id</code>.</td>
+</tr>
+<tr>
+<td><code>Repo.get(Task, id)</code></td>
+<td>Busca a tarefa pelo ID (o Ecto converte a string para o tipo da chave). Retorna <code>nil</code> se não existir.</td>
+</tr>
+<tr>
+<td><code>if task do ... end</code></td>
+<td>Defesa contra cliques em botões "velhos" (ex: a tarefa já foi removida em outra aba).</td>
+</tr>
+<tr>
+<td><code>Repo.delete(task)</code></td>
+<td>Exclui o registro do banco.</td>
+</tr>
+<tr>
+<td><code>assign(socket, :tasks, Repo.all(Task))</code></td>
+<td>Recarrega a lista — a UI re-renderiza sem a tarefa excluída.</td>
+</tr>
+<tr>
+<td><code>put_flash(:info, ...)</code></td>
+<td>A mensagem de confirmação — exibida pelo <code>Layouts.app</code> que adicionamos na Fase 4.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><strong>Alternativa mais "estrita":</strong> <code>Repo.get!(Task, id)</code> (com <code>!</code>) <strong>lança uma exceção</strong> se o ID não existir, em vez de retornar <code>nil</code>. É uma convenção do Ecto: funções com <code>!</code> falham "alto". Aqui preferimos a versão defensiva, mas você encontrará o <code>get!</code> com frequência por aí.</p>
+</div>
+<h3 id="o-ciclo-completo-do-evento">🧩 O ciclo completo do evento<a class="headerlink" href="#o-ciclo-completo-do-evento" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Usuário clica no botão "X" →</li>
+<li>O navegador envia <code>"delete"</code> com <code>%{"id" =&gt; "3"}</code> pelo WebSocket →</li>
+<li>O servidor executa <code>handle_event("delete", ...)</code> →</li>
+<li>O LiveView atualiza o estado (<code>assign/3</code>) →</li>
+<li>O template HEEx é <strong>re-renderizado automaticamente</strong> →</li>
+<li>A lista aparece na tela <strong>já sem a tarefa</strong> — em tempo real!</li>
+</ol>
+<h2 id="passo-54-testando">🔍 Passo 5.4: Testando<a class="headerlink" href="#passo-54-testando" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Salve o arquivo (o servidor recompila sozinho).</li>
+<li>Acesse <code>http://localhost:4000</code>.</li>
+<li>Crie algumas tarefas e clique no "X" vermelho de uma delas.</li>
+</ol>
+<p>✅ A lista se atualiza imediatamente, com o aviso: <em>"Tarefa removida com sucesso!"</em></p>
+<p>🔁 Recarregue a página (F5): a tarefa continua excluída — o <code>DELETE</code> persistiu no banco.</p>
+<h2 id="passo-55-commit">💾 Passo 5.5: Commit<a class="headerlink" href="#passo-55-commit" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fase 5: Implementa exclusão de tarefas (delete)&quot;</span>
+</code></pre></div>
+<hr />
+<p><strong>Fim da Fase 5!</strong> 🏁</p>
+<p>Seu <code>TodoLive</code> agora <strong>cria, valida, lista e exclui</strong> tarefas em tempo real — usando apenas Elixir + LiveView, sem JavaScript.</p>
+<p>Falta o "U" do CRUD: marcar tarefas como concluídas.</p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.top", "navigation.indexes", "navigation.instant", "navigation.sections", "navigation.expand", "content.code.copy", "content.code.annotate", "toc.integrate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
