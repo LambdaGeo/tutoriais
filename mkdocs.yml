@@ -55,6 +55,7 @@ extra_css:
   - stylesheets/lambdageo.css
 
 nav:
+  - "⇦ Coleção LambdaGeo": https://lambdageo.github.io/ebooks/
   - Início: index.md
   - Docker:
     - "Introdução": docker/index.md
