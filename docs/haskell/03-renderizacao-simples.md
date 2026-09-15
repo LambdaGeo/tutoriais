@@ -45,7 +45,7 @@ Essa ideia de separar código puro de código impuro é poderosa e onipresente e
 Experimentando:
 
 ```
-$ stack ghci
+$ cabal repl
 ghci> import PutJSON
 ghci> putJValue (JObject [("nome", JString "Sergio"), ("idade", JNumber 38)])
 {"nome": "Sergio", "idade": 38.0}

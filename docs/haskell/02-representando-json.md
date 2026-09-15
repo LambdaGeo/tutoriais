@@ -27,15 +27,14 @@ Para cada tipo de JSON, fornecemos um construtor de valor distinto. Alguns desse
 Para começar a experimentar esse código, salve o arquivo `SimpleJSON.hs` no seu editor, alterne para uma janela de terminal e carregue o projeto no REPL executando o seguinte comando na raiz do projeto:
 
 ```
-$ stack ghci
-Using main module: 1. Package `hs2json' component hs2json:exe:hs2json-exe with main-is file: .../app/Main.hs
-Building all executables for `hs2json' once. ...
-Configuring GHCi with the following packages: hs2json
+$ cabal repl
+Resolving dependencies...
+Build profile: -w ghc-9.4.7 -O1
+...
 GHCi, version 9.4.7: https://www.haskell.org/ghc/  :? for help
-[1 of 3] Compiling Lib              ( src/Lib.hs, interpreted )
-[2 of 3] Compiling SimpleJSON       ( src/SimpleJSON.hs, interpreted )
-[3 of 3] Compiling Main             ( app/Main.hs, interpreted )
-Ok, three modules loaded.
+[1 of 2] Compiling SimpleJSON       ( src/SimpleJSON.hs, interpreted )
+[2 of 2] Compiling Main             ( app/Main.hs, interpreted )
+Ok, two modules loaded.
 ghci> JString "foo"
 JString "foo"
 ghci> JNumber 2.7
@@ -55,19 +54,19 @@ getString (JString s) = Just s
 getString _           = Nothing
 ```
 
-Quando salvamos o arquivo de código-fonte modificado, podemos recarregá-lo no `stack ghci` com o comando `:r` e testar a nova definição:
+Quando salvamos o arquivo de código-fonte modificado, podemos recarregá-lo no `cabal repl` com o comando `:r` e testar a nova definição:
 
 ```
 ghci> :r
-[2 of 3] Compiling SimpleJSON       ( src/SimpleJSON.hs, interpreted )
-Ok, three modules loaded.
+[1 of 2] Compiling SimpleJSON       ( src/SimpleJSON.hs, interpreted )
+Ok, two modules loaded.
 ghci> getString (JString "hello")
 Just "hello"
 ghci> getString (JNumber 3)
 Nothing
 ```
 
-A seguir, mais algumas funções acessoras. Desta vez incluímos as assinaturas de tipo — o GHC as infere sozinho, mas escrevê-las é uma boa prática (e o template do Stack ativa avisos que nos lembram disso):
+A seguir, mais algumas funções acessoras. Desta vez incluímos as assinaturas de tipo — o GHC as infere sozinho, mas escrevê-las é uma boa prática (e, quando ativarmos `-Wall` no `.cabal`, mais adiante, o GHC vai nos lembrar disso com um aviso caso esqueçamos):
 
 ```haskell
 -- src/SimpleJSON.hs
@@ -151,14 +150,14 @@ module ExportNothing () where
 Para compilar o projeto e executar o binário, na raiz do projeto:
 
 ```
-$ stack build
-$ stack run
+$ cabal build
+$ cabal run
 someFunc
 ```
 
-_(O `someFunc` vem do `src/Lib.hs` gerado pelo template — é o "hello world" do esqueleto.)_
+_(O `someFunc` vem do `src/MyLib.hs` gerado pelo assistente do `cabal init` — é o "hello world" do esqueleto.)_
 
-Agora que compilamos com sucesso nossa biblioteca mínima, vamos começar a escrever a biblioteca proposta aqui. Antes de seguir, **apague o arquivo `src/Lib.hs`**, já que não o usaremos mais, e então modifique o `app/Main.hs`:
+Agora que compilamos com sucesso nossa biblioteca mínima, vamos começar a escrever a biblioteca proposta aqui. Antes de seguir, **apague o arquivo `src/MyLib.hs`**, já que não o usaremos mais, e então modifique o `app/Main.hs`:
 
 ```haskell
 -- app/Main.hs
@@ -170,16 +169,24 @@ main :: IO ()
 main = print (JObject [("foo", JNumber 1), ("bar", JBool False)])
 ```
 
-!!! tip
-    Graças ao hpack, apagar `Lib.hs` e criar `SimpleJSON.hs` **não exige editar configuração nenhuma**: no próximo `stack build`, o arquivo `hs2json.cabal` é regenerado refletindo os módulos que existem em `src/`. (No fluxo antigo do livro original, cada módulo novo precisava ser registrado à mão no `.cabal`.)
+!!! warning
+    **Diferente do fluxo com hpack: aqui você precisa editar o `.cabal` à mão.** Sem essa camada de conveniência, o Cabal não descobre `SimpleJSON.hs` sozinho — é preciso trocar `MyLib` por `SimpleJSON` (e remover a referência a `MyLib`) na lista `exposed-modules:` da seção `library` do `hs2json.cabal`:
+    ```cabal
+    library
+        exposed-modules:  SimpleJSON
+        hs-source-dirs:   src
+        build-depends:    base >=4.14
+        default-language: Haskell2010
+    ```
+    A partir de agora, **todo módulo novo que criarmos em `src/` precisa entrar nessa lista** — é o preço de não ter o hpack detectando por nós. Em compensação, o arquivo `.cabal` é sempre exatamente o que está sendo compilado, sem uma etapa de geração no meio.
 
 Observe a diretiva `import` que segue a declaração do módulo. Ela indica que queremos pegar todos os nomes exportados do módulo `SimpleJSON` e disponibilizá-los no nosso módulo. Quaisquer diretivas `import` devem aparecer em grupo, no início do módulo — após a declaração `module`, mas antes de todo o resto do código. Não podemos espalhá-las pelo arquivo.
 
 Os nomes dos arquivos fonte e das funções ficam a cargo do programador. Porém, para criar um executável, o GHC espera um módulo chamado `Main` que contenha uma função chamada `main`. A função `main` é a que será chamada quando executarmos o programa.
 
 ```
-$ stack build
-$ stack run
+$ cabal build
+$ cabal run
 JObject [("foo",JNumber 1.0),("bar",JBool False)]
 ```
 
