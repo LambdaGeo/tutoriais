@@ -1724,8 +1724,8 @@
 </tbody>
 </table>
 <p>Essas classes se combinam livremente — é o padrão usado em todo o nosso <code>TodoLive</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">&lt;</span><span class="n">div</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">&quot;w-full max-w-lg mx-auto mt-12 p-6 bg-white rounded-lg shadow-md&quot;</span><span class="o">&gt;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="o">&lt;</span><span class="n">h1</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">&quot;text-3xl font-bold mb-6 text-center text-gray-800&quot;</span><span class="o">&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">&lt;</span><span class="n">div</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"w-full max-w-lg mx-auto mt-12 p-6 bg-white rounded-lg shadow-md"</span><span class="o">&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="o">&lt;</span><span class="n">h1</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="s2">"text-3xl font-bold mb-6 text-center text-gray-800"</span><span class="o">&gt;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nc">Minha</span><span class="w"> </span><span class="nc">Lista</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="nc">Tarefas</span><span class="w"> </span><span class="p">(</span><span class="n">com</span><span class="w"> </span><span class="nc">DB</span><span class="o">!</span><span class="p">)</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="o">&lt;/</span><span class="n">h1</span><span class="o">&gt;</span>
 </code></pre></div>
@@ -1736,26 +1736,26 @@
 </ul>
 <h3 id="passo-72-daisyui-o-tema-visual-do-tailwind">🌈 Passo 7.2: daisyUI — o "tema visual" do Tailwind<a class="headerlink" href="#passo-72-daisyui-o-tema-visual-do-tailwind" title="Permanent link">&para;</a></h3>
 <p>O <strong>daisyUI</strong> adiciona classes mais semânticas para componentes comuns. Observe o componente <code>&lt;.button&gt;</code> no arquivo <code>lib/elixir_todo_list_web/components/core_components.ex</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">variants</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">%{</span><span class="s2">&quot;primary&quot;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;btn-primary&quot;</span><span class="p">,</span><span class="w"> </span><span class="no">nil</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">&quot;btn-primary btn-soft&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">variants</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">%{</span><span class="s2">"primary"</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"btn-primary"</span><span class="p">,</span><span class="w"> </span><span class="no">nil</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="s2">"btn-primary btn-soft"</span><span class="p">}</span>
 </code></pre></div>
 <p>As classes <code>btn</code>, <code>btn-primary</code> e <code>btn-soft</code> vêm do <strong>daisyUI</strong> — é por isso que escrevemos <code>&lt;.button variant="primary"&gt;</code> na Fase 4. Outros exemplos no mesmo arquivo: <code>alert-info</code>/<code>alert-error</code> (mensagens flash), <code>checkbox</code> e <code>input</code> (formulários).</p>
 <p>A grande vantagem: esses componentes <strong>obedecem ao tema ativo</strong> (claro, escuro, etc.) sem que você redefina cores manualmente.</p>
 <h3 id="passo-73-os-temas-e-um-misterio-resolvido">🌗 Passo 7.3: Os Temas (e um mistério resolvido)<a class="headerlink" href="#passo-73-os-temas-e-um-misterio-resolvido" title="Permanent link">&para;</a></h3>
 <p>Faça um teste: se o seu sistema operacional estiver no <strong>modo escuro</strong>, abra a aplicação. Notou que partes da página (o fundo, o cabeçalho do <code>Layouts.app</code>, os inputs) ficam <strong>escuras</strong>, enquanto o nosso "cartão" continua branco (<code>bg-white</code>)? O contraste fica estranho.</p>
 <p><strong>O que está acontecendo?</strong> O Phoenix 1.8 já vem com <strong>dois temas daisyUI</strong> (um claro e um escuro) definidos no <code>assets/css/app.css</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">@</span><span class="k">plugin</span><span class="w"> </span><span class="s2">&quot;../vendor/daisyui&quot;</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">@</span><span class="k">plugin</span><span class="w"> </span><span class="s2">"../vendor/daisyui"</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">themes</span><span class="o">:</span><span class="w"> </span><span class="nt">false</span><span class="o">;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">}</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">@</span><span class="k">plugin</span><span class="w"> </span><span class="s2">&quot;../vendor/daisyui-theme&quot;</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">name</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;dark&quot;</span><span class="o">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">@</span><span class="k">plugin</span><span class="w"> </span><span class="s2">"../vendor/daisyui-theme"</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="nt">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"dark"</span><span class="o">;</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="nt">default</span><span class="o">:</span><span class="w"> </span><span class="nt">false</span><span class="o">;</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="nt">prefersdark</span><span class="o">:</span><span class="w"> </span><span class="nt">true</span><span class="o">;</span><span class="w">   </span><span class="c">/* 👈 segue a preferência do sistema! */</span>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="o">...</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">@</span><span class="k">plugin</span><span class="w"> </span><span class="s2">&quot;../vendor/daisyui-theme&quot;</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="nt">name</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;light&quot;</span><span class="o">;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">@</span><span class="k">plugin</span><span class="w"> </span><span class="s2">"../vendor/daisyui-theme"</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="nt">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"light"</span><span class="o">;</span>
 <a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="nt">default</span><span class="o">:</span><span class="w"> </span><span class="nt">true</span><span class="o">;</span>
 <a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">  </span><span class="o">...</span>
 <a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">}</span>
@@ -1771,7 +1771,7 @@
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 </code></pre></div>
 <p><em>Para:</em></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">&lt;</span><span class="nt">body</span> <span class="na">data-theme</span><span class="o">=</span><span class="s">&quot;light&quot;</span><span class="p">&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">&lt;</span><span class="nt">body</span> <span class="na">data-theme</span><span class="o">=</span><span class="s">"light"</span><span class="p">&gt;</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  {@inner_content}
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 </code></pre></div>
@@ -1784,18 +1784,18 @@
 <p><strong>Quer destacar mais as tarefas concluídas?</strong> Ajuste a classe condicional no <code>TodoLive</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">&lt;</span><span class="n">label</span><span class="w"> </span><span class="n">class</span><span class="o">=</span><span class="p">{</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">task</span><span class="o">.</span><span class="n">completed</span><span class="p">,</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;line-through text-gray-400 italic&quot;</span><span class="p">,</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="ss">else</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;text-gray-900 font-medium&quot;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="ss">do</span><span class="p">:</span><span class="w"> </span><span class="s2">"line-through text-gray-400 italic"</span><span class="p">,</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="ss">else</span><span class="p">:</span><span class="w"> </span><span class="s2">"text-gray-900 font-medium"</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">}</span><span class="o">&gt;</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="p">{</span><span class="n">task</span><span class="o">.</span><span class="n">title</span><span class="p">}</span>
 <a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="o">&lt;/</span><span class="n">label</span><span class="o">&gt;</span>
 </code></pre></div>
 <p><strong>Quer um botão de exclusão mais discreto?</strong> É só trocar as classes:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="o">&lt;.</span><span class="n">button</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="n">type</span><span class="o">=</span><span class="s2">&quot;button&quot;</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="n">phx</span><span class="o">-</span><span class="n">click</span><span class="o">=</span><span class="s2">&quot;delete&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="n">type</span><span class="o">=</span><span class="s2">"button"</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="n">phx</span><span class="o">-</span><span class="n">click</span><span class="o">=</span><span class="s2">"delete"</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="n">phx</span><span class="o">-</span><span class="n">value</span><span class="o">-</span><span class="n">id</span><span class="o">=</span><span class="p">{</span><span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">}</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="n">class</span><span class="o">=</span><span class="s2">&quot;!p-1 !bg-red-500 hover:!bg-red-700&quot;</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="n">class</span><span class="o">=</span><span class="s2">"!p-1 !bg-red-500 hover:!bg-red-700"</span>
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="o">&gt;</span>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="o">&amp;</span><span class="n">times</span><span class="p">;</span>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="o">&lt;/.</span><span class="n">button</span><span class="o">&gt;</span>
@@ -1804,7 +1804,7 @@
 <p>Sem tocar em arquivos CSS, você molda toda a interface.</p>
 <h3 id="passo-75-commit">💾 Passo 7.5: Commit<a class="headerlink" href="#passo-75-commit" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fase 7: Ajusta o tema e personaliza o visual (Tailwind/daisyUI)&quot;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Fase 7: Ajusta o tema e personaliza o visual (Tailwind/daisyUI)"</span>
 </code></pre></div>
 <hr />
 <p><strong>Fim da Fase 7!</strong> 🏁</p>

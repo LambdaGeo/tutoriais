@@ -1697,19 +1697,18 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>hs2json
 </code></pre></div>
 <p>Agora, execute a suíte de testes:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ stack test
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ cabal test
 </code></pre></div>
 <p>Após a compilação, aparecerá a informação de que ainda não existem testes implementados:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hs2json&gt; test (suite: hs2json-test)
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Running 1 test suites...
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Test suite hs2json-test: RUNNING...
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Test suite not yet implemented
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>hs2json&gt; Test suite hs2json-test passed
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Test suite hs2json-test: PASS
 </code></pre></div>
-<p>Podemos confirmar no código-fonte que nenhum teste foi implementado — este é o <code>test/Spec.hs</code> que o template do Stack gerou:</p>
+<p>Podemos confirmar no código-fonte que nenhum teste foi implementado — este é o <code>test/Spec.hs</code> que o <code>cabal init</code> gerou:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">-- test/Spec.hs</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nf">main</span><span class="w"> </span><span class="ow">::</span><span class="w"> </span><span class="kt">IO</span><span class="w"> </span><span class="nb">()</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nf">main</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">putStrLn</span><span class="w"> </span><span class="s">&quot;Test suite not yet implemented&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nf">main</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">putStrLn</span><span class="w"> </span><span class="s">"Test suite not yet implemented"</span>
 </code></pre></div>
 <p>O objetivo deste capítulo é implementar esses testes.</p>
 <div class="admonition tip">
@@ -1717,16 +1716,24 @@
 <p><strong>Nota do professor:</strong> a implementação final deste capítulo fica guardada em um repositório separado (<code>hs2json-test</code>), para que vocês possam usá-lo como referência se algo der errado. Porém, é importante que <strong>executem os passos a seguir</strong> a partir do repositório <em>sem</em> os testes — o aprendizado está no caminho, não no destino.</p>
 </div>
 <h3 id="adicionando-o-quickcheck-as-dependencias">Adicionando o QuickCheck às dependências<a class="headerlink" href="#adicionando-o-quickcheck-as-dependencias" title="Permanent link">&para;</a></h3>
-<p>O QuickCheck não faz parte do <code>base</code>, então precisamos declará-lo no <code>package.yaml</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># package.yaml</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">dependencies</span><span class="p">:</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">base &gt;= 4.7 &amp;&amp; &lt; 5</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QuickCheck</span>
+<p>O QuickCheck não faz parte do <code>base</code>, então precisamos declará-lo no <code>hs2json.cabal</code>. Adicione <code>QuickCheck</code> a <code>build-depends</code>, tanto na seção <code>library</code> (escreveremos propriedades também em <code>src/</code>) quanto na <code>test-suite</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>library
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    exposed-modules:  SimpleJSON, PutJSON, Prettify, PrettyJSON, QuickTestes
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    hs-source-dirs:   src
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    build-depends:    base &gt;=4.14, QuickCheck
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    default-language: Haskell2010
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>test-suite hs2json-test
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    type:             exitcode-stdio-1.0
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    main-is:          Spec.hs
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    hs-source-dirs:   test
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    build-depends:    base &gt;=4.14, hs2json, QuickCheck
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    default-language: Haskell2010
 </code></pre></div>
-<p>No próximo <code>stack build</code> (ou <code>stack test</code>, ou <code>stack ghci</code>), o Stack baixa e compila o QuickCheck automaticamente — é a mágica das dependências explícitas que discutimos na Parte 1.</p>
+<p>No próximo <code>cabal build</code> (ou <code>cabal test</code>, ou <code>cabal repl</code>), o Cabal baixa e compila o QuickCheck automaticamente — é a mágica das dependências explícitas que discutimos na Parte 1.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>Colocado nessa posição, o QuickCheck fica disponível para <strong>todos</strong> os componentes (biblioteca, executável e testes) — é o que queremos aqui, pois escreveremos propriedades também em <code>src/</code>. Em projetos reais, dependências usadas <em>só</em> nos testes costumam ser declaradas apenas no componente de testes (dentro de <code>tests:</code> no <code>package.yaml</code>), para não "vazar" para quem usa a biblioteca.</p>
+<p>Colocado nas duas seções, o QuickCheck fica disponível para <strong>todos</strong> os componentes que precisam dele (biblioteca e testes) — é o que queremos aqui, pois escreveremos propriedades também em <code>src/</code>. Em projetos reais, dependências usadas <em>só</em> nos testes costumam ser declaradas apenas na seção <code>test-suite</code>, para não "vazar" para quem usa a biblioteca.</p>
 </div>
 <h2 id="quickcheck-teste-baseado-em-propriedades">QuickCheck: teste baseado em propriedades<a class="headerlink" href="#quickcheck-teste-baseado-em-propriedades" title="Permanent link">&para;</a></h2>
 <p>Para ter uma ideia de como funcionam os testes baseados em propriedades, começaremos com um cenário simples: você escreveu uma função de ordenação e quer testar seu comportamento. Crie um novo módulo, <code>src/QuickTestes.hs</code>, já com as importações que usaremos ao longo da seção:</p>
@@ -1750,7 +1757,7 @@
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nf">prop_idempotent</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">qsort</span><span class="w"> </span><span class="p">(</span><span class="n">qsort</span><span class="w"> </span><span class="n">xs</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">qsort</span><span class="w"> </span><span class="n">xs</span>
 </code></pre></div>
 <p>Usaremos a convenção do QuickCheck de prefixar as propriedades com <code>prop_</code>, para diferenciá-las do código normal. A propriedade de idempotência é só uma função Haskell declarando uma igualdade que deve valer para qualquer entrada. Podemos checar manualmente que ela faz sentido para alguns casos:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$ stack ghci
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$ cabal repl
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>ghci&gt; prop_idempotent []
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>True
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>ghci&gt; prop_idempotent [1,1,1,1]
@@ -1809,18 +1816,18 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1">-- definidas no Prelude</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nf">head</span><span class="w"> </span><span class="ow">::</span><span class="w"> </span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="w"> </span><span class="ow">-&gt;</span><span class="w"> </span><span class="n">a</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nf">head</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="kr">_</span><span class="p">)</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">x</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nf">head</span><span class="w"> </span><span class="kt">[]</span><span class="w">    </span><span class="ow">=</span><span class="w"> </span><span class="ne">error</span><span class="w"> </span><span class="s">&quot;Prelude.head: empty list&quot;</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="nf">head</span><span class="w"> </span><span class="kt">[]</span><span class="w">    </span><span class="ow">=</span><span class="w"> </span><span class="ne">error</span><span class="w"> </span><span class="s">"Prelude.head: empty list"</span>
 <a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
 <a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nf">minimum</span><span class="w"> </span><span class="ow">::</span><span class="w"> </span><span class="p">(</span><span class="kt">Ord</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="ow">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="w"> </span><span class="ow">-&gt;</span><span class="w"> </span><span class="n">a</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="nf">minimum</span><span class="w"> </span><span class="kt">[]</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="ne">error</span><span class="w"> </span><span class="s">&quot;Prelude.minimum: empty list&quot;</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="nf">minimum</span><span class="w"> </span><span class="kt">[]</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="ne">error</span><span class="w"> </span><span class="s">"Prelude.minimum: empty list"</span>
 <a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="nf">minimum</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">foldl1</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="n">xs</span>
 </code></pre></div>
 <p>Portanto, a propriedade só faz sentido para listas não vazias. Felizmente, o QuickCheck vem com uma pequena linguagem de propriedades que nos permite ser mais precisos sobre as invariantes, descartando entradas que não queremos considerar. Para o caso da lista vazia, o que queremos dizer é: <strong>se</strong> a lista não é vazia, <strong>então</strong> o primeiro elemento da ordenação é o mínimo. A função de implicação <code>(==&gt;)</code> descarta os dados inválidos antes de testar:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">-- src/QuickTestes.hs</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nf">prop_minimum&#39;</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="p">(</span><span class="n">null</span><span class="w"> </span><span class="n">xs</span><span class="p">)</span><span class="w"> </span><span class="o">==&gt;</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="p">(</span><span class="n">qsort</span><span class="w"> </span><span class="n">xs</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="n">xs</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nf">prop_minimum'</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="p">(</span><span class="n">null</span><span class="w"> </span><span class="n">xs</span><span class="p">)</span><span class="w"> </span><span class="o">==&gt;</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="p">(</span><span class="n">qsort</span><span class="w"> </span><span class="n">xs</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="n">xs</span>
 </code></pre></div>
 <p>Removido o caso da lista vazia, confirmamos que a propriedade de fato vale:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>ghci&gt; quickCheck (prop_minimum&#39; :: [Integer] -&gt; Property)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>ghci&gt; quickCheck (prop_minimum' :: [Integer] -&gt; Property)
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>+++ OK, passed 100 tests; 14 discarded.
 </code></pre></div>
 <p><em>(O número de descartados — as listas vazias geradas e ignoradas — varia a cada execução.)</em></p>

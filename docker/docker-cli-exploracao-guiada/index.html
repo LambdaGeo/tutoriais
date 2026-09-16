@@ -1810,7 +1810,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>db<span class="w"> </span>-e<span class="w"> </span><span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>secret<span class="w"> </span>-e<span class="w"> </span><span class="nv">POSTGRES_DB</span><span class="o">=</span>workshop<span class="w"> </span>postgres:16-alpine
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Verifique se o banco inicializou</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>docker<span class="w"> </span>logs<span class="w"> </span>db<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;database system is ready&quot;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>docker<span class="w"> </span>logs<span class="w"> </span>db<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"database system is ready"</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># → ... database system is ready to accept connections</span>
 </code></pre></div>
 <p><img alt="image.png" src="../img/docker-cli-image2.png" /></p>
@@ -1822,7 +1822,7 @@
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># 2. Tenta conectar passando a senha</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cache<span class="w"> </span>redis-cli<span class="w"> </span>-a<span class="w"> </span><span class="m">123</span><span class="w"> </span>ping
 <a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># 📝 Output:</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Warning: Using a password with &#39;-a&#39; or &#39;-u&#39; option on the command line interface may not be safe.</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.</span>
 <a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># AUTH failed: ERR AUTH &lt;password&gt; called without any password configured for the default user. Are you sure your configuration is correct?</span>
 <a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1"># PONG</span>
 </code></pre></div>
@@ -1843,7 +1843,7 @@
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cache<span class="w"> </span>redis-cli<span class="w"> </span>-a<span class="w"> </span><span class="m">123</span><span class="w"> </span>ping
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># → PONG (autenticação funcionando sem erros)</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cache<span class="w"> </span>redis-cli<span class="w"> </span>-a<span class="w"> </span><span class="m">145</span><span class="w"> </span>ping
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Warning:<span class="w"> </span>Using<span class="w"> </span>a<span class="w"> </span>password<span class="w"> </span>with<span class="w"> </span><span class="s1">&#39;-a&#39;</span><span class="w"> </span>or<span class="w"> </span><span class="s1">&#39;-u&#39;</span><span class="w"> </span>option<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>line<span class="w"> </span>interface<span class="w"> </span>may<span class="w"> </span>not<span class="w"> </span>be<span class="w"> </span>safe.
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>Warning:<span class="w"> </span>Using<span class="w"> </span>a<span class="w"> </span>password<span class="w"> </span>with<span class="w"> </span><span class="s1">'-a'</span><span class="w"> </span>or<span class="w"> </span><span class="s1">'-u'</span><span class="w"> </span>option<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>line<span class="w"> </span>interface<span class="w"> </span>may<span class="w"> </span>not<span class="w"> </span>be<span class="w"> </span>safe.
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>AUTH<span class="w"> </span>failed:<span class="w"> </span>WRONGPASS<span class="w"> </span>invalid<span class="w"> </span>username-password<span class="w"> </span>pair<span class="w"> </span>or<span class="w"> </span>user<span class="w"> </span>is<span class="w"> </span>disabled.
 <a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="o">(</span>error<span class="o">)</span><span class="w"> </span>NOAUTH<span class="w"> </span>Authentication<span class="w"> </span>required.
 </code></pre></div>
@@ -1871,7 +1871,7 @@
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># Tenta pingar pelo nome (vai falhar)</span>
 <a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>svc-a<span class="w"> </span>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">2</span><span class="w"> </span>svc-b
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># → ping: bad address &#39;svc-b&#39;</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># → ping: bad address 'svc-b'</span>
 </code></pre></div>
 <p>🔍 <strong>Por que?</strong> A rede <code>bridge</code> padrão desabilita o DNS interno do Docker por questões de compatibilidade histórica e isolamento. Containers só se enxergam via IP (<code>172.17.0.x</code>), que é dinâmico e não confiável para configuração.</p>
 <h3 id="exemplo-2-rede-customizada-com-dns-automatico">✅ Exemplo 2: Rede customizada (com DNS automático)<a class="headerlink" href="#exemplo-2-rede-customizada-com-dns-automatico" title="Permanent link">&para;</a></h3>
@@ -1886,7 +1886,7 @@
 <a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>worker<span class="w"> </span>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">2</span><span class="w"> </span>api
 <a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1"># → PING api (172.18.0.2): 56 data bytes</span>
 <a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="c1"># → 64 bytes from 172.18.0.2: icmp_seq=0 ttl=64 time=0.087 ms</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="c1"># ✅ Funciona! O Docker resolveu &quot;api&quot; para o IP interno automaticamente.</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="c1"># ✅ Funciona! O Docker resolveu "api" para o IP interno automaticamente.</span>
 </code></pre></div>
 <p>🔍 <strong>O que está acontecendo por baixo dos panos?</strong></p>
 <ul>
@@ -1898,7 +1898,7 @@
 <ol>
 <li>
 <p><strong>Descubra os IPs internos e a topologia:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>docker<span class="w"> </span>network<span class="w"> </span>inspect<span class="w"> </span>app-net<span class="w"> </span>--format<span class="o">=</span><span class="s1">&#39;{{json .Containers}}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>json.tool
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>docker<span class="w"> </span>network<span class="w"> </span>inspect<span class="w"> </span>app-net<span class="w"> </span>--format<span class="o">=</span><span class="s1">'{{json .Containers}}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>json.tool
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1"># Veja os IPs 172.18.0.x atribuídos dinamicamente + nomes dos containers</span>
 </code></pre></div>
 </li>
@@ -1914,7 +1914,7 @@
 <p><strong>Teste o isolamento de rede:</strong></p>
 <p>Suba um terceiro container <strong>sem</strong> <code>--network app-net</code> e tente pingar <code>api</code>. Vai falhar.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>alpine<span class="w"> </span>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">2</span><span class="w"> </span>api
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># → ping: bad address &#39;api&#39;  (container na rede &#39;bridge&#39; padrão não enxerga &#39;app-net&#39;)</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># → ping: bad address 'api'  (container na rede 'bridge' padrão não enxerga 'app-net')</span>
 </code></pre></div>
 <p>🔍 <strong>Conceito:</strong> Redes Docker são firewalls lógicos por padrão. Só quem está na mesma rede conversa. Isso é segurança por design.</p>
 </li>
@@ -1928,7 +1928,7 @@
 <p><strong>Regra de Ouro:</strong> <code>logs</code> primeiro → <code>ps</code> depois → <code>exec</code> por último. Nunca tente adivinhar; deixe o container te dizer o que está errado.</p>
 <p>⚠️ <strong>Antes de continuar:</strong> o container <code>web</code> foi parado lá na seção 1 (passo 3) e nunca voltou a rodar. Religue-o para os exemplos abaixo funcionarem como documentado:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>docker<span class="w"> </span>start<span class="w"> </span>web
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>docker<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>web<span class="w">  </span><span class="c1"># → confirme STATUS &quot;Up&quot;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>docker<span class="w"> </span>ps<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>web<span class="w">  </span><span class="c1"># → confirme STATUS "Up"</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># 1. Logs: primeira linha de defesa</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>web
@@ -1937,19 +1937,19 @@
 <a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="c1"># 2. Estado dos containers</span>
 <a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>docker<span class="w"> </span>ps<span class="w">          </span><span class="c1"># só rodando</span>
 <a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w">       </span><span class="c1"># todos (inclui parados/exited)</span>
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>docker<span class="w"> </span>stats<span class="w">       </span><span class="c1"># CPU/MEM/NET em tempo real (igual ao &#39;top&#39;)</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>docker<span class="w"> </span>stats<span class="w">       </span><span class="c1"># CPU/MEM/NET em tempo real (igual ao 'top')</span>
 <a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
 <a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="c1"># 3. Inspeção profunda (JSON completo)</span>
 <a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>docker<span class="w"> </span>inspect<span class="w"> </span>web<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>IPAddress
-<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="c1"># → &quot;IPAddress&quot;: &quot;172.17.0.2&quot;</span>
-<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>docker<span class="w"> </span>inspect<span class="w"> </span>web<span class="w"> </span>--format<span class="o">=</span><span class="s1">&#39;{{.NetworkSettings.Ports}}&#39;</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="c1"># → "IPAddress": "172.17.0.2"</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>docker<span class="w"> </span>inspect<span class="w"> </span>web<span class="w"> </span>--format<span class="o">=</span><span class="s1">'{{.NetworkSettings.Ports}}'</span>
 <a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="c1"># → map[80/tcp:[{0.0.0.0 8080}]]  (mapeamento de portas)</span>
 <a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>
 <a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="c1"># 4. Terminal cirúrgico dentro do container</span>
 <a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>web<span class="w"> </span>sh
 <a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="c1"># → Você está DENTRO do container. Teste manualmente:</span>
 <a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="c1">#    curl localhost, cat /etc/hosts, ping api, etc.</span>
-<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="c1"># → Digite &#39;exit&#39; para sair.</span>
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="c1"># → Digite 'exit' para sair.</span>
 <a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>
 <a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="c1"># 5. Ciclo de vida limpo</span>
 <a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>docker<span class="w"> </span>stop<span class="w"> </span>web<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>rm<span class="w"> </span>web
@@ -1959,9 +1959,9 @@
 <ol>
 <li>
 <p><strong>Simule um erro e capture o log:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>bad<span class="w"> </span>nginx:alpine<span class="w"> </span>nginx<span class="w"> </span>-g<span class="w"> </span><span class="s2">&quot;daemon off;&quot;</span><span class="w"> </span>-c<span class="w"> </span>/nao/existe.conf
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>bad<span class="w"> </span>nginx:alpine<span class="w"> </span>nginx<span class="w"> </span>-g<span class="w"> </span><span class="s2">"daemon off;"</span><span class="w"> </span>-c<span class="w"> </span>/nao/existe.conf
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>docker<span class="w"> </span>logs<span class="w"> </span>bad
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1"># → nginx: [emerg] open() &quot;/nao/existe.conf&quot; failed (2: No such file or directory)</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="c1"># → nginx: [emerg] open() "/nao/existe.conf" failed (2: No such file or directory)</span>
 </code></pre></div>
 <p>🔍 <strong>Lição:</strong> O log mostra o erro exato que o processo principal (<code>PID 1</code>) reportou. Sempre comece aqui.</p>
 </li>
@@ -1970,8 +1970,8 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>docker<span class="w"> </span>port<span class="w"> </span>web
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># → 80/tcp -&gt; 0.0.0.0:8080</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>docker<span class="w"> </span>inspect<span class="w"> </span>web<span class="w"> </span>--format<span class="o">=</span><span class="s1">&#39;{{json .NetworkSettings.Ports}}&#39;</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># → {&quot;80/tcp&quot;:[{&quot;HostIp&quot;:&quot;0.0.0.0&quot;,&quot;HostPort&quot;:&quot;8080&quot;}]}</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>docker<span class="w"> </span>inspect<span class="w"> </span>web<span class="w"> </span>--format<span class="o">=</span><span class="s1">'{{json .NetworkSettings.Ports}}'</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># → {"80/tcp":[{"HostIp":"0.0.0.0","HostPort":"8080"}]}</span>
 </code></pre></div>
 <p>🔍 <strong>Quando usar cada um:</strong> <code>docker port</code> é rápido e legível. <code>inspect</code> é completo e scriptável (útil para automação).</p>
 </li>
@@ -1988,7 +1988,7 @@
 <p><strong>Limpeza segura:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>docker<span class="w"> </span>system<span class="w"> </span>df<span class="w">            </span><span class="c1"># Espaço usado por Docker</span>
 <a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>docker<span class="w"> </span>system<span class="w"> </span>prune<span class="w"> </span>-f<span class="w">      </span><span class="c1"># Remove containers/imagens/networks órfãos (seguro)</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1"># ⚠️ Nunca use &#39;prune -a&#39; em produção: remove TUDO não usado, incluindo imagens em uso.</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="c1"># ⚠️ Nunca use 'prune -a' em produção: remove TUDO não usado, incluindo imagens em uso.</span>
 </code></pre></div>
 </li>
 </ol>

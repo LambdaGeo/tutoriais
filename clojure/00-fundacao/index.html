@@ -1811,13 +1811,13 @@ Até agora, criamos um arquivo (<code>.gitignore</code>) e o Git sabe que ele ex
 <li><strong>Commit (Salvar):</strong> você tira a "foto" de todos os arquivos preparados e anexa uma mensagem. O comando é <code>git commit</code>.</li>
 </ol>
 <p><strong>Ação:</strong> Execute estes dois comandos, um após o outro:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 1. Adiciona TODOS os arquivos novos ou modificados na área de &quot;Stage&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 1. Adiciona TODOS os arquivos novos ou modificados na área de "Stage"</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1">#    (neste caso, apenas o .gitignore)</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>git<span class="w"> </span>add<span class="w"> </span>.
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># 2. Salva (faz o commit) os arquivos que estão em &quot;Stage&quot;</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1">#    -m &quot;...&quot; é a mensagem que descreve o que fizemos</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: setup inicial do projeto com .gitignore&quot;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># 2. Salva (faz o commit) os arquivos que estão em "Stage"</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1">#    -m "..." é a mensagem que descreve o que fizemos</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"feat: setup inicial do projeto com .gitignore"</span>
 </code></pre></div>
 <p><strong>Resultado Esperado:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>[main (root-commit) a1b2c3d] feat: setup inicial do projeto com .gitignore
@@ -1827,8 +1827,8 @@ Até agora, criamos um arquivo (<code>.gitignore</code>) e o Git sabe que ele ex
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p><strong>Se o Git reclamar de identidade</strong> (<code>Please tell me who you are</code>), configure uma vez:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Seu Nome&quot;</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;seu@email.com&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">"Seu Nome"</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">"seu@email.com"</span>
 </code></pre></div>
 <p>e repita o <code>git commit</code>.</p>
 </div>

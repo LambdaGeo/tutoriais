@@ -1786,7 +1786,7 @@
 <h3 id="2-colisao-de-nomes-run-vs-start-5-min">⚠️ 2. Colisão de Nomes &amp; <code>run</code> vs <code>start</code> (5 min)<a class="headerlink" href="#2-colisao-de-nomes-run-vs-start-5-min" title="Permanent link">&para;</a></h3>
 <p>Muitos iniciantes travam aqui. Tente rodar o mesmo nome novamente:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>tmp<span class="w"> </span>alpine<span class="w"> </span>sleep<span class="w"> </span><span class="m">300</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># → docker: Error response from daemon: Conflict. The container name &quot;/tmp&quot; is already in use...</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># → docker: Error response from daemon: Conflict. The container name "/tmp" is already in use...</span>
 </code></pre></div>
 <p>🔍 <strong>Por que?</strong></p>
 <p>O Docker garante unicidade de nomes no host. Mesmo parado, o nome <code>tmp</code> está reservado.</p>
@@ -1820,7 +1820,7 @@
 <h3 id="3-efemeridade-do-filesystem-10-min">🌊 3. Efemeridade do Filesystem (10 min)<a class="headerlink" href="#3-efemeridade-do-filesystem-10-min" title="Permanent link">&para;</a></h3>
 <p>Agora vamos gravar dados <strong>dentro</strong> do container e ver o que acontece.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 1. Crie o diretório (Alpine não tem /data por padrão)</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>tmp<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;mkdir -p /data &amp;&amp; echo &#39;vital&#39; &gt; /data/log.txt&quot;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>tmp<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">"mkdir -p /data &amp;&amp; echo 'vital' &gt; /data/log.txt"</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 2. Valide</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>tmp<span class="w"> </span>cat<span class="w"> </span>//data/log.txt
@@ -1848,7 +1848,7 @@
 </div>
 <p>🔍 <strong>Onde isso está fisicamente?</strong></p>
 <p>Na <strong>camada gravável</strong> (<code>writable layer</code>) do container. Cada container ganha uma camada de escrita sobre as camadas <code>read-only</code> da imagem.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># 3. Simule &quot;deploy&quot; ou &quot;falha&quot;: pare e REMOVA o container</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># 3. Simule "deploy" ou "falha": pare e REMOVA o container</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>docker<span class="w"> </span>stop<span class="w"> </span>tmp<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>docker<span class="w"> </span>rm<span class="w"> </span>tmp
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># 4. Crie um NOVO container com a MESMA imagem</span>
@@ -1856,7 +1856,7 @@
 <a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
 <a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># 5. Tente ler o arquivo</span>
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>tmp<span class="w"> </span>cat<span class="w"> </span>/data/log.txt
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># → cat: can&#39;t open &#39;/data/log.txt&#39;: No such file or directory</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># → cat: can't open '/data/log.txt': No such file or directory</span>
 </code></pre></div>
 <p>🧠 <strong>Conceito-chave:</strong></p>
 <p>Containers são <strong>stateless por design</strong>. A camada gravável é atrelada à instância do container. Quando você <code>rm</code> o container, essa camada é destruída. O próximo <code>run</code> cria um filesystem <strong>limpo e idêntico</strong> à imagem original.</p>
@@ -1874,7 +1874,7 @@
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>bind-test<span class="w"> </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/docker-demo/vol-host:/dados<span class="w"> </span>alpine<span class="w"> </span>sleep<span class="w"> </span><span class="m">300</span>
 <a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># 3. Escreva DENTRO do container</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bind-test<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;echo &#39;persiste no host&#39; &gt; /dados/arquivo.txt&quot;</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>bind-test<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">"echo 'persiste no host' &gt; /dados/arquivo.txt"</span>
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
 <a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># 4. Valide NO SEU HOST (abre outro terminal ou use IDE)</span>
 <a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>cat<span class="w"> </span>docker-demo/vol-host/arquivo.txt
@@ -1900,7 +1900,7 @@
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>db-test<span class="w"> </span>-v<span class="w"> </span>pg_data:/var/lib/postgresql/data<span class="w"> </span>-e<span class="w"> </span><span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>secret<span class="w"> </span>postgres:16-alpine
 <a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
 <a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># 3. Aguarde inicialização (~5s)</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>docker<span class="w"> </span>logs<span class="w"> </span>db-test<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;ready&quot;</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>docker<span class="w"> </span>logs<span class="w"> </span>db-test<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">"ready"</span>
 </code></pre></div>
 <p>🔍 <strong>Vantagens sobre bind mount:</strong></p>
 <ul>
@@ -1953,7 +1953,7 @@
 <li>
 <p><strong>Veja o filesystem mudando:</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>tmp<span class="w"> </span>ls<span class="w"> </span>/
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>tmp<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/app<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;oi&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/app/test.txt
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>tmp<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/app<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"oi"</span><span class="w"> </span>&gt;<span class="w"> </span>/app/test.txt
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>tmp<span class="w"> </span>ls<span class="w"> </span>/app
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>docker<span class="w"> </span>rm<span class="w"> </span>-f<span class="w"> </span>tmp
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>tmp<span class="w"> </span>alpine<span class="w"> </span>sleep<span class="w"> </span><span class="m">300</span>

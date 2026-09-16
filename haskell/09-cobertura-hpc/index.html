@@ -1668,31 +1668,29 @@
 
 <h1 id="cobertura-de-testes-com-hpc-e-exercicios-finais">Cobertura de Testes com HPC e Exercícios Finais<a class="headerlink" href="#cobertura-de-testes-com-hpc-e-exercicios-finais" title="Permanent link">&para;</a></h1>
 <h2 id="medindo-a-cobertura-de-testes-com-hpc">Medindo a cobertura de testes com HPC<a class="headerlink" href="#medindo-a-cobertura-de-testes-com-hpc" title="Permanent link">&para;</a></h2>
-<p><em>(Esta seção foi inteiramente reescrita para as ferramentas atuais, e o relatório abaixo foi gerado de verdade sobre a nossa biblioteca.)</em></p>
+<p><em>(Esta seção foi inteiramente reescrita para as ferramentas atuais, e o relatório abaixo foi gerado de verdade sobre a nossa biblioteca — números conferidos com uma execução real em GHC 9.4.7, tanto com <code>cabal test --enable-coverage</code> quanto com o fluxo manual via <code>-fhpc</code>.)</em></p>
 <p>Nossa suíte passa em todos os testes. Mas... ela testa <strong>o quê</strong>, exatamente? Essa pergunta tem uma resposta objetiva.</p>
 <p>O <strong>HPC</strong> (<em>Haskell Program Coverage</em>) é um recurso do GHC que instrumenta o código para observar quais partes dele foram <strong>realmente executadas</strong> durante uma execução do programa. No contexto de testes, isso nos permite ver com precisão quais funções, ramos e expressões foram avaliados pela suíte — e, mais importante, quais <strong>não</strong> foram. O resultado é um conhecimento exato do percentual de código coberto, e o HPC ainda gera páginas HTML com o código-fonte colorido, facilitando localizar os pontos fracos da suíte.</p>
-<p>Com o Stack, obter os dados de cobertura é um parâmetro a mais:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$ stack test --coverage
+<p>Com o Cabal, obter os dados de cobertura é uma flag a mais:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$ cabal test --enable-coverage
 </code></pre></div>
-<p>A suíte executa normalmente (todas as propriedades passando, como antes) e, ao final, o Stack imprime o relatório e os caminhos dos arquivos HTML gerados:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Generating coverage report for hs2json&#39;s test-suite &quot;hs2json-test&quot;
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a> 19% expressions used (30/154)
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  0% boolean coverage (0/3)
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>       0% guards (0/3), 3 unevaluated
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>     100% &#39;if&#39; conditions (0/0)
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>     100% qualifiers (0/0)
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a> 23% alternatives used (8/34)
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>  0% local declarations used (0/4)
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a> 45% top-level declarations used (10/22)
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>The coverage report for hs2json&#39;s test-suite &quot;hs2json-test&quot; is available at
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>.../.stack-work/install/.../hpc/hs2json/hs2json-test/hpc_index.html
+<p>A suíte executa normalmente (todas as propriedades passando, como antes) e, ao final, o Cabal grava o relatório e os arquivos HTML gerados dentro de <code>dist-newstyle/</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a> 19% expressions used (30/154)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  0% boolean coverage (0/3)
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>       0% guards (0/3), 3 unevaluated
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>     100% 'if' conditions (0/0)
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>     100% qualifiers (0/0)
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a> 23% alternatives used (8/34)
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  0% local declarations used (0/4)
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a> 45% top-level declarations used (10/22)
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>The coverage report for hs2json's test-suite "hs2json-test" is available at
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>.../dist-newstyle/build/x86_64-linux/ghc-9.4.7/hs2json-0.1.0.0/hpc/vanilla/html/hs2json-test/hpc_index.html
 </code></pre></div>
-<p><em>(Os números referem-se ao módulo <code>Prettify</code>; por padrão, o Stack reporta a cobertura do código do <strong>pacote</strong> exercido pelos testes. Abra o <code>hpc_index.html</code> indicado no navegador para a versão visual.)</em></p>
+<p><em>(Os números referem-se ao módulo <code>Prettify</code>; por padrão, o Cabal reporta a cobertura do código do <strong>pacote</strong> exercido pelos testes. Abra o <code>hpc_index.html</code> indicado no navegador para a versão visual.)</em></p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p><strong>Sem o Stack:</strong> o HPC é do próprio GHC, então o fluxo manual equivalente é compilar com o flag <code>-fhpc</code>, executar o programa (o que gera um arquivo <code>.tix</code> com as contagens) e então usar o utilitário <code>hpc</code>: <code>hpc report</code> para o resumo textual e <code>hpc markup</code> para as páginas HTML. O <code>stack test --coverage</code> faz exatamente isso por você.</p>
+<p><strong>Fluxo manual (sem Cabal nem Stack):</strong> o HPC é do próprio GHC, então dá para reproduzir tudo na mão: compile com a flag <code>-fhpc</code>, execute o programa (o que gera um arquivo <code>.tix</code> com as contagens) e então use o utilitário <code>hpc</code>: <code>hpc report --hpcdir=.hpc arquivo.tix</code> para o resumo textual, e <code>hpc markup --hpcdir=.hpc arquivo.tix</code> para as páginas HTML. O <code>cabal test --enable-coverage</code> (ou o <code>stack test --coverage</code>, se você usa Stack) faz exatamente isso por você — mas o fluxo manual é útil quando você quer medir a cobertura de só um módulo específico, passando <code>--include=NomeDoModulo</code> ao <code>hpc report</code> (foi assim, aliás, que os números desta seção foram conferidos).</p>
 </div>
 <h3 id="lendo-o-relatorio">Lendo o relatório<a class="headerlink" href="#lendo-o-relatorio" title="Permanent link">&para;</a></h3>
 <p>Aprender a ler essas linhas é o que dá valor à ferramenta:</p>
@@ -1742,7 +1740,7 @@
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nf">prop_compact_text</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">compact</span><span class="w"> </span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">s</span>
 </code></pre></div>
 <p>Rodando de novo com cobertura:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$ stack test --coverage
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$ cabal test --enable-coverage
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>=== prop_compact_text from test/Spec.hs:45 ===
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>+++ OK, passed 100 tests.
@@ -1769,8 +1767,22 @@
 </ul>
 <p><strong>2.</strong> Implemente o método <code>shrink</code> na instância <code>Arbitrary Doc</code> (investigue <code>genericShrink</code>, que exige <code>deriving (Generic)</code> no tipo) e provoque uma falha de propósito para ver o QuickCheck reduzir o contraexemplo ao mínimo.</p>
 <p><strong>3.</strong> Nosso gerador de <code>Doc</code> escolhe entre os seis construtores com igual probabilidade, e os casos recursivos podem, ocasionalmente, gerar árvores enormes. Investigue as funções <code>sized</code> e <code>frequency</code> do QuickCheck e reescreva o gerador limitando a profundidade da árvore pelo "tamanho" do teste.</p>
+<div class="admonition warning">
+<p class="admonition-title">Uma armadilha real, se você for além de <code>Doc</code></p>
+<p>O <code>Doc</code> se safa relativamente bem porque <code>Concat</code>/<code>Union</code> sempre embrulham exatamente <strong>dois</strong> sub-<code>Doc</code>s — a recursão é binária. Se você aplicar a mesma técnica de <code>sized</code> a um tipo cuja recursão passa por <strong>listas</strong> (por exemplo, um <code>JValue</code> com <code>JObject</code>/<code>JArray</code>, como o do capítulo de dados JSON), tome cuidado com uma pegadinha concreta: reduzir manualmente um contador <code>n</code> a cada chamada recursiva <strong>não</strong> limita, sozinho, o comprimento das listas geradas por <code>listOf</code>. A função <code>listOf</code> decide quantos elementos gerar usando o parâmetro de tamanho <strong>ambiente</strong> do QuickCheck (que cresce a cada teste, até 100 por padrão) — não o seu <code>n</code>. O resultado é uma árvore com profundidade limitada, mas <strong>largura ilimitada em cada nível</strong>, que cresce exponencialmente e trava o processo (sem erro de compilação, sem teste falhando rápido — só memória subindo até a máquina matar o processo). A correção é envolver a chamada a <code>listOf</code> com <code>resize (n \</code>div` 2)`, amarrando também o comprimento da lista ao seu contador de profundidade. Vale testar essa hipótese na prática antes de confiar num gerador recursivo que usa listas.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Uma armadilha real, não só teórica</p>
+<p>O <code>Doc</code> se safa na prática porque <code>Concat</code>/<code>Union</code> sempre embrulham exatamente <strong>dois</strong> sub-documentos — a recursão é binária. Se você aplicar essa mesma técnica a um tipo recursivo que guarda uma <strong>lista</strong> de sub-valores (por exemplo, um <code>JObject [(String, JValue)]</code> ou <code>JArray [JValue]</code>, como no projeto da Parte 1), o perigo é maior — e o sintoma é enganoso: <strong>não é um erro de compilação nem um teste que falha rápido; é o processo simplesmente travar, consumindo memória sem fim</strong>, porque <code>listOf</code> decide o comprimento da lista pelo parâmetro de tamanho <strong>ambiente</strong> do QuickCheck (que cresce até 100 ao longo dos testes), não pelo <code>n</code> que você reduz manualmente a cada chamada recursiva. A profundidade fica limitada; a <strong>largura</strong> de cada nível, não — e a árvore cresce exponencialmente. A correção é envolver a chamada a <code>listOf</code> com <code>resize (n \</code>div` 2)`, para que a lista em si também encolha com a profundidade:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nf">recursive</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">oneof</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="p">[</span><span class="w"> </span><span class="kt">JObject</span><span class="w"> </span><span class="o">&lt;$&gt;</span><span class="w"> </span><span class="n">resize</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="p">`</span><span class="n">div</span><span class="p">`</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">listOf</span><span class="w"> </span><span class="n">field</span><span class="p">)</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="p">,</span><span class="w"> </span><span class="kt">JArray</span><span class="w">  </span><span class="o">&lt;$&gt;</span><span class="w"> </span><span class="n">resize</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="p">`</span><span class="n">div</span><span class="p">`</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">listOf</span><span class="w"> </span><span class="n">smaller</span><span class="p">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="p">]</span>
+</code></pre></div>
+Se seu gerador para um tipo recursivo-com-lista "trava" em vez de dar erro, é quase sempre isso.</p>
+</div>
 <hr />
-<p><em>Baseado nos Capítulos 5 e 11 de <strong>Real World Haskell</strong>, copyright 2007, 2008 Bryan O'Sullivan, Don Stewart e John Goerzen, sob licença Creative Commons Attribution-Noncommercial 3.0. Tradução do projeto rwh-ptbr; revisão, atualização para GHC 9.x/Stack/QuickCheck 2.14 e validação de todo o código nesta edição v2.</em></p>
+<p><em>Baseado nos Capítulos 5 e 11 de <strong>Real World Haskell</strong>, copyright 2007, 2008 Bryan O'Sullivan, Don Stewart e John Goerzen, sob licença Creative Commons Attribution-Noncommercial 3.0. Tradução do projeto rwh-ptbr; revisão, atualização para GHC 9.x/Cabal/QuickCheck 2.14 e validação de todo o código nesta edição v3.</em></p>
 
 
 

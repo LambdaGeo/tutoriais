@@ -1536,10 +1536,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#o-papel-do-stackyaml-e-onde-foi-parar-o-ghc-pkg" class="md-nav__link">
+  <a href="#como-o-cabal-resolve-versoes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        O papel do stack.yaml (e onde foi parar o ghc-pkg)
+        Como o Cabal resolve versões
       
     </span>
   </a>
@@ -1558,10 +1558,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#e-o-cabal-install" class="md-nav__link">
+  <a href="#e-o-stack" class="md-nav__link">
     <span class="md-ellipsis">
       
-        E o cabal-install?
+        E o Stack?
       
     </span>
   </a>
@@ -1713,60 +1713,59 @@
 </code></pre></div>
 <h2 id="criando-um-pacote">Criando um pacote<a class="headerlink" href="#criando-um-pacote" title="Permanent link">&para;</a></h2>
 <p><em>(Esta seção foi inteiramente reescrita: o fluxo original — <code>Setup.hs</code>, <code>runghc Setup configure</code> e <code>ghc-pkg</code> — pertence à era pré-2010 do Cabal e não é mais como se trabalha.)</em></p>
-<p>A comunidade Haskell padronizou a descrição de software no formato <strong>Cabal</strong>: cada <em>pacote</em> contém uma biblioteca e, possivelmente, executáveis, descritos em um arquivo <code>.cabal</code>. É esse o formato que o Hackage (o repositório central de pacotes) e todas as ferramentas entendem.</p>
-<p>Como vimos no início, nosso projeto tem uma camada de conveniência por cima disso: o <strong><code>package.yaml</code></strong>, que o hpack converte em <code>hs2json.cabal</code> a cada build. Vamos entender o que há nele — os conceitos são os mesmos do <code>.cabal</code>, só que em YAML.</p>
+<p>A comunidade Haskell padronizou a descrição de software no formato <strong>Cabal</strong>: cada <em>pacote</em> contém uma biblioteca e, possivelmente, executáveis, descritos em um arquivo <code>.cabal</code>. É esse o formato que o Hackage (o repositório central de pacotes) e todas as ferramentas entendem — e, como vimos no Capítulo 1, é também o <strong>único</strong> arquivo de configuração do nosso projeto: sem a camada <code>package.yaml</code>/hpack de outras ferramentas. Vamos completar o <code>hs2json.cabal</code> que o <code>cabal init</code> gerou, entendendo cada seção.</p>
 <h3 id="a-descricao-do-pacote">A descrição do pacote<a class="headerlink" href="#a-descricao-do-pacote" title="Permanent link">&para;</a></h3>
-<p>Abra o <code>package.yaml</code>. A primeira parte são as propriedades globais do pacote:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hs2json</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1.0.0</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nt">license</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BSD-3-Clause</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Seu</span><span class="nv"> </span><span class="s">Nome&quot;</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nt">maintainer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;seu@email.org&quot;</span>
+<p>Abra o <code>hs2json.cabal</code>. A primeira parte são as propriedades globais do pacote:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cabal-version:   3.0
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>name:            hs2json
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>version:         0.1.0.0
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>license:         BSD-3-Clause
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>author:          Seu Nome
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>maintainer:      seu@email.org
 </code></pre></div>
 <p>Nomes de pacotes devem ser <strong>únicos</strong> dentro do seu conjunto de dependências (e globalmente, se um dia você publicar no Hackage). A versão segue a PVP (<em>Package Versioning Policy</em>), a política de versionamento do ecossistema.</p>
 <p>Boa parte das propriedades destina-se a leitores humanos, não às ferramentas:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">synopsis</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Minha biblioteca de impressão agradável, com suporte a JSON</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Uma pequena biblioteca de pretty printing que ilustra</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">como desenvolver uma biblioteca Haskell.</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Text</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>synopsis:        Minha biblioteca de impressão agradável, com suporte a JSON
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>description:     Uma pequena biblioteca de pretty printing que ilustra
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>                 como desenvolver uma biblioteca Haskell.
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>category:        Text
 </code></pre></div>
 <p>A maioria dos pacotes Haskell usa a licença BSD de 3 cláusulas, que o Cabal chama de <code>BSD-3-Clause</code> (você é livre para escolher a que achar apropriada; o campo <code>license-file</code> aponta para o arquivo com o texto exato).</p>
-<p>Em seguida vêm as <strong>dependências</strong> e os componentes. No template, as dependências valem para todos os componentes:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">dependencies</span><span class="p">:</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">base &gt;= 4.7 &amp;&amp; &lt; 5</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nt">library</span><span class="p">:</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="nt">source-dirs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">src</span>
+<p>Em seguida vêm as seções <code>library</code> e <code>executable</code>, cada uma com seus próprios <code>build-depends</code> e <code>exposed-modules</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>library
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    exposed-modules: SimpleJSON, PutJSON, Prettify, PrettyJSON, QuickTestes
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    hs-source-dirs:  src
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    build-depends:   base &gt;= 4.7 &amp;&amp; &lt; 5
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    default-language: Haskell2010
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="nt">executables</span><span class="p">:</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="nt">hs2json-exe</span><span class="p">:</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="nt">main</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Main.hs</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="nt">source-dirs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nt">dependencies</span><span class="p">:</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hs2json</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>executable hs2json-exe
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    main-is:         Main.hs
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    hs-source-dirs:  app
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    build-depends:   base &gt;= 4.7 &amp;&amp; &lt; 5, hs2json
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    default-language: Haskell2010
 </code></pre></div>
 <p>Traduzindo:</p>
 <ul>
-<li><strong><code>dependencies</code></strong> lista os pacotes de que precisamos, com faixas de versão. Nossa biblioteca só usa o <code>base</code> (que traz o Prelude, <code>Data.Bits</code>, <code>Numeric</code> etc.).</li>
-<li><strong><code>library</code></strong> descreve a biblioteca: todo módulo em <code>src/</code> faz parte dela. No <code>.cabal</code> gerado, isso vira um campo <code>exposed-modules:</code> listando <code>Prettify</code>, <code>PrettyJSON</code>, <code>PutJSON</code> e <code>SimpleJSON</code> — o hpack preenche a lista sozinho, varrendo o diretório. (Se um dia você quiser módulos <strong>internos</strong>, invisíveis aos usuários do pacote, declare-os em <code>other-modules:</code> no <code>package.yaml</code>; tudo que não estiver lá continua exposto.)</li>
-<li><strong><code>executables</code></strong> descreve os binários. Note que o executável <strong>depende da própria biblioteca</strong> (<code>hs2json</code>) — é assim que o <code>Main.hs</code> enxerga o <code>SimpleJSON</code>.</li>
+<li><strong><code>build-depends</code></strong> lista os pacotes de que precisamos, com faixas de versão. Nossa biblioteca só usa o <code>base</code> (que traz o Prelude, <code>Data.Bits</code>, <code>Numeric</code> etc.).</li>
+<li><strong><code>exposed-modules</code></strong> lista, um a um, os módulos que compõem a biblioteca. Diferente de ferramentas com detecção automática, o Cabal <strong>não varre</strong> o diretório <code>src/</code> sozinho: cada módulo novo — <code>Prettify</code>, <code>PrettyJSON</code>, <code>PutJSON</code>, <code>SimpleJSON</code> — precisa ser acrescentado à mão a essa lista, ou o <code>cabal build</code> não vai enxergá-lo. (Se um dia você quiser módulos <strong>internos</strong>, invisíveis aos usuários do pacote, declare-os em <code>other-modules:</code> em vez de <code>exposed-modules:</code>.)</li>
+<li><strong><code>executable</code></strong> descreve o binário. Note que ele <strong>depende da própria biblioteca</strong> (<code>hs2json</code>) — é assim que o <code>Main.hs</code> enxerga o <code>SimpleJSON</code>.</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>Entendendo as dependências:</strong> não precisamos adivinhar quais pacotes declarar. Experimente remover a linha <code>- base &gt;= 4.7 &amp;&amp; &lt; 5</code> e rodar <code>stack build</code>: a compilação falha imediatamente, com o GHC dizendo que não encontra nem o Prelude. A mensagem de erro nos diz o que falta — recoloque a linha e tudo volta. Explicitar as dependências tem um benefício prático enorme: é o que permite ao Stack (e ao cabal-install) baixar, compilar e instalar automaticamente <strong>tudo</strong> de que um pacote precisa, recursivamente.</p>
+<p><strong>Entendendo as dependências:</strong> não precisamos adivinhar quais pacotes declarar. Experimente remover a linha <code>base &gt;= 4.7 &amp;&amp; &lt; 5</code> e rodar <code>cabal build</code>: a compilação falha imediatamente, com o GHC dizendo que não encontra nem o Prelude. A mensagem de erro nos diz o que falta — recoloque a linha e tudo volta. Explicitar as dependências tem um benefício prático enorme: é o que permite ao cabal-install baixar, compilar e instalar automaticamente <strong>tudo</strong> de que um pacote precisa, recursivamente.</p>
 </div>
-<h3 id="o-papel-do-stackyaml-e-onde-foi-parar-o-ghc-pkg">O papel do <code>stack.yaml</code> (e onde foi parar o <code>ghc-pkg</code>)<a class="headerlink" href="#o-papel-do-stackyaml-e-onde-foi-parar-o-ghc-pkg" title="Permanent link">&para;</a></h3>
-<p>No fluxo antigo, o GHC mantinha um banco de dados global de pacotes instalados, manipulado com <code>ghc-pkg</code> — e instalar duas versões conflitantes era receita para o infame <em>"Cabal hell"</em>. O Stack resolveu isso com os <strong>snapshots</strong>: o <code>stack.yaml</code> do projeto aponta para um <em>resolver</em> (por exemplo, <code>lts-23.x</code>), que é um conjunto congelado de milhares de pacotes do Hackage <strong>testados juntos</strong>, amarrado a uma versão exata do GHC. Dois projetos com resolvers diferentes convivem sem se tocar. Você raramente precisará editar este arquivo; quando precisar de um pacote fora do snapshot, é nele que se declara (campo <code>extra-deps</code>).</p>
+<h3 id="como-o-cabal-resolve-versoes">Como o Cabal resolve versões<a class="headerlink" href="#como-o-cabal-resolve-versoes" title="Permanent link">&para;</a></h3>
+<p>Diferente de ferramentas baseadas em <em>snapshots</em> (um conjunto fixo de versões de pacotes testadas juntas), o cabal-install resolve as versões das dependências contra o <strong>índice completo do Hackage</strong>, respeitando as faixas de versão (<code>&gt;= 4.7 &amp;&amp; &lt; 5</code>) que você declarou em cada <code>build-depends</code>. Isso te dá acesso imediato a qualquer versão publicada de qualquer pacote, ao custo de builds um pouco menos reprodutíveis entre máquinas diferentes por padrão — se isso for uma preocupação (por exemplo, numa disciplina, para garantir que o projeto de todo mundo compile igual), o comando <code>cabal freeze</code> grava um arquivo <code>cabal.project.freeze</code> fixando a versão exata resolvida de cada dependência, para todo mundo usar a mesma.</p>
 <h3 id="compilando-testando-e-instalando">Compilando, testando e instalando<a class="headerlink" href="#compilando-testando-e-instalando" title="Permanent link">&para;</a></h3>
 <p>Com a descrição pronta, o ciclo completo é:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$ stack build            # compila biblioteca e executáveis
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>$ stack run              # executa o hs2json-exe
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>$ stack test             # roda a suíte de testes (test/Spec.hs)
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>$ stack install          # copia o executável para ~/.local/bin
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$ cabal build            # compila biblioteca e executáveis
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>$ cabal run hs2json-exe  # executa o executável
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>$ cabal test             # roda a suíte de testes (test/Spec.hs)
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>$ cabal install           # copia o executável para ~/.local/bin (ou ~/.cabal/bin)
 </code></pre></div>
-<p>O <code>stack install</code> deixa o binário disponível no seu <code>PATH</code> (se <code>~/.local/bin</code> estiver nele) — é o equivalente moderno do antigo <code>runghc Setup install</code>, sem nenhuma configuração prévia.</p>
-<h3 id="e-o-cabal-install">E o cabal-install?<a class="headerlink" href="#e-o-cabal-install" title="Permanent link">&para;</a></h3>
-<p>Tudo que fizemos tem equivalente direto na outra ferramenta oficial, o <strong>cabal-install</strong>: <code>cabal init</code> cria o projeto (gerando o <code>.cabal</code> diretamente, sem <code>package.yaml</code>), e <code>cabal build</code> / <code>cabal run</code> / <code>cabal repl</code> / <code>cabal install</code> espelham os comandos do Stack. As diferenças práticas: o cabal-install resolve versões contra o Hackage inteiro (em vez de snapshots) e usa o GHC que estiver no PATH (instalado pelo GHCup). Para uma disciplina, o Stack tende a dar builds mais reprodutíveis entre as máquinas dos alunos; mas saber que os dois falam o mesmo formato <code>.cabal</code> é o que importa.</p>
+<p>O <code>cabal install</code> deixa o binário disponível no seu <code>PATH</code> (se o diretório de instalação estiver nele) — é o equivalente moderno do antigo <code>runghc Setup install</code>, sem nenhuma configuração prévia.</p>
+<h3 id="e-o-stack">E o Stack?<a class="headerlink" href="#e-o-stack" title="Permanent link">&para;</a></h3>
+<p>Tudo que fizemos tem equivalente direto na outra ferramenta popular do ecossistema, o <strong>Stack</strong>: <code>stack new</code> cria o projeto (gerando um <code>package.yaml</code>, que uma ferramenta embutida chamada hpack converte em <code>.cabal</code> a cada build — com a vantagem de detectar módulos novos em <code>src/</code> sozinha, sem precisar listá-los à mão), e <code>stack build</code> / <code>stack run</code> / <code>stack test</code> / <code>stack install</code> espelham os comandos do Cabal que já vimos. A diferença prática mais relevante: o Stack resolve dependências contra um <em>snapshot</em> do Hackage (um <code>resolver</code>, declarado no <code>stack.yaml</code>, testado como um conjunto coeso) em vez do índice completo — o que tende a dar builds mais reprodutíveis entre máquinas diferentes sem precisar de um passo extra como o <code>cabal freeze</code>. Saber que as duas ferramentas falam o mesmo formato <code>.cabal</code> por baixo é o que importa: o conhecimento deste capítulo vale para as duas.</p>
 <h2 id="dicas-praticas-e-leitura-adicional">Dicas práticas e leitura adicional<a class="headerlink" href="#dicas-praticas-e-leitura-adicional" title="Permanent link">&para;</a></h2>
 <p>O ecossistema tem bibliotecas de impressão agradável prontas e maduras — recomendamos usá-las em código real, em vez de escrever a sua:</p>
 <ul>

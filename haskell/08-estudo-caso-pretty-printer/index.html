@@ -1592,10 +1592,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#executando-tudo-com-o-stack-test-quickcheckall" class="md-nav__link">
+  <a href="#executando-tudo-com-o-cabal-test-quickcheckall" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Executando tudo com o stack test: quickCheckAll
+        Executando tudo com o cabal test: quickCheckAll
       
     </span>
   </a>
@@ -1786,10 +1786,11 @@
 <p><strong>Isso ainda não compila — e o erro é instrutivo.</strong> Na Parte 1, exportamos <code>Doc</code> como um tipo <strong>abstrato</strong> (<code>Doc</code>, sem os construtores) — exatamente para que ninguém de fora pudesse construir ou inspecionar documentos na mão. Mas é <strong>isso</strong> que o nosso gerador e as nossas propriedades precisam fazer! Há uma tensão real aqui entre encapsulamento e testabilidade. A solução mais simples, que adotaremos, é passar a exportar os construtores: no <code>src/Prettify.hs</code>, troque <code>Doc</code> por <code>Doc(..)</code> na lista de exportação. (Em bibliotecas de verdade, o padrão comum é um módulo <code>*.Internal</code> que exporta tudo — os testes importam o Internal, e os usuários, a fachada abstrata.)</p>
 </div>
 <p>Feito o ajuste, execute:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>$ stack test
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>hs2json&gt; test (suite: hs2json-test)
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>[Text &quot;o\38884\DC3R\201400?\EOT#;;/\\Gk_y\1061091\178450\&amp;7(4&#39;\174004-A&quot;,Text &quot;8\986417\&amp;7&quot;,Concat Line (Union Empty (Char &#39;4&#39;)),Char &#39;\NUL&#39;,Text &quot;\68902\ACKQTA\SOH^Q\200597h\SIh\36934&quot;]
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>$ cabal test
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>Running 1 test suites...
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>Test suite hs2json-test: RUNNING...
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>[Text "o\38884\DC3R\201400?\EOT#;;/\\Gk_y\1061091\178450\&amp;7(4'\174004-A",Text "8\986417\&amp;7",Concat Line (Union Empty (Char '4')),Char '\NUL',Text "\68902\ACKQTA\SOH^Q\200597h\SIh\36934"]
 </code></pre></div>
 <p><em>(Saída ilustrativa, encurtada — a sua será diferente.)</em> Examinando-a, vemos uma boa mistura: casos básicos, textos cheios de caracteres Unicode e de controle, e documentos aninhados. A cada execução de teste, centenas desses serão gerados.</p>
 <p>Essa abordagem foi bem direta, e podemos melhorá-la usando a função <code>oneof</code> (cujo tipo vimos acima) para escolher entre geradores de uma lista — e o combinador monádico <code>liftM</code> (do módulo <code>Control.Monad</code>) para evitar nomear os resultados intermediários:</p>
@@ -1822,21 +1823,21 @@
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="o">&amp;&amp;</span>
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">empty</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">x</span>
 </code></pre></div>
-<p>E confirmar que ela vale, direto no GHCi (<code>stack ghci --test</code> carrega também o componente de testes):</p>
+<p>E confirmar que ela vale, direto no GHCi (<code>cabal repl test:hs2json-test</code> carrega o componente de testes):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>ghci&gt; quickCheck prop_empty_id
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>+++ OK, passed 100 tests.
 </code></pre></div>
 <p><em>(Repare que aqui não precisamos de anotação de tipo: o <code>&lt;&gt;</code> do Prettify força <code>x :: Doc</code>, e a nossa instância <code>Arbitrary Doc</code> faz o resto.)</em></p>
-<h3 id="executando-tudo-com-o-stack-test-quickcheckall">Executando tudo com o <code>stack test</code>: <code>quickCheckAll</code><a class="headerlink" href="#executando-tudo-com-o-stack-test-quickcheckall" title="Permanent link">&para;</a></h3>
+<h3 id="executando-tudo-com-o-cabal-test-quickcheckall">Executando tudo com o <code>cabal test</code>: <code>quickCheckAll</code><a class="headerlink" href="#executando-tudo-com-o-cabal-test-quickcheckall" title="Permanent link">&para;</a></h3>
 <p><em>(Esta seção foi reescrita nesta edição.)</em></p>
-<p>Rodar <code>quickCheck</code> propriedade por propriedade no GHCi é ótimo para explorar, mas queremos que o <strong><code>stack test</code></strong> execute todas de uma vez. O QuickCheck traz um utilitário para isso: <code>quickCheckAll</code>, que usa <strong>Template Haskell</strong> — o mecanismo de metaprogramação do GHC — para localizar, em tempo de compilação, todas as funções do módulo cujo nome começa com <code>prop_</code>, e gerar o código que as executa.</p>
+<p>Rodar <code>quickCheck</code> propriedade por propriedade no GHCi é ótimo para explorar, mas queremos que o <strong><code>cabal test</code></strong> execute todas de uma vez. O QuickCheck traz um utilitário para isso: <code>quickCheckAll</code>, que usa <strong>Template Haskell</strong> — o mecanismo de metaprogramação do GHC — para localizar, em tempo de compilação, todas as funções do módulo cujo nome começa com <code>prop_</code>, e gerar o código que as executa.</p>
 <p>Três detalhes fazem tudo funcionar:</p>
 <ol>
 <li>O pragma <code>{-# LANGUAGE TemplateHaskell #-}</code> no topo do arquivo, habilitando a extensão;</li>
 <li>A linha <code>return []</code> antes da definição — um truque necessário para que o Template Haskell "enxergue" todas as definições que vieram acima dela no arquivo;</li>
 <li>A invocação <code>$quickCheckAll</code> (o <code>$</code> executa a metafunção em tempo de compilação), que produz uma ação <code>IO Bool</code>: <code>True</code> se todas as propriedades passaram.</li>
 </ol>
-<p>Há ainda um detalhe que o livro original deixou passar, e que vale corrigir: <strong>o processo de testes precisa terminar com código de saída de erro quando algo falha</strong>. É só o código de saída que o <code>stack test</code> (e qualquer ferramenta de integração contínua) olha — sem isso, a suíte imprime "falhou" mas o Stack alegremente reporta <code>Test suite passed</code>. Resolvemos com <code>exitFailure</code>, do módulo <code>System.Exit</code>.</p>
+<p>Há ainda um detalhe que o livro original deixou passar, e que vale corrigir: <strong>o processo de testes precisa terminar com código de saída de erro quando algo falha</strong>. É só o código de saída que o <code>cabal test</code> (e qualquer ferramenta de integração contínua) olha — sem isso, a suíte imprime "falhou" mas o Cabal alegremente reporta o teste como <code>PASS</code>. Resolvemos com <code>exitFailure</code>, do módulo <code>System.Exit</code>.</p>
 <p>O <code>test/Spec.hs</code> completo até aqui:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">-- test/Spec.hs</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="cm">{-# LANGUAGE TemplateHaskell #-}</span>
@@ -1871,21 +1872,21 @@
 <a id="__codelineno-15-31" name="__codelineno-15-31" href="#__codelineno-15-31"></a><span class="nf">main</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="kr">do</span>
 <a id="__codelineno-15-32" name="__codelineno-15-32" href="#__codelineno-15-32"></a><span class="w">    </span><span class="n">passed</span><span class="w"> </span><span class="ow">&lt;-</span><span class="w"> </span><span class="n">runTests</span>
 <a id="__codelineno-15-33" name="__codelineno-15-33" href="#__codelineno-15-33"></a><span class="w">    </span><span class="kr">if</span><span class="w"> </span><span class="n">passed</span>
-<a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a><span class="w">        </span><span class="kr">then</span><span class="w"> </span><span class="n">putStrLn</span><span class="w"> </span><span class="s">&quot;Passou em todos os testes.&quot;</span>
-<a id="__codelineno-15-35" name="__codelineno-15-35" href="#__codelineno-15-35"></a><span class="w">        </span><span class="kr">else</span><span class="w"> </span><span class="kr">do</span><span class="w"> </span><span class="n">putStrLn</span><span class="w"> </span><span class="s">&quot;Alguns testes falharam.&quot;</span>
+<a id="__codelineno-15-34" name="__codelineno-15-34" href="#__codelineno-15-34"></a><span class="w">        </span><span class="kr">then</span><span class="w"> </span><span class="n">putStrLn</span><span class="w"> </span><span class="s">"Passou em todos os testes."</span>
+<a id="__codelineno-15-35" name="__codelineno-15-35" href="#__codelineno-15-35"></a><span class="w">        </span><span class="kr">else</span><span class="w"> </span><span class="kr">do</span><span class="w"> </span><span class="n">putStrLn</span><span class="w"> </span><span class="s">"Alguns testes falharam."</span>
 <a id="__codelineno-15-36" name="__codelineno-15-36" href="#__codelineno-15-36"></a><span class="w">                </span><span class="n">exitFailure</span>
 </code></pre></div>
 <p><em>(Note o <code>import Prelude hiding ((&lt;&gt;))</code> — o mesmo ajuste dos módulos da Parte 1, pois usamos aqui o <code>&lt;&gt;</code> do Prettify, não o do Prelude.)</em></p>
 <p>Executando:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>$ stack test
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>hs2json&gt; test (suite: hs2json-test)
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>=== prop_empty_id from test/Spec.hs:22 ===
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>+++ OK, passed 100 tests.
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>Passou em todos os testes.
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>hs2json&gt; Test suite hs2json-test passed
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>$ cabal test
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>Running 1 test suites...
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>Test suite hs2json-test: RUNNING...
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>=== prop_empty_id from test/Spec.hs:22 ===
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>+++ OK, passed 100 tests.
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>Passou em todos os testes.
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>Test suite hs2json-test: PASS
 </code></pre></div>
 <p>Outras funções da API são simples o suficiente para terem o comportamento <strong>completamente</strong> descrito por propriedades. Revendo suas definições no <code>Prettify</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1">-- src/Prettify.hs</span>
@@ -1893,7 +1894,7 @@
 <a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nf">char</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="kt">Char</span><span class="w"> </span><span class="n">c</span>
 <a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
 <a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="nf">text</span><span class="w"> </span><span class="ow">::</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="ow">-&gt;</span><span class="w"> </span><span class="kt">Doc</span>
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="nf">text</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="kt">Empty</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="nf">text</span><span class="w"> </span><span class="s">""</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="kt">Empty</span>
 <a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="nf">text</span><span class="w"> </span><span class="n">s</span><span class="w">  </span><span class="ow">=</span><span class="w"> </span><span class="kt">Text</span><span class="w"> </span><span class="n">s</span>
 <a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
 <a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="nf">double</span><span class="w"> </span><span class="ow">::</span><span class="w"> </span><span class="kt">Double</span><span class="w"> </span><span class="ow">-&gt;</span><span class="w"> </span><span class="kt">Doc</span>
@@ -1931,19 +1932,20 @@
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="nf">prop_punctuate</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">punctuate</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">intersperse</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">xs</span>
 </code></pre></div>
 <p>Embora pareça correta, a execução revela uma falha na nossa lógica:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>$ stack test
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>$ cabal test
 <a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>=== prop_punctuate from test/Spec.hs:37 ===
 <a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>*** Failed! Falsified (after 6 tests):
-<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>Char &#39;}&#39;
-<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>[Text &quot;\DC3v\DEL~w&quot;,Concat Empty (Text &quot;\199132\NAK&quot;)]
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>Char '}'
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>[Text "\DC3v\DEL~w",Concat Empty (Text "\199132\NAK")]
 <a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>
 <a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>Alguns testes falharam.
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>Test suite hs2json-test: FAIL
 </code></pre></div>
-<p><em>(O QuickCheck moderno diz <code>Falsified</code> onde o antigo dizia <code>Falsifiable</code>. As duas linhas após o cabeçalho são os argumentos do contraexemplo: o separador <code>s</code> e a lista <code>xs</code> — repare no <code>Empty</code> dentro de um <code>Concat</code>, a pista do problema. E, graças ao nosso <code>exitFailure</code>, desta vez o <code>stack test</code> termina, corretamente, reportando a falha da suíte.)</em></p>
+<p><em>(O QuickCheck moderno diz <code>Falsified</code> onde o antigo dizia <code>Falsifiable</code>. As duas linhas após o cabeçalho são os argumentos do contraexemplo: o separador <code>s</code> e a lista <code>xs</code> — repare no <code>Empty</code> dentro de um <code>Concat</code>, a pista do problema. E, graças ao nosso <code>exitFailure</code>, desta vez o <code>cabal test</code> termina, corretamente, reportando a falha da suíte — o mesmo mecanismo vale com qualquer ferramenta de build: o tipo de suíte <code>exitcode-stdio-1.0</code> é definido pelo próprio formato <code>.cabal</code>, então tanto faz se quem lê o código de saída é o Cabal ou o Stack.)</em></p>
 <p>A biblioteca <strong>otimiza fora os documentos vazios redundantes</strong> (lembre-se dos casos <code>Empty</code> do <code>&lt;&gt;</code>), algo que o modelo de lista não faz — então precisamos enriquecer o modelo para casar com a realidade. Primeiro intercalamos a pontuação e depois eliminamos os <code>Empty</code> espalhados, assim:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1">-- test/Spec.hs</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="nf">prop_punctuate&#39;</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">punctuate</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">combine</span><span class="w"> </span><span class="p">(</span><span class="n">intersperse</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">xs</span><span class="p">)</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="nf">prop_punctuate'</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="ow">=</span><span class="w"> </span><span class="n">punctuate</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">combine</span><span class="w"> </span><span class="p">(</span><span class="n">intersperse</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="n">xs</span><span class="p">)</span>
 <a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span><span class="kr">where</span>
 <a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">        </span><span class="n">combine</span><span class="w"> </span><span class="kt">[]</span><span class="w">           </span><span class="ow">=</span><span class="w"> </span><span class="kt">[]</span>
 <a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">        </span><span class="n">combine</span><span class="w"> </span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="w">          </span><span class="ow">=</span><span class="w"> </span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
@@ -1952,32 +1954,33 @@
 <a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="w">        </span><span class="n">combine</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">y</span><span class="kt">:</span><span class="n">ys</span><span class="p">)</span><span class="w">     </span><span class="ow">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">`</span><span class="kt">Concat</span><span class="p">`</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="kt">:</span><span class="w"> </span><span class="n">combine</span><span class="w"> </span><span class="n">ys</span>
 </code></pre></div>
 <p>Executando (e removendo a versão ingênua, <code>prop_punctuate</code>), confirmamos o resultado. É reconfortante que o framework localize falhas na lógica que expressamos — é exatamente para isso que ele existe:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>$ stack test
-<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
-<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>=== prop_empty_id from test/Spec.hs:22 ===
-<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>+++ OK, passed 100 tests.
-<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>
-<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>=== prop_char from test/Spec.hs:27 ===
-<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>+++ OK, passed 100 tests.
-<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>
-<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>=== prop_text from test/Spec.hs:28 ===
-<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>+++ OK, passed 100 tests.
-<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>
-<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a>=== prop_line from test/Spec.hs:29 ===
-<a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a>+++ OK, passed 1 test.
-<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a>
-<a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a>=== prop_double from test/Spec.hs:30 ===
-<a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a>+++ OK, passed 100 tests.
-<a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a>
-<a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a>=== prop_hcat from test/Spec.hs:32 ===
-<a id="__codelineno-24-19" name="__codelineno-24-19" href="#__codelineno-24-19"></a>+++ OK, passed 100 tests.
-<a id="__codelineno-24-20" name="__codelineno-24-20" href="#__codelineno-24-20"></a>
-<a id="__codelineno-24-21" name="__codelineno-24-21" href="#__codelineno-24-21"></a>=== prop_punctuate&#39; from test/Spec.hs:37 ===
-<a id="__codelineno-24-22" name="__codelineno-24-22" href="#__codelineno-24-22"></a>+++ OK, passed 100 tests.
-<a id="__codelineno-24-23" name="__codelineno-24-23" href="#__codelineno-24-23"></a>
-<a id="__codelineno-24-24" name="__codelineno-24-24" href="#__codelineno-24-24"></a>Passou em todos os testes.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>$ cabal test
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>Running 1 test suites...
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>Test suite hs2json-test: RUNNING...
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>=== prop_empty_id from test/Spec.hs:22 ===
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>+++ OK, passed 100 tests.
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>=== prop_char from test/Spec.hs:27 ===
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>+++ OK, passed 100 tests.
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>=== prop_text from test/Spec.hs:28 ===
+<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a>+++ OK, passed 100 tests.
+<a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a>
+<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a>=== prop_line from test/Spec.hs:29 ===
+<a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a>+++ OK, passed 1 test.
+<a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a>
+<a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a>=== prop_double from test/Spec.hs:30 ===
+<a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a>+++ OK, passed 100 tests.
+<a id="__codelineno-24-19" name="__codelineno-24-19" href="#__codelineno-24-19"></a>
+<a id="__codelineno-24-20" name="__codelineno-24-20" href="#__codelineno-24-20"></a>=== prop_hcat from test/Spec.hs:32 ===
+<a id="__codelineno-24-21" name="__codelineno-24-21" href="#__codelineno-24-21"></a>+++ OK, passed 100 tests.
+<a id="__codelineno-24-22" name="__codelineno-24-22" href="#__codelineno-24-22"></a>
+<a id="__codelineno-24-23" name="__codelineno-24-23" href="#__codelineno-24-23"></a>=== prop_punctuate' from test/Spec.hs:37 ===
+<a id="__codelineno-24-24" name="__codelineno-24-24" href="#__codelineno-24-24"></a>+++ OK, passed 100 tests.
 <a id="__codelineno-24-25" name="__codelineno-24-25" href="#__codelineno-24-25"></a>
-<a id="__codelineno-24-26" name="__codelineno-24-26" href="#__codelineno-24-26"></a>hs2json&gt; Test suite hs2json-test passed
+<a id="__codelineno-24-26" name="__codelineno-24-26" href="#__codelineno-24-26"></a>Passou em todos os testes.
+<a id="__codelineno-24-27" name="__codelineno-24-27" href="#__codelineno-24-27"></a>Test suite hs2json-test: PASS
 </code></pre></div>
 <p><em>(Curiosidade: <code>prop_line</code> não recebe argumentos, então não há o que gerar — o QuickCheck a trata como um teste único: <code>passed 1 test</code>.)</em></p>
 <div class="admonition tip">

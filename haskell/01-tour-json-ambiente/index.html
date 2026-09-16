@@ -1373,15 +1373,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#preparando-o-ambiente-ghcup-e-stack" class="md-nav__link">
+  <a href="#preparando-o-ambiente-ghcup-e-cabal" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Preparando o ambiente: GHCup e Stack
+        Preparando o ambiente: GHCup e Cabal
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Preparando o ambiente: GHCup e Stack">
+    <nav class="md-nav" aria-label="Preparando o ambiente: GHCup e Cabal">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1663,13 +1663,13 @@
 <p>Neste capítulo, vamos desenvolver uma pequena, mas completa, biblioteca Haskell. Nossa biblioteca manipulará e serializará dados em um popular formato conhecido como JSON.</p>
 <p>A linguagem JSON (JavaScript Object Notation) é uma representação pequena e simples para armazenar e transmitir dados estruturados, por exemplo, por meio de uma conexão de rede. É mais comumente usada para transferir dados de um serviço da Web para um aplicativo JavaScript baseado em navegador. O formato JSON é descrito em <a href="https://www.json.org">www.json.org</a>, e em maior detalhe pela RFC 8259 (que substituiu a antiga RFC 4627).</p>
 <p>O JSON suporta quatro tipos básicos de valor: <em>strings</em>, <em>numbers</em>, <em>booleans</em> e um valor especial chamado <code>null</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="s2">&quot;a string&quot;</span><span class="w">  </span><span class="mi">12345</span><span class="w">  </span><span class="kc">true</span><span class="w">  </span><span class="kc">null</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="s2">"a string"</span><span class="w">  </span><span class="mi">12345</span><span class="w">  </span><span class="kc">true</span><span class="w">  </span><span class="kc">null</span>
 </code></pre></div>
 <p>A linguagem fornece dois tipos compostos: um <em>array</em> é uma sequência ordenada de valores, e um <em>object</em> é uma coleção não ordenada de pares nome/valor. Os nomes em um objeto são sempre strings; os valores em um objeto ou array podem ser de qualquer tipo.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">[</span><span class="mf">-3.14</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;a string&quot;</span><span class="p">]</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span><span class="nt">&quot;numbers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="w"> </span><span class="nt">&quot;useful&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">[</span><span class="mf">-3.14</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s2">"a string"</span><span class="p">]</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span><span class="nt">"numbers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="w"> </span><span class="nt">"useful"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">}</span>
 </code></pre></div>
-<h2 id="preparando-o-ambiente-ghcup-e-stack">Preparando o ambiente: GHCup e Stack<a class="headerlink" href="#preparando-o-ambiente-ghcup-e-stack" title="Permanent link">&para;</a></h2>
+<h2 id="preparando-o-ambiente-ghcup-e-cabal">Preparando o ambiente: GHCup e Cabal<a class="headerlink" href="#preparando-o-ambiente-ghcup-e-cabal" title="Permanent link">&para;</a></h2>
 <p><em>(Esta seção substitui o antigo "tour rápido pelo Stack", refletindo o fluxo de instalação atual.)</em></p>
 <p>A forma recomendada de instalar Haskell hoje é o <strong><a href="https://www.haskell.org/ghcup/">GHCup</a></strong>, o instalador oficial da plataforma. Ele instala e gerencia as versões de todas as ferramentas que precisamos:</p>
 <table>
@@ -1685,12 +1685,12 @@
 <td>O compilador de Haskell (Glasgow Haskell Compiler).</td>
 </tr>
 <tr>
-<td><strong>Stack</strong></td>
-<td>Ferramenta de build e projetos, com versões reprodutíveis (usaremos neste capítulo).</td>
+<td><strong>cabal-install</strong></td>
+<td>A ferramenta de build e projetos, distribuída junto com o GHC — a que usaremos neste capítulo.</td>
 </tr>
 <tr>
-<td><strong>cabal-install</strong></td>
-<td>A ferramenta de build "clássica"; alternativa ao Stack (falaremos dela ao final).</td>
+<td><strong>Stack</strong></td>
+<td>Outra ferramenta de build e projetos, com foco em builds reprodutíveis via snapshots; alternativa ao Cabal (não usada aqui).</td>
 </tr>
 <tr>
 <td><strong>HLS</strong></td>
@@ -1699,43 +1699,53 @@
 </tbody>
 </table>
 <p><strong>Instalação (Linux/macOS/WSL):</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>--proto<span class="w"> </span><span class="s1">&#39;=https&#39;</span><span class="w"> </span>--tlsv1.2<span class="w"> </span>-sSf<span class="w"> </span>https://get-ghcup.haskell.org<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl<span class="w"> </span>--proto<span class="w"> </span><span class="s1">'=https'</span><span class="w"> </span>--tlsv1.2<span class="w"> </span>-sSf<span class="w"> </span>https://get-ghcup.haskell.org<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </code></pre></div>
-<p>O instalador é interativo — aceite as opções padrão e confirme a instalação do Stack e do HLS quando perguntado. No <strong>Windows</strong>, siga as instruções da página do GHCup (há um comando PowerShell equivalente).</p>
+<p>O instalador é interativo — aceite as opções padrão. Quando perguntado sobre o Stack, pode responder <strong>não</strong>: não vamos usá-lo neste guia. Confirme a instalação do <strong>HLS</strong> quando perguntado. No <strong>Windows</strong>, siga as instruções da página do GHCup (há um comando PowerShell equivalente).</p>
 <p><strong>Verificação:</strong> feche e reabra o terminal, e confirme:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ghc<span class="w"> </span>--version<span class="w">      </span><span class="c1"># The Glorious Glasgow Haskell Compilation System, version 9.x</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>stack<span class="w"> </span>--version<span class="w">    </span><span class="c1"># Version 2.x ou superior</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cabal<span class="w"> </span>--version<span class="w">    </span><span class="c1"># cabal-install version 3.x ou superior</span>
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p><strong>Sobre versões:</strong> este capítulo foi validado com GHC 9.4, e o código funciona em qualquer GHC da série 9.x. O Stack cuida de fixar uma versão exata de GHC por projeto (via <em>resolver</em>), então diferentes projetos podem usar diferentes GHCs sem conflito.</p>
+<p><strong>Sobre versões:</strong> este capítulo foi validado com GHC 9.4 e GHC 9.10, e o código funciona em qualquer GHC da série 9.x.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">No Linux: uma biblioteca do sistema</p>
+<p>O Cabal compila dependências que precisam de aritmética de precisão arbitrária (GMP) para linkar. Se a compilação falhar com um erro do tipo <code>cannot find -lgmp</code>, falta o pacote de desenvolvimento do GMP no seu sistema — no Debian/Ubuntu:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libgmp-dev
+</code></pre></div>
+O runtime do GHC já depende do GMP, então normalmente já está instalado; falta especificamente o pacote <code>-dev</code> com os símbolos de link.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Se o <code>cabal build</code>/<code>cabal update</code> falhar com erro de assinatura</p>
+<p>Versões de <code>cabal-install</code> muito antigas (por exemplo, as empacotadas pelo <code>apt</code> de distribuições Linux mais velhas) às vezes não conseguem validar o índice atual do Hackage, e falham com uma mensagem parecida com <code>&lt;repo&gt;/root.json does not have enough signatures signed with the appropriate keys</code>. Isso acontece quando o Hackage rotaciona as chaves de assinatura do índice e o <code>cabal-install</code> instalado é velho demais para reconhecer as novas. A correção é instalar um <code>cabal-install</code> atual via GHCup (como fizemos acima) em vez de depender do pacote do sistema operacional.</p>
 </div>
 <h3 id="criando-o-projeto">Criando o projeto<a class="headerlink" href="#criando-o-projeto" title="Permanent link">&para;</a></h3>
-<p>Vamos criar o esqueleto do projeto deste capítulo:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>stack<span class="w"> </span>new<span class="w"> </span>hs2json
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span><span class="w"> </span>hs2json
+<p>Vamos criar o esqueleto do projeto deste capítulo com o assistente interativo do Cabal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>mkdir<span class="w"> </span>hs2json<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>hs2json
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>cabal<span class="w"> </span>init<span class="w"> </span>--interactive
 </code></pre></div>
-<p>O <code>stack new</code> gera uma estrutura de projeto completa. As partes que nos interessam:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>hs2json/
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>├── package.yaml      👈 a descrição do pacote (nome, versão, dependências)
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>├── stack.yaml        👈 configuração do Stack (qual snapshot/GHC usar)
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>├── src/
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│   └── Lib.hs        👈 a biblioteca (código reutilizável)
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>├── app/
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>│   └── Main.hs       👈 o executável (o programa em si)
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>└── test/
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    └── Spec.hs       👈 testes (não usaremos neste capítulo)
+<p>Ele faz uma série de perguntas — nome do pacote (<code>hs2json</code>), versão, se você quer uma biblioteca, um executável e uma suíte de testes (responda <strong>sim</strong> para os três), licença, linguagem. Ao final, a estrutura gerada é:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>hs2json/
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├── hs2json.cabal     👈 a descrição do pacote (nome, versão, dependências, módulos)
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>├── src/
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>│   └── MyLib.hs       👈 a biblioteca (código reutilizável)
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>├── app/
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>│   └── Main.hs         👈 o executável (o programa em si)
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>└── test/
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    └── Main.hs           👈 testes (não usaremos neste capítulo)
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p><strong><code>package.yaml</code> vs <code>.cabal</code>:</strong> o formato "oficial" de descrição de pacotes Haskell é o arquivo <code>.cabal</code>. O template do Stack usa uma camada mais amigável por cima dele: o <code>package.yaml</code>, processado por uma ferramenta chamada <strong>hpack</strong> (embutida no Stack). A cada <code>stack build</code>, o hpack gera o arquivo <code>hs2json.cabal</code> automaticamente a partir do <code>package.yaml</code>. A grande vantagem para nós: o hpack <strong>detecta sozinho os módulos</strong> dentro de <code>src/</code> — quando criarmos <code>SimpleJSON.hs</code>, <code>Prettify.hs</code> etc., não precisaremos registrá-los manualmente em lugar nenhum. (O <code>.cabal</code> gerado não deve ser editado à mão; falaremos mais sobre ele na seção de empacotamento, ao final.)</p>
+<p><strong>Sem <code>package.yaml</code>:</strong> o <code>.cabal</code> é o único arquivo de configuração — sem a camada <code>package.yaml</code>/hpack de outras ferramentas. Isso tem um efeito prático importante: <strong>o Cabal não detecta módulos novos sozinho</strong>. Quando criarmos <code>SimpleJSON.hs</code>, <code>Prettify.hs</code> etc. dentro de <code>src/</code>, precisaremos adicionar cada um à lista <code>exposed-modules:</code> do <code>hs2json.cabal</code> manualmente — veremos isso já no próximo capítulo.</p>
 </div>
 <p>Os três comandos que usaremos o tempo todo:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>stack<span class="w"> </span>build<span class="w">          </span><span class="c1"># compila o projeto</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>stack<span class="w"> </span>run<span class="w">            </span><span class="c1"># compila (se preciso) e executa o executável</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>stack<span class="w"> </span>ghci<span class="w">           </span><span class="c1"># abre o REPL com os módulos do projeto carregados</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>cabal<span class="w"> </span>build<span class="w">          </span><span class="c1"># compila o projeto</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>cabal<span class="w"> </span>run<span class="w">             </span><span class="c1"># compila (se preciso) e executa o executável</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>cabal<span class="w"> </span>repl<span class="w">            </span><span class="c1"># abre o REPL com os módulos do projeto carregados</span>
 </code></pre></div>
-<p>Na <strong>primeira</strong> execução de <code>stack build</code>, o Stack pode baixar a versão de GHC definida no <code>stack.yaml</code> — é demorado, mas acontece uma vez só.</p>
+<p>Na <strong>primeira</strong> execução de <code>cabal build</code>, o Cabal busca o índice de pacotes do Hackage (se ainda não tiver feito isso — <code>cabal update</code>) e baixa as dependências — pode demorar um pouco.</p>
 
 
 

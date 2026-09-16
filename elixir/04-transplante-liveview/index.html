@@ -1744,7 +1744,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">  </span><span class="na">@impl</span><span class="w"> </span><span class="no">true</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="kd">def</span><span class="w"> </span><span class="n">mount</span><span class="p">(</span><span class="n">_params</span><span class="p">,</span><span class="w"> </span><span class="n">_session</span><span class="p">,</span><span class="w"> </span><span class="n">socket</span><span class="p">)</span><span class="w"> </span><span class="k">do</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nc">Task</span><span class="p">)</span><span class="w">                     </span><span class="c1"># Lê as tarefas do banco de dados</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">changeset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Task</span><span class="o">.</span><span class="n">changeset</span><span class="p">(%</span><span class="nc">Task</span><span class="p">{},</span><span class="w"> </span><span class="p">%{})</span><span class="w">   </span><span class="c1"># Cria um &quot;molde&quot; vazio</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">changeset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Task</span><span class="o">.</span><span class="n">changeset</span><span class="p">(%</span><span class="nc">Task</span><span class="p">{},</span><span class="w"> </span><span class="p">%{})</span><span class="w">   </span><span class="c1"># Cria um "molde" vazio</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">form</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_form</span><span class="p">(</span><span class="n">changeset</span><span class="p">)</span><span class="w">                  </span><span class="c1"># Converte para o formulário de UI</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="n">socket</span><span class="w"> </span><span class="o">=</span>
@@ -1781,7 +1781,7 @@
 <h3 id="3-passo-43-o-coracao-salvando-no-banco-handle_event3">3️⃣ Passo 4.3: O "Coração" — Salvando no Banco (<code>handle_event/3</code>)<a class="headerlink" href="#3-passo-43-o-coracao-salvando-no-banco-handle_event3" title="Permanent link">&para;</a></h3>
 <p>Agora, <strong>remova as duas funções <code>handle_event</code></strong> da Fase 2 (<code>"update_form"</code> e <code>"save_task"</code>) e coloque no lugar esta única função:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">  </span><span class="na">@impl</span><span class="w"> </span><span class="no">true</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="kd">def</span><span class="w"> </span><span class="n">handle_event</span><span class="p">(</span><span class="s2">&quot;save_task&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">%{</span><span class="s2">&quot;task&quot;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">task_params</span><span class="p">},</span><span class="w"> </span><span class="n">socket</span><span class="p">)</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="kd">def</span><span class="w"> </span><span class="n">handle_event</span><span class="p">(</span><span class="s2">"save_task"</span><span class="p">,</span><span class="w"> </span><span class="p">%{</span><span class="s2">"task"</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">task_params</span><span class="p">},</span><span class="w"> </span><span class="n">socket</span><span class="p">)</span><span class="w"> </span><span class="k">do</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="c1"># 1. Cria um changeset com os dados do formulário</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">changeset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nc">Task</span><span class="o">.</span><span class="n">changeset</span><span class="p">(%</span><span class="nc">Task</span><span class="p">{},</span><span class="w"> </span><span class="n">task_params</span><span class="p">)</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
@@ -1795,7 +1795,7 @@
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">          </span><span class="n">socket</span>
 <a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">          </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">assign</span><span class="p">(</span><span class="ss">:tasks</span><span class="p">,</span><span class="w"> </span><span class="nc">Repo</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="nc">Task</span><span class="p">))</span><span class="w">              </span><span class="c1"># Recarrega as tarefas</span>
 <a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">          </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">assign</span><span class="p">(</span><span class="ss">:form</span><span class="p">,</span><span class="w"> </span><span class="n">to_form</span><span class="p">(</span><span class="n">novo_changeset_vazio</span><span class="p">))</span><span class="w"> </span><span class="c1"># Reseta o formulário</span>
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">          </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">put_flash</span><span class="p">(</span><span class="ss">:info</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Tarefa salva com sucesso!&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">          </span><span class="o">|&gt;</span><span class="w"> </span><span class="n">put_flash</span><span class="p">(</span><span class="ss">:info</span><span class="p">,</span><span class="w"> </span><span class="s2">"Tarefa salva com sucesso!"</span><span class="p">)</span>
 <a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
 <a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">        </span><span class="c1"># 2B. FALHA! (validação — ex: título em branco)</span>
 <a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">        </span><span class="p">{</span><span class="ss">:error</span><span class="p">,</span><span class="w"> </span><span class="n">failed_changeset</span><span class="p">}</span><span class="w"> </span><span class="o">-&gt;</span>
@@ -1824,29 +1824,29 @@
 <p>Substitua o <code>render/1</code> por:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w">  </span><span class="na">@impl</span><span class="w"> </span><span class="no">true</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="kd">def</span><span class="w"> </span><span class="n">render</span><span class="p">(</span><span class="n">assigns</span><span class="p">)</span><span class="w"> </span><span class="k">do</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="sx">~H</span><span class="sh">&quot;&quot;&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="sx">~H</span><span class="sh">"""</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="sh">    &lt;Layouts.app flash={@flash}&gt;</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="sh">      &lt;div class=&quot;w-full max-w-lg mx-auto mt-12 p-6 bg-white rounded-lg shadow-md&quot;&gt;</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="sh">        &lt;h1 class=&quot;text-3xl font-bold mb-6 text-center text-gray-800&quot;&gt;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="sh">      &lt;div class="w-full max-w-lg mx-auto mt-12 p-6 bg-white rounded-lg shadow-md"&gt;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="sh">        &lt;h1 class="text-3xl font-bold mb-6 text-center text-gray-800"&gt;</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="sh">          Minha Lista de Tarefas (com DB!)</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="sh">        &lt;/h1&gt;</span>
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="sh">        &lt;%!-- O formulário agora usa @form --%&gt;</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="sh">        &lt;.form for={@form} id=&quot;task-form&quot; phx-submit=&quot;save_task&quot;&gt;</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="sh">        &lt;.form for={@form} id="task-form" phx-submit="save_task"&gt;</span>
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="sh">          &lt;.input</span>
 <a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="sh">            field={@form[:title]}</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="sh">            type=&quot;text&quot;</span>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="sh">            label=&quot;Nova Tarefa&quot;</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="sh">            placeholder=&quot;O que precisa ser feito?&quot;</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="sh">            type="text"</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="sh">            label="Nova Tarefa"</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="sh">            placeholder="O que precisa ser feito?"</span>
 <a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="sh">          /&gt;</span>
-<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="sh">          &lt;.button variant=&quot;primary&quot; phx-disable-with=&quot;Salvando...&quot;&gt;Adicionar Tarefa&lt;/.button&gt;</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="sh">          &lt;.button variant="primary" phx-disable-with="Salvando..."&gt;Adicionar Tarefa&lt;/.button&gt;</span>
 <a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="sh">        &lt;/.form&gt;</span>
 <a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
 <a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="sh">        &lt;%!-- A LISTA DE TAREFAS --%&gt;</span>
-<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="sh">        &lt;div class=&quot;mt-8&quot;&gt;</span>
-<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="sh">          &lt;ul id=&quot;task-list&quot;&gt;</span>
-<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="sh">            &lt;li :for={task &lt;- @tasks} class=&quot;flex justify-between items-center p-3 border-b&quot;&gt;</span>
-<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="sh">              &lt;span class={if task.completed, do: &quot;line-through text-gray-500&quot;, else: &quot;text-gray-900&quot;}&gt;</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="sh">        &lt;div class="mt-8"&gt;</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="sh">          &lt;ul id="task-list"&gt;</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="sh">            &lt;li :for={task &lt;- @tasks} class="flex justify-between items-center p-3 border-b"&gt;</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="sh">              &lt;span class={if task.completed, do: "line-through text-gray-500", else: "text-gray-900"}&gt;</span>
 <a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="sh">                {task.title}</span>
 <a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="sh">              &lt;/span&gt;</span>
 <a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="sh">            &lt;/li&gt;</span>
@@ -1854,7 +1854,7 @@
 <a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="sh">        &lt;/div&gt;</span>
 <a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="sh">      &lt;/div&gt;</span>
 <a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="sh">    &lt;/Layouts.app&gt;</span>
-<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">    </span><span class="sh">&quot;&quot;&quot;</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">    </span><span class="sh">"""</span>
 <a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">  </span><span class="k">end</span>
 </code></pre></div>
 <p><strong>Destaques:</strong></p>
@@ -1874,7 +1874,7 @@
 </ol>
 <h3 id="passo-46-commit">💾 Passo 4.6: Commit<a class="headerlink" href="#passo-46-commit" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>git<span class="w"> </span>add<span class="w"> </span>.
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fase 4: Refatora TodoLive para usar Ecto, Repo e to_form()&quot;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Fase 4: Refatora TodoLive para usar Ecto, Repo e to_form()"</span>
 </code></pre></div>
 <hr />
 <p><strong>Fim da Fase 4!</strong> 🏁</p>
