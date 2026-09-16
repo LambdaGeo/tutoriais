@@ -22,81 +22,79 @@ nest :: Int -> Doc -> Doc
 
 _(Esta seção foi inteiramente reescrita: o fluxo original — `Setup.hs`, `runghc Setup configure` e `ghc-pkg` — pertence à era pré-2010 do Cabal e não é mais como se trabalha.)_
 
-A comunidade Haskell padronizou a descrição de software no formato **Cabal**: cada _pacote_ contém uma biblioteca e, possivelmente, executáveis, descritos em um arquivo `.cabal`. É esse o formato que o Hackage (o repositório central de pacotes) e todas as ferramentas entendem.
-
-Como vimos no início, nosso projeto tem uma camada de conveniência por cima disso: o **`package.yaml`**, que o hpack converte em `hs2json.cabal` a cada build. Vamos entender o que há nele — os conceitos são os mesmos do `.cabal`, só que em YAML.
+A comunidade Haskell padronizou a descrição de software no formato **Cabal**: cada _pacote_ contém uma biblioteca e, possivelmente, executáveis, descritos em um arquivo `.cabal`. É esse o formato que o Hackage (o repositório central de pacotes) e todas as ferramentas entendem — e, como vimos no Capítulo 1, é também o **único** arquivo de configuração do nosso projeto: sem a camada `package.yaml`/hpack de outras ferramentas. Vamos completar o `hs2json.cabal` que o `cabal init` gerou, entendendo cada seção.
 
 ### A descrição do pacote
 
-Abra o `package.yaml`. A primeira parte são as propriedades globais do pacote:
+Abra o `hs2json.cabal`. A primeira parte são as propriedades globais do pacote:
 
-```yaml
-name: hs2json
-version: 0.1.0.0
-license: BSD-3-Clause
-author: "Seu Nome"
-maintainer: "seu@email.org"
+```cabal
+cabal-version:   3.0
+name:            hs2json
+version:         0.1.0.0
+license:         BSD-3-Clause
+author:          Seu Nome
+maintainer:      seu@email.org
 ```
 
 Nomes de pacotes devem ser **únicos** dentro do seu conjunto de dependências (e globalmente, se um dia você publicar no Hackage). A versão segue a PVP (_Package Versioning Policy_), a política de versionamento do ecossistema.
 
 Boa parte das propriedades destina-se a leitores humanos, não às ferramentas:
 
-```yaml
-synopsis: Minha biblioteca de impressão agradável, com suporte a JSON
-description: Uma pequena biblioteca de pretty printing que ilustra
-  como desenvolver uma biblioteca Haskell.
-category: Text
+```cabal
+synopsis:        Minha biblioteca de impressão agradável, com suporte a JSON
+description:     Uma pequena biblioteca de pretty printing que ilustra
+                 como desenvolver uma biblioteca Haskell.
+category:        Text
 ```
 
 A maioria dos pacotes Haskell usa a licença BSD de 3 cláusulas, que o Cabal chama de `BSD-3-Clause` (você é livre para escolher a que achar apropriada; o campo `license-file` aponta para o arquivo com o texto exato).
 
-Em seguida vêm as **dependências** e os componentes. No template, as dependências valem para todos os componentes:
+Em seguida vêm as seções `library` e `executable`, cada uma com seus próprios `build-depends` e `exposed-modules`:
 
-```yaml
-dependencies:
-  - base >= 4.7 && < 5
+```cabal
+library
+    exposed-modules: SimpleJSON, PutJSON, Prettify, PrettyJSON, QuickTestes
+    hs-source-dirs:  src
+    build-depends:   base >= 4.7 && < 5
+    default-language: Haskell2010
 
-library:
-  source-dirs: src
-
-executables:
-  hs2json-exe:
-    main: Main.hs
-    source-dirs: app
-    dependencies:
-      - hs2json
+executable hs2json-exe
+    main-is:         Main.hs
+    hs-source-dirs:  app
+    build-depends:   base >= 4.7 && < 5, hs2json
+    default-language: Haskell2010
 ```
 
 Traduzindo:
 
-- **`dependencies`** lista os pacotes de que precisamos, com faixas de versão. Nossa biblioteca só usa o `base` (que traz o Prelude, `Data.Bits`, `Numeric` etc.).
-- **`library`** descreve a biblioteca: todo módulo em `src/` faz parte dela. No `.cabal` gerado, isso vira um campo `exposed-modules:` listando `Prettify`, `PrettyJSON`, `PutJSON` e `SimpleJSON` — o hpack preenche a lista sozinho, varrendo o diretório. (Se um dia você quiser módulos **internos**, invisíveis aos usuários do pacote, declare-os em `other-modules:` no `package.yaml`; tudo que não estiver lá continua exposto.)
-- **`executables`** descreve os binários. Note que o executável **depende da própria biblioteca** (`hs2json`) — é assim que o `Main.hs` enxerga o `SimpleJSON`.
+- **`build-depends`** lista os pacotes de que precisamos, com faixas de versão. Nossa biblioteca só usa o `base` (que traz o Prelude, `Data.Bits`, `Numeric` etc.).
+- **`exposed-modules`** lista, um a um, os módulos que compõem a biblioteca. Diferente de ferramentas com detecção automática, o Cabal **não varre** o diretório `src/` sozinho: cada módulo novo — `Prettify`, `PrettyJSON`, `PutJSON`, `SimpleJSON` — precisa ser acrescentado à mão a essa lista, ou o `cabal build` não vai enxergá-lo. (Se um dia você quiser módulos **internos**, invisíveis aos usuários do pacote, declare-os em `other-modules:` em vez de `exposed-modules:`.)
+- **`executable`** descreve o binário. Note que ele **depende da própria biblioteca** (`hs2json`) — é assim que o `Main.hs` enxerga o `SimpleJSON`.
 
 !!! note
-    **Entendendo as dependências:** não precisamos adivinhar quais pacotes declarar. Experimente remover a linha `- base >= 4.7 && < 5` e rodar `stack build`: a compilação falha imediatamente, com o GHC dizendo que não encontra nem o Prelude. A mensagem de erro nos diz o que falta — recoloque a linha e tudo volta. Explicitar as dependências tem um benefício prático enorme: é o que permite ao Stack (e ao cabal-install) baixar, compilar e instalar automaticamente **tudo** de que um pacote precisa, recursivamente.
+    **Entendendo as dependências:** não precisamos adivinhar quais pacotes declarar. Experimente remover a linha `base >= 4.7 && < 5` e rodar `cabal build`: a compilação falha imediatamente, com o GHC dizendo que não encontra nem o Prelude. A mensagem de erro nos diz o que falta — recoloque a linha e tudo volta. Explicitar as dependências tem um benefício prático enorme: é o que permite ao cabal-install baixar, compilar e instalar automaticamente **tudo** de que um pacote precisa, recursivamente.
 
-### O papel do `stack.yaml` (e onde foi parar o `ghc-pkg`)
+### Como o Cabal resolve versões
 
-No fluxo antigo, o GHC mantinha um banco de dados global de pacotes instalados, manipulado com `ghc-pkg` — e instalar duas versões conflitantes era receita para o infame _"Cabal hell"_. O Stack resolveu isso com os **snapshots**: o `stack.yaml` do projeto aponta para um _resolver_ (por exemplo, `lts-23.x`), que é um conjunto congelado de milhares de pacotes do Hackage **testados juntos**, amarrado a uma versão exata do GHC. Dois projetos com resolvers diferentes convivem sem se tocar. Você raramente precisará editar este arquivo; quando precisar de um pacote fora do snapshot, é nele que se declara (campo `extra-deps`).
+Diferente de ferramentas baseadas em _snapshots_ (um conjunto fixo de versões de pacotes testadas juntas), o cabal-install resolve as versões das dependências contra o **índice completo do Hackage**, respeitando as faixas de versão (`>= 4.7 && < 5`) que você declarou em cada `build-depends`. Isso te dá acesso imediato a qualquer versão publicada de qualquer pacote, ao custo de builds um pouco menos reprodutíveis entre máquinas diferentes por padrão — se isso for uma preocupação (por exemplo, numa disciplina, para garantir que o projeto de todo mundo compile igual), o comando `cabal freeze` grava um arquivo `cabal.project.freeze` fixando a versão exata resolvida de cada dependência, para todo mundo usar a mesma.
 
 ### Compilando, testando e instalando
 
 Com a descrição pronta, o ciclo completo é:
 
 ```
-$ stack build            # compila biblioteca e executáveis
-$ stack run              # executa o hs2json-exe
-$ stack test             # roda a suíte de testes (test/Spec.hs)
-$ stack install          # copia o executável para ~/.local/bin
+$ cabal build            # compila biblioteca e executáveis
+$ cabal run hs2json-exe  # executa o executável
+$ cabal test             # roda a suíte de testes (test/Spec.hs)
+$ cabal install           # copia o executável para ~/.local/bin (ou ~/.cabal/bin)
 ```
 
-O `stack install` deixa o binário disponível no seu `PATH` (se `~/.local/bin` estiver nele) — é o equivalente moderno do antigo `runghc Setup install`, sem nenhuma configuração prévia.
+O `cabal install` deixa o binário disponível no seu `PATH` (se o diretório de instalação estiver nele) — é o equivalente moderno do antigo `runghc Setup install`, sem nenhuma configuração prévia.
 
-### E o cabal-install?
+### E o Stack?
 
-Tudo que fizemos tem equivalente direto na outra ferramenta oficial, o **cabal-install**: `cabal init` cria o projeto (gerando o `.cabal` diretamente, sem `package.yaml`), e `cabal build` / `cabal run` / `cabal repl` / `cabal install` espelham os comandos do Stack. As diferenças práticas: o cabal-install resolve versões contra o Hackage inteiro (em vez de snapshots) e usa o GHC que estiver no PATH (instalado pelo GHCup). Para uma disciplina, o Stack tende a dar builds mais reprodutíveis entre as máquinas dos alunos; mas saber que os dois falam o mesmo formato `.cabal` é o que importa.
+Tudo que fizemos tem equivalente direto na outra ferramenta popular do ecossistema, o **Stack**: `stack new` cria o projeto (gerando um `package.yaml`, que uma ferramenta embutida chamada hpack converte em `.cabal` a cada build — com a vantagem de detectar módulos novos em `src/` sozinha, sem precisar listá-los à mão), e `stack build` / `stack run` / `stack test` / `stack install` espelham os comandos do Cabal que já vimos. A diferença prática mais relevante: o Stack resolve dependências contra um _snapshot_ do Hackage (um `resolver`, declarado no `stack.yaml`, testado como um conjunto coeso) em vez do índice completo — o que tende a dar builds mais reprodutíveis entre máquinas diferentes sem precisar de um passo extra como o `cabal freeze`. Saber que as duas ferramentas falam o mesmo formato `.cabal` por baixo é o que importa: o conhecimento deste capítulo vale para as duas.
 
 ## Dicas práticas e leitura adicional
 

@@ -133,7 +133,7 @@ hexEscape c | d < 0x10000 = smallHex d
 Ok, agora pode compilar:
 
 ```
-$ stack build
+$ cabal build
 ```
 
 ## Arrays, objetos e o cabeçalho do módulo
@@ -191,7 +191,7 @@ renderJValue (JObject obj) = series '{' '}' field obj
 Ok, agora pode compilar:
 
 ```
-$ stack build
+$ cabal build
 ```
 
 ### Escrevendo o cabeçalho do módulo
@@ -220,7 +220,7 @@ Exportamos apenas uma função deste módulo: `renderJValue`, nossa função de 
 Sobre as importações: os módulos `Numeric`, `Data.Char` e `Data.Bits` são distribuídos junto com o GHC (no pacote `base`). Nós mesmos escrevemos o `SimpleJSON` e preenchemos o `Prettify` com definições esqueléticas. Note que não há diferença alguma na forma de importar módulos padrão e módulos que escrevemos.
 
 !!! tip
-    O livro original também importava `compact` e `pretty` neste cabeçalho. Não faça isso: essas funções serão **usadas por quem chama** o `PrettyJSON` (nós, no GHCi), não por ele — e o GHC moderno, com os avisos que o template do Stack ativa, reclamaria (com razão) de importação não utilizada.
+    O livro original também importava `compact` e `pretty` neste cabeçalho. Não faça isso: essas funções serão **usadas por quem chama** o `PrettyJSON` (nós, no GHCi), não por ele — e o GHC moderno, com o `-Wall` que vamos ativar no `.cabal`, reclamaria (com razão) de importação não utilizada.
 
 Em cada diretiva `import` listamos explicitamente os nomes que queremos trazer para o escopo. Isso não é obrigatório — omitindo a lista, todos os nomes exportados ficam disponíveis —, mas é geralmente uma boa ideia:
 

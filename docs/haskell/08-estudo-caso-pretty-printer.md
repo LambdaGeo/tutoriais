@@ -141,8 +141,9 @@ main = do
 Feito o ajuste, execute:
 
 ```
-$ stack test
-hs2json> test (suite: hs2json-test)
+$ cabal test
+Running 1 test suites...
+Test suite hs2json-test: RUNNING...
 
 [Text "o\38884\DC3R\201400?\EOT#;;/\\Gk_y\1061091\178450\&7(4'\174004-A",Text "8\986417\&7",Concat Line (Union Empty (Char '4')),Char '\NUL',Text "\68902\ACKQTA\SOH^Q\200597h\SIh\36934"]
 ```
@@ -190,7 +191,7 @@ prop_empty_id x =
     x <> empty == x
 ```
 
-E confirmar que ela vale, direto no GHCi (`stack ghci --test` carrega também o componente de testes):
+E confirmar que ela vale, direto no GHCi (`cabal repl test:hs2json-test` carrega o componente de testes):
 
 ```
 ghci> quickCheck prop_empty_id
@@ -199,11 +200,11 @@ ghci> quickCheck prop_empty_id
 
 _(Repare que aqui não precisamos de anotação de tipo: o `<>` do Prettify força `x :: Doc`, e a nossa instância `Arbitrary Doc` faz o resto.)_
 
-### Executando tudo com o `stack test`: `quickCheckAll`
+### Executando tudo com o `cabal test`: `quickCheckAll`
 
 _(Esta seção foi reescrita nesta edição.)_
 
-Rodar `quickCheck` propriedade por propriedade no GHCi é ótimo para explorar, mas queremos que o **`stack test`** execute todas de uma vez. O QuickCheck traz um utilitário para isso: `quickCheckAll`, que usa **Template Haskell** — o mecanismo de metaprogramação do GHC — para localizar, em tempo de compilação, todas as funções do módulo cujo nome começa com `prop_`, e gerar o código que as executa.
+Rodar `quickCheck` propriedade por propriedade no GHCi é ótimo para explorar, mas queremos que o **`cabal test`** execute todas de uma vez. O QuickCheck traz um utilitário para isso: `quickCheckAll`, que usa **Template Haskell** — o mecanismo de metaprogramação do GHC — para localizar, em tempo de compilação, todas as funções do módulo cujo nome começa com `prop_`, e gerar o código que as executa.
 
 Três detalhes fazem tudo funcionar:
 
@@ -211,7 +212,7 @@ Três detalhes fazem tudo funcionar:
 2. A linha `return []` antes da definição — um truque necessário para que o Template Haskell "enxergue" todas as definições que vieram acima dela no arquivo;
 3. A invocação `$quickCheckAll` (o `$` executa a metafunção em tempo de compilação), que produz uma ação `IO Bool`: `True` se todas as propriedades passaram.
 
-Há ainda um detalhe que o livro original deixou passar, e que vale corrigir: **o processo de testes precisa terminar com código de saída de erro quando algo falha**. É só o código de saída que o `stack test` (e qualquer ferramenta de integração contínua) olha — sem isso, a suíte imprime "falhou" mas o Stack alegremente reporta `Test suite passed`. Resolvemos com `exitFailure`, do módulo `System.Exit`.
+Há ainda um detalhe que o livro original deixou passar, e que vale corrigir: **o processo de testes precisa terminar com código de saída de erro quando algo falha**. É só o código de saída que o `cabal test` (e qualquer ferramenta de integração contínua) olha — sem isso, a suíte imprime "falhou" mas o Cabal alegremente reporta o teste como `PASS`. Resolvemos com `exitFailure`, do módulo `System.Exit`.
 
 O `test/Spec.hs` completo até aqui:
 
@@ -259,15 +260,15 @@ _(Note o `import Prelude hiding ((<>))` — o mesmo ajuste dos módulos da Parte
 Executando:
 
 ```
-$ stack test
-hs2json> test (suite: hs2json-test)
+$ cabal test
+Running 1 test suites...
+Test suite hs2json-test: RUNNING...
 
 === prop_empty_id from test/Spec.hs:22 ===
 +++ OK, passed 100 tests.
 
 Passou em todos os testes.
-
-hs2json> Test suite hs2json-test passed
+Test suite hs2json-test: PASS
 ```
 
 Outras funções da API são simples o suficiente para terem o comportamento **completamente** descrito por propriedades. Revendo suas definições no `Prettify`:
@@ -333,7 +334,7 @@ prop_punctuate s xs = punctuate s xs == intersperse s xs
 Embora pareça correta, a execução revela uma falha na nossa lógica:
 
 ```
-$ stack test
+$ cabal test
 
 === prop_punctuate from test/Spec.hs:37 ===
 *** Failed! Falsified (after 6 tests):
@@ -341,9 +342,10 @@ Char '}'
 [Text "\DC3v\DEL~w",Concat Empty (Text "\199132\NAK")]
 
 Alguns testes falharam.
+Test suite hs2json-test: FAIL
 ```
 
-_(O QuickCheck moderno diz `Falsified` onde o antigo dizia `Falsifiable`. As duas linhas após o cabeçalho são os argumentos do contraexemplo: o separador `s` e a lista `xs` — repare no `Empty` dentro de um `Concat`, a pista do problema. E, graças ao nosso `exitFailure`, desta vez o `stack test` termina, corretamente, reportando a falha da suíte.)_
+_(O QuickCheck moderno diz `Falsified` onde o antigo dizia `Falsifiable`. As duas linhas após o cabeçalho são os argumentos do contraexemplo: o separador `s` e a lista `xs` — repare no `Empty` dentro de um `Concat`, a pista do problema. E, graças ao nosso `exitFailure`, desta vez o `cabal test` termina, corretamente, reportando a falha da suíte — o mesmo mecanismo vale com qualquer ferramenta de build: o tipo de suíte `exitcode-stdio-1.0` é definido pelo próprio formato `.cabal`, então tanto faz se quem lê o código de saída é o Cabal ou o Stack.)_
 
 A biblioteca **otimiza fora os documentos vazios redundantes** (lembre-se dos casos `Empty` do `<>`), algo que o modelo de lista não faz — então precisamos enriquecer o modelo para casar com a realidade. Primeiro intercalamos a pontuação e depois eliminamos os `Empty` espalhados, assim:
 
@@ -361,7 +363,9 @@ prop_punctuate' s xs = punctuate s xs == combine (intersperse s xs)
 Executando (e removendo a versão ingênua, `prop_punctuate`), confirmamos o resultado. É reconfortante que o framework localize falhas na lógica que expressamos — é exatamente para isso que ele existe:
 
 ```
-$ stack test
+$ cabal test
+Running 1 test suites...
+Test suite hs2json-test: RUNNING...
 
 === prop_empty_id from test/Spec.hs:22 ===
 +++ OK, passed 100 tests.
@@ -385,8 +389,7 @@ $ stack test
 +++ OK, passed 100 tests.
 
 Passou em todos os testes.
-
-hs2json> Test suite hs2json-test passed
+Test suite hs2json-test: PASS
 ```
 
 _(Curiosidade: `prop_line` não recebe argumentos, então não há o que gerar — o QuickCheck a trata como um teste único: `passed 1 test`.)_

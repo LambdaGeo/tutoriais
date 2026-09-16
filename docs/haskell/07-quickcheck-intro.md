@@ -22,20 +22,19 @@ cd hs2json
 Agora, execute a suíte de testes:
 
 ```
-$ stack test
+$ cabal test
 ```
 
 Após a compilação, aparecerá a informação de que ainda não existem testes implementados:
 
 ```
-hs2json> test (suite: hs2json-test)
-
+Running 1 test suites...
+Test suite hs2json-test: RUNNING...
 Test suite not yet implemented
-
-hs2json> Test suite hs2json-test passed
+Test suite hs2json-test: PASS
 ```
 
-Podemos confirmar no código-fonte que nenhum teste foi implementado — este é o `test/Spec.hs` que o template do Stack gerou:
+Podemos confirmar no código-fonte que nenhum teste foi implementado — este é o `test/Spec.hs` que o `cabal init` gerou:
 
 ```haskell
 -- test/Spec.hs
@@ -50,19 +49,27 @@ O objetivo deste capítulo é implementar esses testes.
 
 ### Adicionando o QuickCheck às dependências
 
-O QuickCheck não faz parte do `base`, então precisamos declará-lo no `package.yaml`:
+O QuickCheck não faz parte do `base`, então precisamos declará-lo no `hs2json.cabal`. Adicione `QuickCheck` a `build-depends`, tanto na seção `library` (escreveremos propriedades também em `src/`) quanto na `test-suite`:
 
-```yaml
-# package.yaml
-dependencies:
-  - base >= 4.7 && < 5
-  - QuickCheck
+```cabal
+library
+    exposed-modules:  SimpleJSON, PutJSON, Prettify, PrettyJSON, QuickTestes
+    hs-source-dirs:   src
+    build-depends:    base >=4.14, QuickCheck
+    default-language: Haskell2010
+
+test-suite hs2json-test
+    type:             exitcode-stdio-1.0
+    main-is:          Spec.hs
+    hs-source-dirs:   test
+    build-depends:    base >=4.14, hs2json, QuickCheck
+    default-language: Haskell2010
 ```
 
-No próximo `stack build` (ou `stack test`, ou `stack ghci`), o Stack baixa e compila o QuickCheck automaticamente — é a mágica das dependências explícitas que discutimos na Parte 1.
+No próximo `cabal build` (ou `cabal test`, ou `cabal repl`), o Cabal baixa e compila o QuickCheck automaticamente — é a mágica das dependências explícitas que discutimos na Parte 1.
 
 !!! tip
-    Colocado nessa posição, o QuickCheck fica disponível para **todos** os componentes (biblioteca, executável e testes) — é o que queremos aqui, pois escreveremos propriedades também em `src/`. Em projetos reais, dependências usadas _só_ nos testes costumam ser declaradas apenas no componente de testes (dentro de `tests:` no `package.yaml`), para não "vazar" para quem usa a biblioteca.
+    Colocado nas duas seções, o QuickCheck fica disponível para **todos** os componentes que precisam dele (biblioteca e testes) — é o que queremos aqui, pois escreveremos propriedades também em `src/`. Em projetos reais, dependências usadas _só_ nos testes costumam ser declaradas apenas na seção `test-suite`, para não "vazar" para quem usa a biblioteca.
 
 ## QuickCheck: teste baseado em propriedades
 
@@ -99,7 +106,7 @@ prop_idempotent xs = qsort (qsort xs) == qsort xs
 Usaremos a convenção do QuickCheck de prefixar as propriedades com `prop_`, para diferenciá-las do código normal. A propriedade de idempotência é só uma função Haskell declarando uma igualdade que deve valer para qualquer entrada. Podemos checar manualmente que ela faz sentido para alguns casos:
 
 ```
-$ stack ghci
+$ cabal repl
 ghci> prop_idempotent []
 True
 ghci> prop_idempotent [1,1,1,1]

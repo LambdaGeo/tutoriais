@@ -174,7 +174,7 @@ A `transform` usa o padrão `(d:ds)` para quebrar a pilha em topo, `d`, e restan
 Agora já preenchemos definições suficientes para experimentar a `compact` no GHCi:
 
 ```
-$ stack ghci
+$ cabal repl
 ghci> import Prettify
 ghci> import PrettyJSON
 ghci> let value = renderJValue (JObject [("f", JNumber 1), ("q", JBool True)])
@@ -255,7 +255,7 @@ w `fits` (c:cs)    = (w - 1) `fits` cs
 ```
 
 !!! tip
-    **Sobre os avisos do compilador:** se você compila com `stack build`, o template do projeto ativa `-Wall`, e o GHC emitirá alguns _warnings_ neste código — por exemplo, `Defined but not used: 'p'` na primeira equação de `punctuate` e avisos similares em `fits`. **Warnings não são erros**: o programa compila e funciona. Eles apontam variáveis nomeadas que não usamos; a convenção idiomática é prefixá-las com sublinhado (`_p`, `_w`) para dizer ao compilador "eu sei, é de propósito". Mantivemos o código como no livro original; silenciar os avisos fica como micro-exercício.
+    **Sobre os avisos do compilador:** se você ativar `-Wall` no `.cabal` do projeto (recomendado — veremos isso no Capítulo 6), e o GHC emitirá alguns _warnings_ neste código — por exemplo, `Defined but not used: 'p'` na primeira equação de `punctuate` e avisos similares em `fits`. **Warnings não são erros**: o programa compila e funciona. Eles apontam variáveis nomeadas que não usamos; a convenção idiomática é prefixá-las com sublinhado (`_p`, `_w`) para dizer ao compilador "eu sei, é de propósito". Mantivemos o código como no livro original; silenciar os avisos fica como micro-exercício.
 
 ### Seguindo o fluxo de execução
 
